@@ -9,4 +9,4 @@ pro/*.c
 
 /.ccls-cache
 
-log.*
+/log.*
