@@ -1,0 +1,3 @@
+unusedFunction:tst/asserts.h
+unusedFunction:tst/util.c
+unusedFunction:tst/wrap-*.c

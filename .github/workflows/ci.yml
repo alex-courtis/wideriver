@@ -1,0 +1,28 @@
+name: CI
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - master
+jobs:
+  all:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: deps
+      run: |
+        sudo add-apt-repository universe
+        sudo apt install clang wayland-protocols libwlroots-dev libcmocka-dev cppcheck valgrind -y
+    - name: gcc
+      run: make CC=gcc CXX=g++ clean wideriver
+    - name: clang
+      run: make CC=clang CXX=clang++ clean wideriver
+    - name: test
+      run: make CC=clang CXX=clang++ test
+    - name: cppcheck
+      run: make CC=clang CXX=clang++ cppcheck
+    - name: test valgrind
+      run: make CC=gcc CXX=g++ clean test-vg
+
