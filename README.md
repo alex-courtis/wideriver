@@ -45,6 +45,7 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
 - [FAQ](#faq)
   * [Name Does Not Always Update](#name-does-not-always-update)
 - [Issues](#issues)
+- [Questions, Ideas And Contributions](#questions-ideas-and-contributions)
 
 <!-- tocstop -->
 
@@ -427,3 +428,9 @@ Please create a [github issue](https://github.com/alex-courtis/wideriver/issues)
 - add `river -version`
 - describe the behaviour
 - screenshots may be useful
+
+## Questions, Ideas And Contributions
+
+Please raise a [github issue](https://github.com/alex-courtis/wideriver/issues)
+
+[Contributions](doc/CONTRIBUTING.md) are most gratefully received.
