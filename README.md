@@ -58,7 +58,7 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
 Set the layout generator and start it.
 </summary>
 
-All defaults shown here but not required.
+All defaults shown here, none are required.
 
 ``` sh
 wideriver \
@@ -289,7 +289,7 @@ Each view occupies half the available / remaining area.
 
 [![CI](https://github.com/alex-courtis/wideriver/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/alex-courtis/wideriver/actions/workflows/ci.yml?query=branch%3Amaster)
 
-#### Build
+See [CONTRIBUTING](CONTRIBUTING.md)
 
 ``` sh
 git clone clone git@github.com:alex-courtis/wideriver.git
@@ -299,8 +299,6 @@ sudo make install
 ```
 
 Should install under `/usr/local`
-
-See [CONTRIBUTING](CONTRIBUTING.md)
 
 ## USAGE
 

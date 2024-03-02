@@ -8,6 +8,8 @@ Please raise an [issue](https://github.com/alex-courtis/wideriver/issues), fork 
 
 [ci.yml](.github/workflows/ci.yml) must pass.
 
+# TOC
+
 <!-- toc -->
 
 - [Dependencies](#dependencies)
