@@ -34,6 +34,9 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
   * [Even](#even)
   * [Diminish](#diminish)
   * [Dwindle](#dwindle)
+- [INSTALL](#install)
+  * [Package Manager](#package-manager)
+  * [From Source](#from-source)
 - [USAGE](#usage)
 - [OPTIONS](#options)
 - [COMMANDS](#commands)
@@ -41,6 +44,10 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
   * [Wide Shuffling](#wide-shuffling)
 - [FAQ](#faq)
   * [Name Does Not Always Update](#name-does-not-always-update)
+- [ISSUES](#issues)
+  * [Problems](#problems)
+  * [Questions And Ideas](#questions-and-ideas)
+  * [Contributions](#contributions)
 
 <!-- tocstop -->
 
@@ -55,7 +62,9 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
 Set the layout generator and start it.
 </summary>
 
-All defaults shown here but not required.
+All defaults shown here, none are required.
+
+Log is strongly recommended.
 
 ``` sh
 wideriver \
@@ -276,6 +285,27 @@ Arranged in a dwindling manner alternating in both stack directions.
 
 Each view occupies half the available / remaining area.
 
+## INSTALL
+
+### Package Manager
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/wideriver.svg)](https://repology.org/project/wideriver/versions)
+
+### From Source
+
+[![CI](https://github.com/alex-courtis/wideriver/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/alex-courtis/wideriver/actions/workflows/ci.yml?query=branch%3Amaster)
+
+See [CONTRIBUTING.md](CONTRIBUTING.md)
+
+``` sh
+git clone clone git@github.com:alex-courtis/wideriver.git
+cd wideriver
+make
+sudo make install
+```
+
+Should install under `/usr/local`
+
 ## USAGE
 
     Usage: wideriver [OPTIONS...|COMMANDS...]
@@ -390,4 +420,23 @@ You can “shuffle” views through master, focusing the new master using:
 
 The layout name will not update when there are no views for the selected tags. This can occurs when setting a tag with no views or changing the layout for a tag with no views.
 
-This will require a change to river or a questionable workaround.
+This may be resolved with a river enhancement: [\#1004](https://github.com/riverwm/river/issues/1002)
+
+## ISSUES
+
+### Problems
+
+Please create an [issue](https://github.com/alex-courtis/wideriver/issues):
+
+- attach your log
+- add `river -version`
+- describe the behaviour
+- screenshots may be useful
+
+### Questions And Ideas
+
+Please create an [issue](https://github.com/alex-courtis/wideriver/issues).
+
+### Contributions
+
+[CONTRIBUTING.md](doc/CONTRIBUTING.md) is most gratefully appreciated.

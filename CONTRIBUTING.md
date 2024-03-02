@@ -1,12 +1,34 @@
 # Contributing to https://github.com/alex-courtis/wideriver
 
+<!-- toc -->
+
+- [Dependencies](#dependencies)
+  * [Build](#build)
+  * [Test](#test)
+  * [Doc](#doc)
+- [Development](#development)
+  * [Compile](#compile)
+  * [Test](#test-1)
+  * [Install](#install)
+  * [Uninstall](#uninstall)
+  * [Lint](#lint)
+  * [Check Includes](#check-includes)
+- [Documentation](#documentation)
+- [Style](#style)
+
+<!-- tocstop -->
+
 Thank you for contribution!
 
 Ideas, bug fixes and enhancements are always welcome.
 
 Please raise an [issue](https://github.com/alex-courtis/wideriver/issues), fork the repository and raise a [PR](https://github.com/alex-courtis/wideriver/pulls).
 
+[ci.yml](.github/workflows/ci.yml) must pass.
+
 ## Dependencies
+
+Most will be available if you are running river.
 
 ### Build
 * GNU make
@@ -23,8 +45,6 @@ Please raise an [issue](https://github.com/alex-courtis/wideriver/issues), fork 
 ### Doc
 * [pandoc](https://pandoc.org)
 * [markdown-toc](https://github.com/jonschlinkert/markdown-toc)
-
-Most will be available if you are running a wlroots based compositor like sway.
 
 ## Development
 
@@ -54,6 +74,20 @@ Individual tests may be run via test-name e.g.
 Valgrind test by appending `-vg` e.g.
 `make test-vg`
 `make test-cfg-vg`
+
+### Install
+
+Installs under `$(DESTDIR)$(PREFIX)`, usually `/usr/local`
+
+```sh
+make install
+```
+
+### Uninstall
+
+```sh
+make uninstall
+```
 
 ### Lint
 

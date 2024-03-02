@@ -15,7 +15,7 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "WIDERIVER" "1" "2024/02/27" "wideriver" "User Manuals"
+.TH "WIDERIVER" "1" "2024/03/02" "wideriver" "User Manuals"
 .hy
 .SH NAME
 .PP
@@ -133,7 +133,9 @@ T}
 .PP
 Set the layout generator and start it.
 .PP
-All defaults shown here but not required.
+All defaults shown here, none are required.
+.PP
+Log is strongly recommended.
 .IP
 .nf
 \f[C]
@@ -440,7 +442,25 @@ You can \[lq]shuffle\[rq] views through master, focusing the new master using:
 The layout name will not update when there are no views for the selected tags.
 This can occurs when setting a tag with no views or changing the layout for a tag with no views.
 .PP
-This will require a change to river or a questionable workaround.
+This may be resolved with a river enhancement: #1004 (https://github.com/riverwm/river/issues/1002)
+.SH ISSUES
+.SS Problems
+.PP
+Please create an issue (https://github.com/alex-courtis/wideriver/issues):
+.IP \[bu] 2
+attach your log
+.IP \[bu] 2
+add \f[V]river -version\f[R]
+.IP \[bu] 2
+describe the behaviour
+.IP \[bu] 2
+screenshots may be useful
+.SS Questions And Ideas
+.PP
+Please create an issue (https://github.com/alex-courtis/wideriver/issues).
+.SS Contributions
+.PP
+CONTRIBUTING.md is most gratefully appreciated.
 .SH SEE ALSO
 .PP
 https://github.com/alex-courtis/wideriver
