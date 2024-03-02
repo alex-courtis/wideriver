@@ -44,8 +44,10 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
   * [Wide Shuffling](#wide-shuffling)
 - [FAQ](#faq)
   * [Name Does Not Always Update](#name-does-not-always-update)
-- [Issues](#issues)
-- [Questions, Ideas And Contributions](#questions-ideas-and-contributions)
+- [ISSUES](#issues)
+  * [Problems](#problems)
+  * [Questions And Ideas](#questions-and-ideas)
+  * [Contributions](#contributions)
 
 <!-- tocstop -->
 
@@ -420,7 +422,9 @@ The layout name will not update when there are no views for the selected tags. T
 
 This will require a change to river or a questionable workaround.
 
-## Issues
+## ISSUES
+
+### Problems
 
 Please create a [github issue](https://github.com/alex-courtis/wideriver/issues):
 
@@ -429,8 +433,10 @@ Please create a [github issue](https://github.com/alex-courtis/wideriver/issues)
 - describe the behaviour
 - screenshots may be useful
 
-## Questions, Ideas And Contributions
+### Questions And Ideas
 
 Please raise a [github issue](https://github.com/alex-courtis/wideriver/issues)
 
-[Contributions](doc/CONTRIBUTING.md) are most gratefully received.
+### Contributions
+
+[CONTRIBUTING.md](doc/CONTRIBUTING.md) is most gratefully appreciated.
