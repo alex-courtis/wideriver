@@ -1,15 +1,5 @@
 # Contributing to https://github.com/alex-courtis/wideriver
 
-Thank you for contribution!
-
-Ideas, bug fixes and enhancements are always welcome.
-
-Please raise an [issue](https://github.com/alex-courtis/wideriver/issues), fork the repository and raise a [PR](https://github.com/alex-courtis/wideriver/pulls).
-
-[ci.yml](.github/workflows/ci.yml) must pass.
-
-# TOC
-
 <!-- toc -->
 
 - [Dependencies](#dependencies)
@@ -27,6 +17,14 @@ Please raise an [issue](https://github.com/alex-courtis/wideriver/issues), fork 
 - [Style](#style)
 
 <!-- tocstop -->
+
+Thank you for contribution!
+
+Ideas, bug fixes and enhancements are always welcome.
+
+Please raise an [issue](https://github.com/alex-courtis/wideriver/issues), fork the repository and raise a [PR](https://github.com/alex-courtis/wideriver/pulls).
+
+[ci.yml](.github/workflows/ci.yml) must pass.
 
 ## Dependencies
 
