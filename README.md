@@ -44,6 +44,7 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
   * [Wide Shuffling](#wide-shuffling)
 - [FAQ](#faq)
   * [Name Does Not Always Update](#name-does-not-always-update)
+- [Issues](#issues)
 
 <!-- tocstop -->
 
@@ -59,6 +60,8 @@ Set the layout generator and start it.
 </summary>
 
 All defaults shown here, none are required.
+
+Log is strongly recommended.
 
 ``` sh
 wideriver \
@@ -289,7 +292,7 @@ Each view occupies half the available / remaining area.
 
 [![CI](https://github.com/alex-courtis/wideriver/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/alex-courtis/wideriver/actions/workflows/ci.yml?query=branch%3Amaster)
 
-See [CONTRIBUTING](CONTRIBUTING.md)
+See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ``` sh
 git clone clone git@github.com:alex-courtis/wideriver.git
@@ -415,3 +418,12 @@ You can “shuffle” views through master, focusing the new master using:
 The layout name will not update when there are no views for the selected tags. This can occurs when setting a tag with no views or changing the layout for a tag with no views.
 
 This will require a change to river or a questionable workaround.
+
+## Issues
+
+Please create a [github issue](https://github.com/alex-courtis/wideriver/issues):
+
+- attach your log
+- add `river -version`
+- describe the behaviour
+- screenshots may be useful

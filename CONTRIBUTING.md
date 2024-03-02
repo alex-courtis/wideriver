@@ -28,6 +28,8 @@ Please raise an [issue](https://github.com/alex-courtis/wideriver/issues), fork 
 
 ## Dependencies
 
+Most will be available if you are running river.
+
 ### Build
 * GNU make
 * gcc or clang
@@ -43,8 +45,6 @@ Please raise an [issue](https://github.com/alex-courtis/wideriver/issues), fork 
 ### Doc
 * [pandoc](https://pandoc.org)
 * [markdown-toc](https://github.com/jonschlinkert/markdown-toc)
-
-Most will be available if you are running a wlroots based compositor like sway.
 
 ## Development
 
