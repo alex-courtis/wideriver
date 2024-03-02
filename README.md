@@ -426,7 +426,7 @@ This will require a change to river or a questionable workaround.
 
 ### Problems
 
-Please create a [github issue](https://github.com/alex-courtis/wideriver/issues):
+Please create an [issue](https://github.com/alex-courtis/wideriver/issues):
 
 - attach your log
 - add `river -version`
@@ -435,7 +435,7 @@ Please create a [github issue](https://github.com/alex-courtis/wideriver/issues)
 
 ### Questions And Ideas
 
-Please raise a [github issue](https://github.com/alex-courtis/wideriver/issues)
+Please create an [issue](https://github.com/alex-courtis/wideriver/issues).
 
 ### Contributions
 
