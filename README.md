@@ -34,6 +34,9 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
   * [Even](#even)
   * [Diminish](#diminish)
   * [Dwindle](#dwindle)
+- [INSTALL](#install)
+  * [Package Manager](#package-manager)
+  * [From Source](#from-source)
 - [USAGE](#usage)
 - [OPTIONS](#options)
 - [COMMANDS](#commands)
@@ -275,6 +278,33 @@ Height or width diminishes according to the view’s position in the stack:
 Arranged in a dwindling manner alternating in both stack directions.
 
 Each view occupies half the available / remaining area.
+
+## INSTALL
+
+### Package Manager
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/wideriver.svg)](https://repology.org/project/wideriver/versions)
+
+### From Source
+
+[![CI](https://github.com/alex-courtis/wideriver/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/alex-courtis/wideriver/actions/workflows/ci.yml?query=branch%3Amaster)
+
+#### Build
+
+``` sh
+git clone clone git@github.com:alex-courtis/wideriver.git
+cd wideriver
+make
+```
+
+See [CONTRIBUTING](CONTRIBUTING.md)
+
+#### Install / Uninstall
+
+``` sh
+sudo make install
+sudo make uninstall
+```
 
 ## USAGE
 

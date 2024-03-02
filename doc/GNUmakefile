@@ -26,7 +26,7 @@ doc/man.pandoc.md: doc/help-defaults.out
 
 README.md: doc/readme.pandoc.md
 	pandoc -s --wrap=none --from=markdown --to=gfm --output $(@) doc/readme.pandoc.md
-	markdown-toc -i $(@)
+	markdown-toc --maxdepth=3 -i $(@)
 
 man/wideriver.1: doc/man.pandoc.md
 	pandoc -s --wrap=none --from=markdown --to=man --shift-heading-level-by -1 --output $(@) doc/man.pandoc.md
