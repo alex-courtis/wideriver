@@ -295,16 +295,12 @@ Each view occupies half the available / remaining area.
 git clone clone git@github.com:alex-courtis/wideriver.git
 cd wideriver
 make
+sudo make install
 ```
+
+Should install under `/usr/local`
 
 See [CONTRIBUTING](CONTRIBUTING.md)
-
-#### Install / Uninstall
-
-``` sh
-sudo make install
-sudo make uninstall
-```
 
 ## USAGE
 

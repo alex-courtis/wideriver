@@ -6,6 +6,26 @@ Ideas, bug fixes and enhancements are always welcome.
 
 Please raise an [issue](https://github.com/alex-courtis/wideriver/issues), fork the repository and raise a [PR](https://github.com/alex-courtis/wideriver/pulls).
 
+[ci.yml](.github/workflows/ci.yml) must pass.
+
+<!-- toc -->
+
+- [Dependencies](#dependencies)
+  * [Build](#build)
+  * [Test](#test)
+  * [Doc](#doc)
+- [Development](#development)
+  * [Compile](#compile)
+  * [Test](#test-1)
+  * [Install](#install)
+  * [Uninstall](#uninstall)
+  * [Lint](#lint)
+  * [Check Includes](#check-includes)
+- [Documentation](#documentation)
+- [Style](#style)
+
+<!-- tocstop -->
+
 ## Dependencies
 
 ### Build
@@ -54,6 +74,20 @@ Individual tests may be run via test-name e.g.
 Valgrind test by appending `-vg` e.g.
 `make test-vg`
 `make test-cfg-vg`
+
+### Install
+
+Installs under `$(DESTDIR)$(PREFIX)`, usually `/usr/local`
+
+```sh
+make install
+```
+
+### Uninstall
+
+```sh
+make uninstall
+```
 
 ### Lint
 

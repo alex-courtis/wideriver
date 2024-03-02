@@ -1,6 +1,6 @@
 include GNUmakefile
 
-all: README.md man/wideriver.1
+all: README.md man/wideriver.1 CONTRIBUTING.md
 	rm doc/help*.out doc/*pandoc.md
 
 doc/help.out:
@@ -31,4 +31,7 @@ README.md: doc/readme.pandoc.md
 man/wideriver.1: doc/man.pandoc.md
 	pandoc -s --wrap=none --from=markdown --to=man --shift-heading-level-by -1 --output $(@) doc/man.pandoc.md
 
-.PHONY: all README.md man/river-xmonadwh.1
+CONTRIBUTING.md:
+	markdown-toc -i $(@)
+
+.PHONY: all README.md man/wideriver.1 CONTRIBUTING.md
