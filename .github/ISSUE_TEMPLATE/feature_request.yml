@@ -17,5 +17,5 @@ body:
   - type: textarea
     attributes:
       label: "Ideas"
-      description: "A \"sketch\" of the solution. You could draft an image or `wideriver` arguments or `riverctl` commands."
+      description: "A \"sketch\" of the solution. You could attach an image or draft `wideriver` arguments or `riverctl` commands."
 
