@@ -11,7 +11,7 @@ body:
   - type: textarea
     attributes:
       label: "Actual behavior"
-      description: "Describe the actual behaviour. You can optionally attach screenshots or videos. [grim](https://git.sr.ht/~emersion/grim/) and [wf-recorder](https://github.com/ammen99/wf-recorder) may be useful."
+      description: "Describe the actual behaviour. You can attach screenshots or videos. [grim](https://git.sr.ht/~emersion/grim/) and [wf-recorder](https://github.com/ammen99/wf-recorder) may be useful."
     validations:
       required: true
   - type: textarea
@@ -20,11 +20,10 @@ body:
       description: "Steps to reproduce using the minimal config provided below."
     validations:
       required: true
-  - type: textarea
+  - type: input
     attributes:
       label: "river version"
       description: "Output of `river -version`"
-      render: text
     validations:
       required: true
   - type: input
@@ -33,10 +32,11 @@ body:
       description: "Output of `wideriver --version`"
     validations:
       required: true
-  - type: input
+  - type: textarea
     attributes:
       label: "Startup logs"
-      description: "Logs up to \"wideriver started\" are useful as they show the startup arguments."
+      description: "Logs up to \"wideriver started\" are useful as they show the startup arguments. Likely at `/tmp/wideriver.${XDG_VTNR}.${USER}.log`"
+      render: text
     validations:
       required: true
 
