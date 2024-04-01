@@ -1,0 +1,21 @@
+name: Feature Request
+description: Suggest new wideriver functionality
+labels: [feature]
+body:
+  - type: textarea
+    attributes:
+      label: "Missing behavior"
+      description: "Describe the behavior that is not available."
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: "Desired solution"
+      description: "Describe the solution you'd like."
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: "Ideas"
+      description: "A \"sketch\" of the solution. You could draft an image or `wideriver` arguments or `riverctl` commands."
+
