@@ -60,14 +60,33 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
 
 <details>
 <summary>
+Set server side decorations.
+</summary>
+
+Required to display borders on all windows.
+
+``` sh
+riverctl rule-add ssd
+```
+
+</details>
+
+<br/>
+
+<details>
+<summary>
 Set the layout generator and start it.
 </summary>
 
 All defaults shown here, none are required.
 
-Log is strongly recommended.
+Log file is strongly recommended.
 
 ``` sh
+# set layout manager
+riverctl default-layout wideriver
+
+# start layout manager
 wideriver \
     --layout                       left        \
     --layout-alt                   monocle     \

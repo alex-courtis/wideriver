@@ -15,7 +15,7 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "WIDERIVER" "1" "2024/04/01" "wideriver" "User Manuals"
+.TH "WIDERIVER" "1" "2024/04/06" "wideriver" "User Manuals"
 .hy
 .SH NAME
 .PP
@@ -131,14 +131,28 @@ T}
 .PP
 \f[V]$XDG_CONFIG_HOME/river/init\f[R]
 .PP
+Set server side decorations.
+.PP
+Required to display borders on all windows.
+.IP
+.nf
+\f[C]
+riverctl rule-add ssd
+\f[R]
+.fi
+.PP
 Set the layout generator and start it.
 .PP
 All defaults shown here, none are required.
 .PP
-Log is strongly recommended.
+Log file is strongly recommended.
 .IP
 .nf
 \f[C]
+# set layout manager
+riverctl default-layout wideriver
+
+# start layout manager
 wideriver \[rs]
     --layout                       left        \[rs]
     --layout-alt                   monocle     \[rs]
