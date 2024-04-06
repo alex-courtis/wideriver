@@ -44,6 +44,7 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
   * [Wide Shuffling](#wide-shuffling)
 - [FAQ](#faq)
   * [Name Does Not Always Update](#name-does-not-always-update)
+  * [Borders Are Not Shown](#borders-are-not-shown)
 - [ISSUES](#issues)
   * [Problems](#problems)
   * [Ideas](#ideas)
@@ -441,6 +442,20 @@ You can “shuffle” views through master, focusing the new master using:
 The layout name will not update when there are no views for the selected tags. This can occurs when setting a tag with no views or changing the layout for a tag with no views.
 
 This may be resolved with a river enhancement: [\#1004](https://github.com/riverwm/river/issues/1002)
+
+### Borders Are Not Shown
+
+Please ensure you have enabled server side decorations i.e. the borders:
+
+``` sh
+riverctl rule-add ssd
+```
+
+You can still use client side decorations for specific applications e.g.:
+
+``` sh
+riverctl rule-add -app-id audacity csd
+```
 
 ## ISSUES
 

@@ -457,6 +457,23 @@ The layout name will not update when there are no views for the selected tags.
 This can occurs when setting a tag with no views or changing the layout for a tag with no views.
 .PP
 This may be resolved with a river enhancement: #1004 (https://github.com/riverwm/river/issues/1002)
+.SS Borders Are Not Shown
+.PP
+Please ensure you have enabled server side decorations i.e.\ the borders:
+.IP
+.nf
+\f[C]
+riverctl rule-add ssd
+\f[R]
+.fi
+.PP
+You can still use client side decorations for specific applications e.g.:
+.IP
+.nf
+\f[C]
+riverctl rule-add -app-id audacity csd
+\f[R]
+.fi
 .SH ISSUES
 .SS Problems
 .PP
