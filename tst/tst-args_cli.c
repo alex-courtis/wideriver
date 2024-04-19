@@ -41,7 +41,7 @@ void args_parse_cli__valid(void **state) {
 		"--ratio-master", "0.2",
 		"--count-wide-left", "8",
 		"--ratio-wide", "0.8",
-		"--smart-gaps", "off",
+		"--smart-gaps", "on",
 		"--inner-gaps", "6",
 		"--outer-gaps", "6",
 		"--border-width", "5",
@@ -61,7 +61,7 @@ void args_parse_cli__valid(void **state) {
 	assert_float_equal(cfg->ratio_master, 0.2, 0.001);
 	assert_int_equal(cfg->count_wide_left, 8);
 	assert_float_equal(cfg->ratio_wide, 0.8, 0.001);
-	assert_false(cfg->smart_gaps);
+	assert_true(cfg->smart_gaps);
 	assert_int_equal(cfg->inner_gaps, 6);
 	assert_int_equal(cfg->outer_gaps, 6);
 	assert_int_equal(cfg->border_width, 5);
@@ -78,7 +78,7 @@ void args_parse_cli__valid(void **state) {
 			"--ratio-master                 0.2\n"
 			"--count-wide-left              8\n"
 			"--ratio-wide                   0.8\n"
-			"--smart-gaps                   off\n"
+			"--smart-gaps                   on\n"
 			"--inner-gaps                   6\n"
 			"--outer-gaps                   6\n"
 			"--border-width                 5\n"
@@ -181,6 +181,45 @@ void args_parse_cli__bad_ratio_wide(void **state) {
 	assert_log(ERROR, "invalid --ratio-wide '-1'\n\n");
 }
 
+void args_parse_cli__bad_smart_gaps(void **state) {
+	int argc = 3;
+	char *argv[] = { "dummy",
+		"--smart-gaps", "enabled",
+	};
+
+	expect_value(__wrap_usage, status, EXIT_FAILURE);
+
+	args_cli(argc, argv);
+
+	assert_log(ERROR, "invalid --smart-gaps 'enabled'\n\n");
+}
+
+void args_parse_cli__bad_inner_gaps(void **state) {
+	int argc = 3;
+	char *argv[] = { "dummy",
+		"--inner-gaps", "-1",
+	};
+
+	expect_value(__wrap_usage, status, EXIT_FAILURE);
+
+	args_cli(argc, argv);
+
+	assert_log(ERROR, "invalid --inner-gaps '-1'\n\n");
+}
+
+void args_parse_cli__bad_outer_gaps(void **state) {
+	int argc = 3;
+	char *argv[] = { "dummy",
+		"--outer-gaps", "-1",
+	};
+
+	expect_value(__wrap_usage, status, EXIT_FAILURE);
+
+	args_cli(argc, argv);
+
+	assert_log(ERROR, "invalid --outer-gaps '-1'\n\n");
+}
+
 void args_parse_cli__bad_border_width(void **state) {
 	int argc = 3;
 	char *argv[] = { "dummy",
@@ -269,6 +308,9 @@ int main(void) {
 		TEST(args_parse_cli__bad_ratio_master),
 		TEST(args_parse_cli__bad_count_wide_left),
 		TEST(args_parse_cli__bad_ratio_wide),
+		TEST(args_parse_cli__bad_smart_gaps),
+		TEST(args_parse_cli__bad_inner_gaps),
+		TEST(args_parse_cli__bad_outer_gaps),
 		TEST(args_parse_cli__bad_border_width),
 		TEST(args_parse_cli__bad_border_width_monocle),
 		TEST(args_parse_cli__bad_border_color_focused),
