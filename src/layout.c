@@ -149,7 +149,7 @@ struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
 			arrange_views(demand, tag->stack, E, N, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
 			break;
 		case MONOCLE:
-			arrange_monocle(demand, &views);
+			arrange_monocle(demand, tag, &views);
 			break;
 		case WIDE:
 			// left stack dwindle left up

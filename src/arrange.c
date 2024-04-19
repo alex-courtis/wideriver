@@ -286,12 +286,18 @@ void arrange_wide(const struct Demand *demand,
 }
 
 void arrange_monocle(const struct Demand *demand,
+		const struct Tag* const tag,
 		struct SList **views) {
 
 	if (!demand || !views)
 		return;
 
-	struct Box usable = { 0, 0, demand->usable_width, demand->usable_height };
+	uint32_t outer_gap = tag->smart_gaps ? 0 : tag->outer_gaps;
+	struct Box usable = {
+		.x = outer_gap, .y = outer_gap,
+		.width = demand->usable_width - 2 * outer_gap,
+		.height = demand->usable_height - 2 * outer_gap,
+	};
 
 	for (uint32_t i = 0; i < demand->view_count; i++) {
 		struct Box *this = calloc(1, sizeof(struct Box));

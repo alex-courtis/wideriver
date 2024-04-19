@@ -49,6 +49,7 @@ void arrange_wide(const struct Demand *demand,
 
 // append many new Box to views with full usable area
 void arrange_monocle(const struct Demand *demand,
+		const struct Tag* const tag,
 		struct SList **views);
 
 // recursively append new Box to views as per stack
