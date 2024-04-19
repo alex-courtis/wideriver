@@ -1,6 +1,7 @@
 #ifndef TAG_H
 #define TAG_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "enum.h"
@@ -15,6 +16,9 @@ struct Tag {
 	double ratio_master;
 	uint32_t count_wide_left;
 	double ratio_wide;
+	bool smart_gaps;
+	uint32_t inner_gaps;
+	uint32_t outer_gaps;
 };
 
 struct Tag *tag_init(const uint32_t mask);

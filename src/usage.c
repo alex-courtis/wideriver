@@ -23,6 +23,10 @@ void usage(const int status) {
 			"  --count-wide-left               count                                 %d           %d <= count\n"
 			"  --ratio-wide                    ratio                                 %.02f      %.1g <= ratio <= %.1g\n"
 			"\n"
+			"  --smart-gaps                    %s|%s                                %s\n"
+			"  --inner-gaps                    pixels                                %d           %d <= gap size\n"
+			"  --outer-gaps                    pixels                                %d           %d <= gap size\n"
+			"\n"
 			"  --border-width                  pixels                                %d           %d <= width\n"
 			"  --border-width-monocle          pixels                                %d           %d <= width\n"
 			"\n"
@@ -51,6 +55,9 @@ void usage(const int status) {
 		RATIO_MASTER_DEFAULT, RATIO_MIN, RATIO_MAX,
 		COUNT_WIDE_LEFT_DEFAULT, COUNT_MIN,
 		RATIO_WIDE_DEFAULT, RATIO_MIN, RATIO_MAX,
+		"on", "off", SMART_GAPS_DEFAULT ? "on" : "off",
+		INNER_GAPS_DEFAULT, INNER_GAPS_MIN,
+		OUTER_GAPS_DEFAULT, OUTER_GAPS_MIN,
 		BORDER_WIDTH_DEFAULT, BORDER_WIDTH_MIN,
 		BORDER_WIDTH_MONOCLE_DEFAULT, BORDER_WIDTH_MONOCLE_MIN,
 		BORDER_COLOR_FOCUSED_DEFAULT,
@@ -76,6 +83,9 @@ void usage_defaults(void) {
 			"    --ratio-master                 %.02f        \\\n"
 			"    --count-wide-left              %d           \\\n"
 			"    --ratio-wide                   %.02f        \\\n"
+			"    --smart-gaps                   %s         \\\n"
+			"    --inner-gaps                   %d           \\\n"
+			"    --outer-gaps                   %d           \\\n"
 			"    --border-width                 %d           \\\n"
 			"    --border-width-monocle         %d           \\\n"
 			"    --border-color-focused         \"%s\"  \\\n"
@@ -86,6 +96,9 @@ void usage_defaults(void) {
 		layout_name(LAYOUT_DEFAULT), layout_name(LAYOUT_ALT_DEFAULT), stack_name(STACK_DEFAULT),
 		COUNT_MASTER_DEFAULT, RATIO_MASTER_DEFAULT,
 		COUNT_WIDE_LEFT_DEFAULT, RATIO_WIDE_DEFAULT,
+		SMART_GAPS_DEFAULT ? "on" : "off",
+		INNER_GAPS_DEFAULT,
+		OUTER_GAPS_DEFAULT,
 		BORDER_WIDTH_DEFAULT, BORDER_WIDTH_MONOCLE_DEFAULT,
 		BORDER_COLOR_FOCUSED_DEFAULT, BORDER_COLOR_FOCUSED_MONOCLE_DEFAULT, BORDER_COLOR_UNFOCUSED_DEFAULT,
 		log_threshold_name(LOG_THRESHOLD_DEFAULT)

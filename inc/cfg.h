@@ -18,6 +18,14 @@
 #define RATIO_MASTER_DEFAULT 0.5
 #define RATIO_WIDE_DEFAULT 0.35
 
+#define SMART_GAPS_DEFAULT false
+
+#define INNER_GAPS_MIN 0
+#define INNER_GAPS_DEFAULT 0
+
+#define OUTER_GAPS_MIN 0
+#define OUTER_GAPS_DEFAULT 0
+
 #define BORDER_WIDTH_MIN 0
 #define BORDER_WIDTH_DEFAULT 2
 
@@ -41,6 +49,9 @@ struct Cfg {
 	double ratio_master;
 	uint32_t count_wide_left;
 	double ratio_wide;
+	bool smart_gaps;
+	uint32_t inner_gaps;
+	uint32_t outer_gaps;
 	size_t border_width;
 	size_t border_width_monocle;
 	char border_color_focused[11];
@@ -56,6 +67,9 @@ bool cfg_set_count_master(const char *s);
 bool cfg_set_ratio_master(const char *s);
 bool cfg_set_count_wide_left(const char *s);
 bool cfg_set_ratio_wide(const char *s);
+bool cfg_set_smart_gaps(const char *s);
+bool cfg_set_inner_gaps(const char *s);
+bool cfg_set_outer_gaps(const char *s);
 bool cfg_set_border_width(const char *s);
 bool cfg_set_border_width_monocle(const char *s);
 

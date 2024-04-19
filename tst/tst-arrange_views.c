@@ -31,7 +31,7 @@ void arrange_views__one(void **state) {
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
 
-	arrange_views(&demand, EVEN, N, N, 1, 1, usable, usable, &stack);
+	arrange_views(&demand, EVEN, N, N, 1, 1, 0, usable, usable, &stack);
 
 	assert_int_equal(slist_length(stack), 1);
 
@@ -45,7 +45,7 @@ void arrange_views__n(void **state) {
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
 
-	arrange_views(&demand, EVEN, N, N, 2, 2, usable, usable, &stack);
+	arrange_views(&demand, EVEN, N, N, 2, 2, 0, usable, usable, &stack);
 
 	assert_int_equal(slist_length(stack), 2);
 
@@ -60,7 +60,7 @@ void arrange_views__s(void **state) {
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
 
-	arrange_views(&demand, EVEN, S, S, 2, 2, usable, usable, &stack);
+	arrange_views(&demand, EVEN, S, S, 2, 2, 0, usable, usable, &stack);
 
 	assert_int_equal(slist_length(stack), 2);
 
@@ -75,7 +75,7 @@ void arrange_views__e(void **state) {
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
 
-	arrange_views(&demand, EVEN, E, E, 2, 2, usable, usable, &stack);
+	arrange_views(&demand, EVEN, E, E, 2, 2, 0, usable, usable, &stack);
 
 	assert_int_equal(slist_length(stack), 2);
 
@@ -90,7 +90,7 @@ void arrange_views__w(void **state) {
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
 
-	arrange_views(&demand, EVEN, W, W, 2, 2, usable, usable, &stack);
+	arrange_views(&demand, EVEN, W, W, 2, 2, 0, usable, usable, &stack);
 
 	assert_int_equal(slist_length(stack), 2);
 
@@ -105,7 +105,7 @@ void arrange_views__even(void **state) {
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
 
-	arrange_views(&demand, EVEN, S, S, 3, 3, usable, usable, &stack);
+	arrange_views(&demand, EVEN, S, S, 3, 3, 0, usable, usable, &stack);
 
 	assert_int_equal(slist_length(stack), 3);
 
@@ -121,7 +121,7 @@ void arrange_views__diminish(void **state) {
 	struct Demand demand = { 0 };
 	struct Box usable = { 0, 0, 97, 1, };
 
-	arrange_views(&demand, DIMINISH, E, E, 7, 7, usable, usable, &stack);
+	arrange_views(&demand, DIMINISH, E, E, 7, 7, 0, usable, usable, &stack);
 
 	assert_int_equal(slist_length(stack), 7);
 
@@ -141,7 +141,7 @@ void arrange_views__dwindle(void **state) {
 	struct Demand demand = { 0 };
 	struct Box usable = { 100, 100, 37, 71, };
 
-	arrange_views(&demand, DWINDLE, S, E, 8, 8, usable, usable, &stack);
+	arrange_views(&demand, DWINDLE, S, E, 8, 8, 0, usable, usable, &stack);
 
 	assert_int_equal(slist_length(stack), 8);
 

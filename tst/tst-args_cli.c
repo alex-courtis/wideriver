@@ -32,7 +32,7 @@ int after_each(void **state) {
 }
 
 void args_parse_cli__valid(void **state) {
-	int argc = 27;
+	int argc = 33;
 	char *argv[] = { "dummy",
 		"--layout", "left",
 		"--layout-alt", "right",
@@ -41,6 +41,9 @@ void args_parse_cli__valid(void **state) {
 		"--ratio-master", "0.2",
 		"--count-wide-left", "8",
 		"--ratio-wide", "0.8",
+		"--smart-gaps", "off",
+		"--inner-gaps", "6",
+		"--outer-gaps", "6",
 		"--border-width", "5",
 		"--border-width-monocle", "10",
 		"--border-color-focused", "0xAABBCC",
@@ -58,6 +61,9 @@ void args_parse_cli__valid(void **state) {
 	assert_float_equal(cfg->ratio_master, 0.2, 0.001);
 	assert_int_equal(cfg->count_wide_left, 8);
 	assert_float_equal(cfg->ratio_wide, 0.8, 0.001);
+	assert_false(cfg->smart_gaps);
+	assert_int_equal(cfg->inner_gaps, 6);
+	assert_int_equal(cfg->outer_gaps, 6);
 	assert_int_equal(cfg->border_width, 5);
 	assert_int_equal(cfg->border_width_monocle, 10);
 	assert_str_equal(cfg->border_color_focused, "0xAABBCC");
@@ -72,6 +78,9 @@ void args_parse_cli__valid(void **state) {
 			"--ratio-master                 0.2\n"
 			"--count-wide-left              8\n"
 			"--ratio-wide                   0.8\n"
+			"--smart-gaps                   off\n"
+			"--inner-gaps                   6\n"
+			"--outer-gaps                   6\n"
 			"--border-width                 5\n"
 			"--border-width-monocle         10\n"
 			"--border-color-focused         0xAABBCC\n"

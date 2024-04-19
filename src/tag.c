@@ -19,6 +19,10 @@ struct Tag *tag_init(const uint32_t mask) {
 	tag->count_wide_left = cfg->count_wide_left;
 	tag->ratio_wide = cfg->ratio_wide;
 
+	tag->smart_gaps = cfg->smart_gaps;
+	tag->inner_gaps = cfg->inner_gaps;
+	tag->outer_gaps = cfg->outer_gaps;
+
 	tag->mask = mask;
 
 	return tag;
