@@ -19,7 +19,7 @@ static struct option cli_long_options[] = {
 	{ "ratio-master",                 required_argument, 0, 0, }, // 4
 	{ "count-wide-left",              required_argument, 0, 0, }, // 5
 	{ "ratio-wide",                   required_argument, 0, 0, }, // 6
-	{ "smart-gaps",                   required_argument, 0, 0, }, // 7
+	{ "smart-gaps",                   no_argument,       0, 0, }, // 7
 	{ "inner-gaps",                   required_argument, 0, 0, }, // 8
 	{ "outer-gaps",                   required_argument, 0, 0, }, // 9
 	{ "border-width",                 required_argument, 0, 0, }, // 10
@@ -98,11 +98,7 @@ void args_cli(int argc, char **argv) {
 				}
 				break;
 			case 7:
-				if (!cfg_set_smart_gaps(optarg)) {
-					log_error("invalid --smart-gaps '%s'\n", optarg);
-					usage(EXIT_FAILURE);
-					return;
-				}
+				cfg_set_smart_gaps();
 				break;
 			case 8:
 				if (!cfg_set_inner_gaps(optarg)) {
@@ -184,7 +180,7 @@ void args_cli(int argc, char **argv) {
 	log_info("--ratio-master                 %g", cfg->ratio_master);
 	log_info("--count-wide-left              %u", cfg->count_wide_left);
 	log_info("--ratio-wide                   %g", cfg->ratio_wide);
-	log_info("--smart-gaps                   %s", cfg->smart_gaps ? "on" : "off");
+	log_info("%s--smart-gaps", cfg->smart_gaps ? "" : "# ");
 	log_info("--inner-gaps                   %u", cfg->inner_gaps);
 	log_info("--outer-gaps                   %u", cfg->outer_gaps);
 	log_info("--border-width                 %u", cfg->border_width);

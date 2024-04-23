@@ -125,18 +125,8 @@ bool cfg_set_ratio_wide(const char *s) {
 	}
 }
 
-bool cfg_set_smart_gaps(const char *s) {
-	if (!s)
-		return false;
-
-	if (strncmp(s, "on", 2) == 0)
-		c.smart_gaps = true;
-	else if (strncmp(s, "off", 3) == 0)
-		c.smart_gaps = false;
-	else
-		return false;
-
-	return true;
+void cfg_set_smart_gaps(void) {
+	c.smart_gaps = true;
 }
 
 bool cfg_set_inner_gaps(const char *s) {

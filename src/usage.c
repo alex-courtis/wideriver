@@ -23,7 +23,7 @@ void usage(const int status) {
 			"  --count-wide-left               count                                 %d           %d <= count\n"
 			"  --ratio-wide                    ratio                                 %.02f      %.1g <= ratio <= %.1g\n"
 			"\n"
-			"  --smart-gaps                    %s|%s                                %s\n"
+			"  --smart-gaps\n"
 			"  --inner-gaps                    pixels                                %d           %d <= gap size\n"
 			"  --outer-gaps                    pixels                                %d           %d <= gap size\n"
 			"\n"
@@ -55,7 +55,6 @@ void usage(const int status) {
 		RATIO_MASTER_DEFAULT, RATIO_MIN, RATIO_MAX,
 		COUNT_WIDE_LEFT_DEFAULT, COUNT_MIN,
 		RATIO_WIDE_DEFAULT, RATIO_MIN, RATIO_MAX,
-		"on", "off", SMART_GAPS_DEFAULT ? "on" : "off",
 		INNER_GAPS_DEFAULT, INNER_GAPS_MIN,
 		OUTER_GAPS_DEFAULT, OUTER_GAPS_MIN,
 		BORDER_WIDTH_DEFAULT, BORDER_WIDTH_MIN,
@@ -83,7 +82,7 @@ void usage_defaults(void) {
 			"    --ratio-master                 %.02f        \\\n"
 			"    --count-wide-left              %d           \\\n"
 			"    --ratio-wide                   %.02f        \\\n"
-			"    --smart-gaps                   %s         \\\n"
+			"    # --smart-gaps                             \\\n"
 			"    --inner-gaps                   %d           \\\n"
 			"    --outer-gaps                   %d           \\\n"
 			"    --border-width                 %d           \\\n"
@@ -96,7 +95,6 @@ void usage_defaults(void) {
 		layout_name(LAYOUT_DEFAULT), layout_name(LAYOUT_ALT_DEFAULT), stack_name(STACK_DEFAULT),
 		COUNT_MASTER_DEFAULT, RATIO_MASTER_DEFAULT,
 		COUNT_WIDE_LEFT_DEFAULT, RATIO_WIDE_DEFAULT,
-		SMART_GAPS_DEFAULT ? "on" : "off",
 		INNER_GAPS_DEFAULT,
 		OUTER_GAPS_DEFAULT,
 		BORDER_WIDTH_DEFAULT, BORDER_WIDTH_MONOCLE_DEFAULT,

@@ -32,7 +32,7 @@ int after_each(void **state) {
 }
 
 void args_parse_cli__valid(void **state) {
-	int argc = 33;
+	int argc = 32;
 	char *argv[] = { "dummy",
 		"--layout", "left",
 		"--layout-alt", "right",
@@ -41,7 +41,7 @@ void args_parse_cli__valid(void **state) {
 		"--ratio-master", "0.2",
 		"--count-wide-left", "8",
 		"--ratio-wide", "0.8",
-		"--smart-gaps", "on",
+		"--smart-gaps",
 		"--inner-gaps", "6",
 		"--outer-gaps", "6",
 		"--border-width", "5",
@@ -78,7 +78,7 @@ void args_parse_cli__valid(void **state) {
 			"--ratio-master                 0.2\n"
 			"--count-wide-left              8\n"
 			"--ratio-wide                   0.8\n"
-			"--smart-gaps                   on\n"
+			"--smart-gaps\n"
 			"--inner-gaps                   6\n"
 			"--outer-gaps                   6\n"
 			"--border-width                 5\n"
@@ -179,19 +179,6 @@ void args_parse_cli__bad_ratio_wide(void **state) {
 	args_cli(argc, argv);
 
 	assert_log(ERROR, "invalid --ratio-wide '-1'\n\n");
-}
-
-void args_parse_cli__bad_smart_gaps(void **state) {
-	int argc = 3;
-	char *argv[] = { "dummy",
-		"--smart-gaps", "enabled",
-	};
-
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
-
-	args_cli(argc, argv);
-
-	assert_log(ERROR, "invalid --smart-gaps 'enabled'\n\n");
 }
 
 void args_parse_cli__bad_inner_gaps(void **state) {
@@ -308,7 +295,6 @@ int main(void) {
 		TEST(args_parse_cli__bad_ratio_master),
 		TEST(args_parse_cli__bad_count_wide_left),
 		TEST(args_parse_cli__bad_ratio_wide),
-		TEST(args_parse_cli__bad_smart_gaps),
 		TEST(args_parse_cli__bad_inner_gaps),
 		TEST(args_parse_cli__bad_outer_gaps),
 		TEST(args_parse_cli__bad_border_width),
