@@ -506,7 +506,9 @@ riverctl rule-add -app-id audacity csd
 
 This is a known river and wlroots issue: https://codeberg.org/river/river/issues/816
 
-Workaround: set a river background colour other than `0x000000`; `riverctl background-color "0x010101"` is sufficient.
+Workaround: set a river background colour other than default black `0x000000`
+
+`riverctl background-color "0x010101"` is sufficiently close.
 
 ## ISSUES
 
