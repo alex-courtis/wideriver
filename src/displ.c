@@ -83,6 +83,9 @@ void control_command_style(const struct Style desired, const struct Style curren
 bool displ_init(void) {
 	d.outputs = ptable_init(5, 5);
 
+	// ensure that border width of 0 is set on first run
+	d.style_current.border_width = -1;
+
 	d.wl_display = wl_display_connect(NULL);
 	if (!d.wl_display) {
 		log_error("Unable to connect to the compositor. Check or set the WAYLAND_DISPLAY environment variable.");
