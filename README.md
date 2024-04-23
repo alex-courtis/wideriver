@@ -99,7 +99,7 @@ wideriver \
     --ratio-master                 0.50        \
     --count-wide-left              0           \
     --ratio-wide                   0.35        \
-    # --smart-gaps                             \
+    --no-smart-gaps                            \
     --inner-gaps                   0           \
     --outer-gaps                   0           \
     --border-width                 2           \
@@ -376,7 +376,7 @@ Should install under `/usr/local`
       --count-wide-left               count                                 0           0 <= count
       --ratio-wide                    ratio                                 0.35      0.1 <= ratio <= 0.9
 
-      --smart-gaps
+      --(no-)smart-gaps
       --inner-gaps                    pixels                                0           0 <= gap size
       --outer-gaps                    pixels                                0           0 <= gap size
 
@@ -424,7 +424,7 @@ Initial number of views in the wide layout’s left stack area, default `1`, min
 `--ratio-wide` *ratio*  
 Initial proportion of the width the wide layout’s master area occupies, default `0.35`, minimum `0.1`, maximum `0.9`. The default value is best suited to ultrawide monitors, a value of `0.5` may be more useful for 16:9 monitors.
 
-`--smart-gaps`  
+`--(no-)smart-gaps`  
 Automatically hides the gaps when there is only one view or monocle layout.
 
 `--inner-gaps` *pixels*  

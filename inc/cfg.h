@@ -67,7 +67,7 @@ bool cfg_set_count_master(const char *s);
 bool cfg_set_ratio_master(const char *s);
 bool cfg_set_count_wide_left(const char *s);
 bool cfg_set_ratio_wide(const char *s);
-void cfg_set_smart_gaps(void);
+void cfg_set_smart_gaps(bool smart_gaps);
 bool cfg_set_inner_gaps(const char *s);
 bool cfg_set_outer_gaps(const char *s);
 bool cfg_set_border_width(const char *s);
