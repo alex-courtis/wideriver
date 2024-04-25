@@ -7,6 +7,7 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
 - Monocle with alternate borders
 - Layout toggling
 - Dwindling, diminishing and even stacks
+- Inner, outer and smart gaps
 
 | Layout  | Symbol    | Master | Stack  | Directions  |
 |---------|-----------|--------|--------|-------------|
@@ -34,6 +35,7 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
   * [Even](#even)
   * [Diminish](#diminish)
   * [Dwindle](#dwindle)
+- [GAPS](#gaps)
 - [INSTALL](#install)
   * [Package Manager](#package-manager)
   * [From Source](#from-source)
@@ -45,6 +47,7 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
 - [FAQ](#faq)
   * [Name Does Not Always Update](#name-does-not-always-update)
   * [Borders Are Not Shown](#borders-are-not-shown)
+  * [Random Pixels In Gaps When Using Fractional Scaling](#random-pixels-in-gaps-when-using-fractional-scaling)
 - [ISSUES](#issues)
   * [Problems](#problems)
   * [Ideas](#ideas)
@@ -96,6 +99,9 @@ wideriver \
     --ratio-master                 0.50        \
     --count-wide-left              0           \
     --ratio-wide                   0.35        \
+    --no-smart-gaps                            \
+    --inner-gaps                   0           \
+    --outer-gaps                   0           \
     --border-width                 2           \
     --border-width-monocle         0           \
     --border-color-focused         "0x93a1a1"  \
@@ -306,6 +312,32 @@ Arranged in a dwindling manner alternating in both stack directions.
 
 Each view occupies half the available / remaining area.
 
+## GAPS
+
+Gaps, in pixels, between windows may be injected. They are off by default.
+
+`--inner-gaps` (`i`) are between windows.
+
+`--outer-gaps` (`o`) are between the edge of the screen and windows.
+
+`--smart-gaps` automatically hides the gaps when there is only one view or monocle layout.
+
+     ---------------------------------------------------------- 
+    | o    o    o    o    o    o    o    o    o    o    o    o |
+    |    ----------------------     -----------------------    |
+    | o |                      | i |                       | o |
+    |   |                      |   |                       |   |
+    | o |                      | i |                       | o |
+    |   |                      |    -----------------------    |
+    | o |                      | i   i   i   i   i   i   i   o |
+    |   |                      |    -----------------------    |
+    | o |                      | i |                       | o |
+    |   |                      |   |                       |   |
+    | o |                      | i |                       | o |
+    |    ----------------------     -----------------------    |
+    | o    o    o    o    o    o    o    o    o    o    o    o |
+     ---------------------------------------------------------- 
+
 ## INSTALL
 
 ### Package Manager
@@ -343,6 +375,10 @@ Should install under `/usr/local`
 
       --count-wide-left               count                                 0           0 <= count
       --ratio-wide                    ratio                                 0.35      0.1 <= ratio <= 0.9
+
+      --(no-)smart-gaps
+      --inner-gaps                    pixels                                0           0 <= gap size
+      --outer-gaps                    pixels                                0           0 <= gap size
 
       --border-width                  pixels                                2           0 <= width
       --border-width-monocle          pixels                                0           0 <= width
@@ -387,6 +423,15 @@ Initial number of views in the wide layout’s left stack area, default `1`, min
 
 `--ratio-wide` *ratio*  
 Initial proportion of the width the wide layout’s master area occupies, default `0.35`, minimum `0.1`, maximum `0.9`. The default value is best suited to ultrawide monitors, a value of `0.5` may be more useful for 16:9 monitors.
+
+`--(no-)smart-gaps`  
+Automatically hides the gaps when there is only one view or monocle layout.
+
+`--inner-gaps` *pixels*  
+Inner gaps width, default `0`, minimum `0`.
+
+`--outer-gaps` *pixels*  
+Outer gaps width, default `0`, minimum `0`.
 
 `--border-width` *pixels*  
 Border width for all layouts except monocle, default `2`, minimum `0`.
@@ -456,6 +501,14 @@ You can still use client side decorations for specific applications e.g.:
 ``` sh
 riverctl rule-add -app-id audacity csd
 ```
+
+### Random Pixels In Gaps When Using Fractional Scaling
+
+This is a known river and wlroots issue: https://codeberg.org/river/river/issues/816
+
+Workaround: set a river background colour other than default black `0x000000`
+
+`riverctl background-color "0x010101"` is sufficiently close.
 
 ## ISSUES
 

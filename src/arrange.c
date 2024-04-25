@@ -77,17 +77,29 @@ void arrange_master_stack(const struct Demand* const demand,
 	memset(master, 0, sizeof(struct Box));
 	memset(stack, 0, sizeof(struct Box));
 
+	uint32_t inner_gap = tag->inner_gaps;
+	uint32_t outer_gap = tag->outer_gaps;
+
+	if (demand->view_count == 1 && tag->smart_gaps) {
+		inner_gap = 0;
+		outer_gap = 0;
+	}
+
 	if (num_master == 0 && num_stack == 0) {
 		return;
 	}
 	if (num_master == 0) {
-		stack->width = demand->usable_width;
-		stack->height = demand->usable_height;
+		stack->width = demand->usable_width - 2 * outer_gap;
+		stack->height = demand->usable_height - 2 * outer_gap;
+		stack->x = outer_gap;
+		stack->y = outer_gap;
 		return;
 	}
 	if (num_stack == 0) {
-		master->width = demand->usable_width;
-		master->height = demand->usable_height;
+		master->width = demand->usable_width - 2 * outer_gap;
+		master->height = demand->usable_height - 2 * outer_gap;
+		master->x = outer_gap;
+		master->y = outer_gap;
 		return;
 	}
 
@@ -95,18 +107,18 @@ void arrange_master_stack(const struct Demand* const demand,
 	switch(tag->layout_cur) {
 		case LEFT:
 		case RIGHT:
-			master->width = demand->usable_width * tag->ratio_master + 0.5f;
-			master->height = demand->usable_height;
-			stack->width = demand->usable_width - master->width;
-			stack->height = demand->usable_height;
+			master->width = (demand->usable_width - 2 * outer_gap - inner_gap) * tag->ratio_master + 0.5f;
+			master->height = demand->usable_height - 2 * outer_gap;
+			stack->width = demand->usable_width - master->width - 2 * outer_gap - inner_gap;
+			stack->height = demand->usable_height - 2 * outer_gap;
 			break;
 
 		case TOP:
 		case BOTTOM:
-			master->width = demand->usable_width;
-			master->height = demand->usable_height * tag->ratio_master + 0.5f;
-			stack->width = demand->usable_width;
-			stack->height = demand->usable_height - master->height;
+			master->width = demand->usable_width - 2 * outer_gap;
+			master->height = (demand->usable_height - 2 * outer_gap - inner_gap) * tag->ratio_master + 0.5f;
+			stack->width = demand->usable_width - 2 * outer_gap;
+			stack->height = demand->usable_height - master->height - 2 * outer_gap - inner_gap;
 			break;
 
 		default:
@@ -117,18 +129,18 @@ void arrange_master_stack(const struct Demand* const demand,
 	switch(tag->layout_cur) {
 		case LEFT:
 		case TOP:
-			master->x = 0;
-			master->y = 0;
+			master->x = outer_gap;
+			master->y = outer_gap;
 			break;
 
 		case RIGHT:
-			master->x = demand->usable_width - master->width;
-			master->y = 0;
+			master->x = outer_gap + stack->width + inner_gap;
+			master->y = outer_gap;
 			break;
 
 		case BOTTOM:
-			master->x = 0;
-			master->y = stack->height;
+			master->x = outer_gap;
+			master->y = outer_gap + stack->height + inner_gap;
 			break;
 
 		default:
@@ -138,19 +150,19 @@ void arrange_master_stack(const struct Demand* const demand,
 	// stack position
 	switch(tag->layout_cur) {
 		case LEFT:
-			stack->x = master->width;
-			stack->y = 0;
+			stack->x = outer_gap + master->width + inner_gap;
+			stack->y = outer_gap;
 			break;
 
 		case TOP:
-			stack->x = 0;
-			stack->y = master->height;
+			stack->x = outer_gap;
+			stack->y = outer_gap + master->height + inner_gap;
 			break;
 
 		case RIGHT:
 		case BOTTOM:
-			stack->x = 0;
-			stack->y = 0;
+			stack->x = outer_gap;
+			stack->y = outer_gap;
 			break;
 
 		default:
@@ -174,6 +186,14 @@ void arrange_wide(const struct Demand *demand,
 	memset(before, 0, sizeof(struct Box));
 	memset(after, 0, sizeof(struct Box));
 
+	uint32_t inner_gap = tag->inner_gaps;
+	uint32_t outer_gap = tag->outer_gaps;
+
+	if (demand->view_count == 1 && tag->smart_gaps) {
+		inner_gap = 0;
+		outer_gap = 0;
+	}
+
 	// 000
 	if (num_master == 0 && num_before == 0 && num_after == 0) {
 		return;
@@ -181,78 +201,103 @@ void arrange_wide(const struct Demand *demand,
 
 	// 010
 	if (!num_before && num_master && !num_after) {
-		master->width = demand->usable_width;
-		master->height = demand->usable_height;
+		master->width = demand->usable_width - 2 * outer_gap;
+		master->height = demand->usable_height - 2 * outer_gap;
+		master->x = outer_gap;
+		master->y = outer_gap;
 		return;
 	}
 
 	// 001
 	if (!num_before && !num_master && num_after) {
-		after->width = demand->usable_width;
-		after->height = demand->usable_height;
+		after->width = demand->usable_width - 2 * outer_gap;
+		after->height = demand->usable_height - 2 * outer_gap;
+		after->x = outer_gap;
+		after->y = outer_gap;
 		return;
 	}
 
 	// 100
 	if (num_before && !num_master && !num_after) {
-		before->width = demand->usable_width;
-		before->height = demand->usable_height;
+		before->width = demand->usable_width - 2 * outer_gap;
+		before->height = demand->usable_height - 2 * outer_gap;
+		before->x = outer_gap;
+		before->y = outer_gap;
 		return;
 	}
 
 	// 101
 	if (num_before && !num_master && num_after) {
-		before->width = demand->usable_width / 2.0f + 0.5f;
-		before->height = demand->usable_height;
+		before->width = (demand->usable_width - 2 * outer_gap - inner_gap) / 2.0f + 0.5f;
+		before->height = demand->usable_height - 2 * outer_gap;
+		before->x = outer_gap;
+		before->y = outer_gap;
 
-		after->width = demand->usable_width - before->width;
-		after->height = demand->usable_height;
-		after->x = before->width;
+		after->width = demand->usable_width - before->width - 2 * outer_gap - inner_gap;
+		after->height = demand->usable_height - 2 * outer_gap;
+		after->x = outer_gap + before->width + inner_gap;
+		after->y = outer_gap;
 		return;
 	}
 
 	// 011
 	if (!num_before && num_master && num_after) {
-		master->width = demand->usable_width * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
-		master->height = demand->usable_height;
+		master->width = (demand->usable_width - 2 * outer_gap - inner_gap) * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
+		master->height = demand->usable_height - 2 * outer_gap;
+		master->x = outer_gap;
+		master->y = outer_gap;
 
-		after->width = demand->usable_width - master->width;
-		after->height = demand->usable_height;
-		after->x = master->width;
+		after->width = demand->usable_width - master->width - 2 * outer_gap - inner_gap;
+		after->height = demand->usable_height - 2 * outer_gap;
+		after->x = outer_gap + master->width + inner_gap;
+		after->y = outer_gap;
 		return;
 	}
 
 	// 110
 	if (num_before && num_master && !num_after) {
-		master->width = demand->usable_width * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
-		master->height = demand->usable_height;
-		master->x = demand->usable_width - master->width;
+		master->width = (demand->usable_width - 2 * outer_gap - inner_gap) * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
+		master->height = demand->usable_height - 2 * outer_gap;
+		master->x = demand->usable_width - master->width - outer_gap;
+		master->y = outer_gap;
 
-		before->width = master->x;
-		before->height = demand->usable_height;
+		before->width = master->x - outer_gap - inner_gap;
+		before->height = demand->usable_height - 2 * outer_gap;
+		before->x = outer_gap;
+		before->y = outer_gap;
 		return;
 	}
 
 	// 111
-	master->width = demand->usable_width * tag->ratio_wide + 0.5f;
-	master->height = demand->usable_height;
+	master->width = (demand->usable_width - 2 * (outer_gap + inner_gap)) * tag->ratio_wide + 0.5f;
+	master->height = demand->usable_height - 2 * outer_gap;
 	master->x = (demand->usable_width - master->width) / 2.0f + 0.5f;
+	master->y = outer_gap;
 
-	before->width = master->x;
-	before->height = demand->usable_height;
+	before->width = master->x - outer_gap - inner_gap;
+	before->height = demand->usable_height - 2 * outer_gap;
+	before->x = outer_gap;
+	before->y = outer_gap;
 
-	after->width = demand->usable_width - master->width - before->width;
-	after->height = demand->usable_height;
-	after->x = master->x + master->width;
+	after->width = demand->usable_width - master->x - master->width - inner_gap - outer_gap;
+	after->height = demand->usable_height - 2 * outer_gap;
+	after->x = master->x + master->width + inner_gap;
+	after->y = outer_gap;
 }
 
 void arrange_monocle(const struct Demand *demand,
+		const struct Tag* const tag,
 		struct SList **views) {
 
 	if (!demand || !views)
 		return;
 
-	struct Box usable = { 0, 0, demand->usable_width, demand->usable_height };
+	uint32_t outer_gap = tag->smart_gaps ? 0 : tag->outer_gaps;
+	struct Box usable = {
+		.x = outer_gap, .y = outer_gap,
+		.width = demand->usable_width - 2 * outer_gap,
+		.height = demand->usable_height - 2 * outer_gap,
+	};
 
 	for (uint32_t i = 0; i < demand->view_count; i++) {
 		struct Box *this = calloc(1, sizeof(struct Box));
@@ -268,6 +313,7 @@ void arrange_views(const struct Demand *demand,
 		const enum Cardinal dir_next,
 		const uint32_t num_total,
 		const uint32_t num_remaining,
+		const uint32_t inner_gap,
 		const struct Box box_total,
 		const struct Box box_remaining,
 		struct SList **views) {
@@ -292,18 +338,18 @@ void arrange_views(const struct Demand *demand,
 	uint32_t denom = 0;
 	switch (stack) {
 		case EVEN:
-			width = (double)(box_remaining.width) / num_remaining + 0.5f;
-			height = (double)(box_remaining.height) / num_remaining + 0.5f;
+			width = (double)(box_remaining.width - (num_remaining - 1) * inner_gap) / num_remaining + 0.5f;
+			height = (double)(box_remaining.height - (num_remaining - 1) * inner_gap) / num_remaining + 0.5f;
 			break;
 		case DIMINISH:
 			for (uint32_t i = num_total; i > 0; i--)
 				denom += i;
-			width = (double)(num_remaining) * box_total.width / denom + 0.5f;
-			height = (double)(num_remaining) * box_total.height / denom + 0.5f;
+			width = (double)(num_remaining) * (box_total.width - (num_total - 1) * inner_gap) / denom + 0.5f;
+			height = (double)(num_remaining) * (box_total.height - (num_total - 1) * inner_gap) / denom + 0.5f;
 			break;
 		case DWINDLE:
-			width = (double)(box_remaining.width) / 2 + 0.5f;
-			height = (double)(box_remaining.height) / 2 + 0.5f;
+			width = (double)(box_remaining.width - inner_gap) / 2 + 0.5f;
+			height = (double)(box_remaining.height - inner_gap) / 2 + 0.5f;
 			break;
 	}
 
@@ -313,12 +359,12 @@ void arrange_views(const struct Demand *demand,
 		case N:
 		case S:
 			this->height = height;
-			remaining.height -= this->height;
+			remaining.height -= this->height + inner_gap;
 			break;
 		case E:
 		case W:
 			this->width = width;
-			remaining.width -= this->width;
+			remaining.width -= this->width + inner_gap;
 			break;
 	}
 
@@ -328,10 +374,10 @@ void arrange_views(const struct Demand *demand,
 			this->y += box_remaining.height - this->height;
 			break;
 		case S:
-			remaining.y += this->height;
+			remaining.y += this->height + inner_gap;
 			break;
 		case E:
-			remaining.x += this->width;
+			remaining.x += this->width + inner_gap;
 			break;
 		case W:
 			this->x += box_remaining.width - this->width;
@@ -345,6 +391,7 @@ void arrange_views(const struct Demand *demand,
 			stack == DWINDLE ? dir_next : dir_cur,
 			stack == DWINDLE ? dir_cur : dir_next,
 			num_total, num_remaining - 1,
+			inner_gap,
 			box_total, remaining,
 			views);
 }

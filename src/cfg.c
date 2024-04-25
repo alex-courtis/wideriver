@@ -15,6 +15,9 @@ struct Cfg c = {
 	.ratio_master = RATIO_MASTER_DEFAULT,
 	.count_wide_left = COUNT_WIDE_LEFT_DEFAULT,
 	.ratio_wide = RATIO_WIDE_DEFAULT,
+	.smart_gaps = SMART_GAPS_DEFAULT,
+	.inner_gaps = INNER_GAPS_DEFAULT,
+	.outer_gaps = OUTER_GAPS_DEFAULT,
 	.border_width = BORDER_WIDTH_DEFAULT,
 	.border_width_monocle = BORDER_WIDTH_MONOCLE_DEFAULT,
 	.border_color_focused = BORDER_COLOR_FOCUSED_DEFAULT,
@@ -118,6 +121,34 @@ bool cfg_set_ratio_wide(const char *s) {
 		return false;
 	} else {
 		c.ratio_wide = ratio_wide;
+		return true;
+	}
+}
+
+void cfg_set_smart_gaps(bool smart_gaps) {
+	c.smart_gaps = smart_gaps;
+}
+
+bool cfg_set_inner_gaps(const char *s) {
+	char *endptr;
+	long l = strtol(s, &endptr, 10);
+
+	if (*s == '\0' || endptr == s || *endptr != '\0' || l < INNER_GAPS_MIN) {
+		return false;
+	} else {
+		c.inner_gaps = l;
+		return true;
+	}
+}
+
+bool cfg_set_outer_gaps(const char *s) {
+	char *endptr;
+	long l = strtol(s, &endptr, 10);
+
+	if (*s == '\0' || endptr == s || *endptr != '\0' || l < OUTER_GAPS_MIN) {
+		return false;
+	} else {
+		c.outer_gaps = l;
 		return true;
 	}
 }

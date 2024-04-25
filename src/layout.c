@@ -130,30 +130,30 @@ struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
 	switch(tag->layout_cur) {
 		case LEFT:
 			// top to bottom, dwindle right down
-			arrange_views(demand, EVEN, S, S, num_master, num_master, box_master, box_master, &views);
-			arrange_views(demand, tag->stack, S, E, num_after, num_after, box_after, box_after, &views);
+			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
+			arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
 			break;
 		case RIGHT:
 			// top to bottom, dwindle left down
-			arrange_views(demand, EVEN, S, S, num_master, num_master, box_master, box_master, &views);
-			arrange_views(demand, tag->stack, S, W, num_after, num_after, box_after, box_after, &views);
+			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
+			arrange_views(demand, tag->stack, S, W, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
 			break;
 		case TOP:
 			// left to right, dwindle down right
-			arrange_views(demand, EVEN, E, E, num_master, num_master, box_master, box_master, &views);
-			arrange_views(demand, tag->stack, E, S, num_after, num_after, box_after, box_after, &views);
+			arrange_views(demand, EVEN, E, E, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
+			arrange_views(demand, tag->stack, E, S, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
 			break;
 		case BOTTOM:
 			// left to right, dwindle up right
-			arrange_views(demand, EVEN, E, E, num_master, num_master, box_master, box_master, &views);
-			arrange_views(demand, tag->stack, E, N, num_after, num_after, box_after, box_after, &views);
+			arrange_views(demand, EVEN, E, E, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
+			arrange_views(demand, tag->stack, E, N, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
 			break;
 		case MONOCLE:
-			arrange_monocle(demand, &views);
+			arrange_monocle(demand, tag, &views);
 			break;
 		case WIDE:
 			// left stack dwindle left up
-			arrange_views(demand, tag->stack, N, W, num_before, num_before, box_before, box_before, &views);
+			arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, &views);
 
 			// reverse to push first view farthest away
 			struct SList *views_reversed = NULL;
@@ -163,10 +163,10 @@ struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
 			views = views_reversed;
 
 			// only one master
-			arrange_views(demand, EVEN, S, S, num_master, num_master, box_master, box_master, &views);
+			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
 
 			// right stack dwindle right down
-			arrange_views(demand, tag->stack, S, E, num_after, num_after, box_after, box_after, &views);
+			arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
 			break;
 	}
 
