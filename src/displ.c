@@ -39,11 +39,14 @@ void complete_border_color_unfocused(void) {
 	d.style_current.border_color_unfocused = d.style_desired.border_color_unfocused;
 }
 
-void desire_style(const struct Tag *tag) {
+void desire_style(const struct Tag *tag, const uint32_t view_count) {
 	if (tag) {
 		if (tag->layout_cur == MONOCLE) {
 			d.style_desired.border_width = cfg->border_width_monocle;
 			d.style_desired.border_color_focused = cfg->border_color_focused_monocle;
+		} else if (view_count == 1 && tag->smart_gaps) {
+			d.style_desired.border_width = cfg->border_width_monocle;
+			d.style_desired.border_color_focused = cfg->border_color_focused;
 		} else {
 			d.style_desired.border_width = cfg->border_width;
 			d.style_desired.border_color_focused = cfg->border_color_focused;
@@ -167,7 +170,7 @@ void displ_destroy(void) {
 	memset(&d, 0, sizeof(struct Displ));
 }
 
-void displ_request_style(const struct Output *output, const struct Tag *tag) {
+void displ_request_style(const struct Output *output, const struct Tag *tag, const uint32_t view_count) {
 	if (!output || !tag)
 		return;
 
@@ -177,7 +180,7 @@ void displ_request_style(const struct Output *output, const struct Tag *tag) {
 	}
 
 	// desire
-	desire_style(tag);
+	desire_style(tag, view_count);
 
 	// execute
 	control_command_style(d.style_desired, d.style_current);
