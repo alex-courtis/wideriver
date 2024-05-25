@@ -45,7 +45,7 @@ void desire_style(const struct Tag *tag, const uint32_t view_count) {
 			d.style_desired.border_width = cfg->border_width_monocle;
 			d.style_desired.border_color_focused = cfg->border_color_focused_monocle;
 		} else if (view_count == 1 && tag->smart_gaps) {
-			d.style_desired.border_width = cfg->border_width_monocle;
+			d.style_desired.border_width = cfg->border_width_smart_gaps;
 			d.style_desired.border_color_focused = cfg->border_color_focused;
 		} else {
 			d.style_desired.border_width = cfg->border_width;
