@@ -42,6 +42,7 @@ void args_parse_cli__valid(void **state) {
 		"--count-wide-left", "8",
 		"--ratio-wide", "0.8",
 		"--smart-gaps",
+		"--border-width-smart-gaps", "8",
 		"--inner-gaps", "6",
 		"--outer-gaps", "6",
 		"--border-width", "5",
@@ -62,6 +63,7 @@ void args_parse_cli__valid(void **state) {
 	assert_int_equal(cfg->count_wide_left, 8);
 	assert_float_equal(cfg->ratio_wide, 0.8, 0.001);
 	assert_true(cfg->smart_gaps);
+	assert_int_equal(cfg->border_width_smart_gaps, 8);
 	assert_int_equal(cfg->inner_gaps, 6);
 	assert_int_equal(cfg->outer_gaps, 6);
 	assert_int_equal(cfg->border_width, 5);
@@ -79,6 +81,7 @@ void args_parse_cli__valid(void **state) {
 			"--count-wide-left              8\n"
 			"--ratio-wide                   0.8\n"
 			"--smart-gaps\n"
+			"--border-width-smart-gaps      8\n"
 			"--inner-gaps                   6\n"
 			"--outer-gaps                   6\n"
 			"--border-width                 5\n"
@@ -179,6 +182,19 @@ void args_parse_cli__bad_ratio_wide(void **state) {
 	args_cli(argc, argv);
 
 	assert_log(ERROR, "invalid --ratio-wide '-1'\n\n");
+}
+
+void args_parse_cli__bad_border_width_smart_gaps(void **state) {
+	int argc = 3;
+	char *argv[] = { "dummy",
+		"--border-width-smart-gaps", "-1",
+	};
+
+	expect_value(__wrap_usage, status, EXIT_FAILURE);
+
+	args_cli(argc, argv);
+
+	assert_log(ERROR, "invalid --border-width-smart-gaps '-1'\n\n");
 }
 
 void args_parse_cli__bad_inner_gaps(void **state) {
@@ -295,6 +311,7 @@ int main(void) {
 		TEST(args_parse_cli__bad_ratio_master),
 		TEST(args_parse_cli__bad_count_wide_left),
 		TEST(args_parse_cli__bad_ratio_wide),
+		TEST(args_parse_cli__bad_border_width_smart_gaps),
 		TEST(args_parse_cli__bad_inner_gaps),
 		TEST(args_parse_cli__bad_outer_gaps),
 		TEST(args_parse_cli__bad_border_width),
