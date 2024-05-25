@@ -16,6 +16,7 @@ struct Cfg c = {
 	.count_wide_left = COUNT_WIDE_LEFT_DEFAULT,
 	.ratio_wide = RATIO_WIDE_DEFAULT,
 	.smart_gaps = SMART_GAPS_DEFAULT,
+	.border_width_smart_gaps = BORDER_WIDTH_SMART_GAPS_DEFAULT,
 	.inner_gaps = INNER_GAPS_DEFAULT,
 	.outer_gaps = OUTER_GAPS_DEFAULT,
 	.border_width = BORDER_WIDTH_DEFAULT,
@@ -127,6 +128,18 @@ bool cfg_set_ratio_wide(const char *s) {
 
 void cfg_set_smart_gaps(bool smart_gaps) {
 	c.smart_gaps = smart_gaps;
+}
+
+bool cfg_set_border_width_smart_gaps(const char *s) {
+	char *endptr;
+	long l = strtol(s, &endptr, 10);
+
+	if (*s == '\0' || endptr == s || *endptr != '\0' || l < BORDER_WIDTH_SMART_GAPS_MIN) {
+		return false;
+	} else {
+		c.border_width_smart_gaps = l;
+		return true;
+	}
 }
 
 bool cfg_set_inner_gaps(const char *s) {

@@ -20,6 +20,9 @@
 
 #define SMART_GAPS_DEFAULT false
 
+#define BORDER_WIDTH_SMART_GAPS_MIN 0
+#define BORDER_WIDTH_SMART_GAPS_DEFAULT 0
+
 #define INNER_GAPS_MIN 0
 #define INNER_GAPS_DEFAULT 0
 
@@ -50,6 +53,7 @@ struct Cfg {
 	uint32_t count_wide_left;
 	double ratio_wide;
 	bool smart_gaps;
+	uint32_t border_width_smart_gaps;
 	uint32_t inner_gaps;
 	uint32_t outer_gaps;
 	size_t border_width;
@@ -68,6 +72,7 @@ bool cfg_set_ratio_master(const char *s);
 bool cfg_set_count_wide_left(const char *s);
 bool cfg_set_ratio_wide(const char *s);
 void cfg_set_smart_gaps(bool smart_gaps);
+bool cfg_set_border_width_smart_gaps(const char *s);
 bool cfg_set_inner_gaps(const char *s);
 bool cfg_set_outer_gaps(const char *s);
 bool cfg_set_border_width(const char *s);
