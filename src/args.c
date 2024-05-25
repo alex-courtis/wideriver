@@ -112,6 +112,7 @@ void args_cli(int argc, char **argv) {
 					usage(EXIT_FAILURE);
 					return;
 				}
+				break;
 			case 10:
 				if (!cfg_set_inner_gaps(optarg)) {
 					log_error("invalid --inner-gaps '%s'\n", optarg);
