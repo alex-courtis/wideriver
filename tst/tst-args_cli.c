@@ -32,7 +32,7 @@ int after_each(void **state) {
 }
 
 void args_parse_cli__valid(void **state) {
-	int argc = 32;
+	int argc = 34;
 	char *argv[] = { "dummy",
 		"--layout", "left",
 		"--layout-alt", "right",

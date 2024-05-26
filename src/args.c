@@ -108,7 +108,7 @@ void args_cli(int argc, char **argv) {
 				break;
 			case 9:
 				if (!cfg_set_border_width_smart_gaps(optarg)) {
-					log_error("invalid --border-width-smart-gaps");
+					log_error("invalid --border-width-smart-gaps '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
