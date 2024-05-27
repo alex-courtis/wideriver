@@ -100,6 +100,7 @@ wideriver \
     --count-wide-left              0           \
     --ratio-wide                   0.35        \
     --no-smart-gaps                            \
+    --border-width-smart-gaps      0           \
     --inner-gaps                   0           \
     --outer-gaps                   0           \
     --border-width                 2           \
@@ -322,6 +323,8 @@ Gaps, in pixels, between windows may be injected. They are off by default.
 
 `--smart-gaps` automatically hides the gaps when there is only one view or monocle layout.
 
+`--border-width-smart-gaps` the border width for when smart gaps hides the gaps, excluding monocle layout.
+
      ---------------------------------------------------------- 
     | o    o    o    o    o    o    o    o    o    o    o    o |
     |    ----------------------     -----------------------    |
@@ -377,6 +380,7 @@ Should install under `/usr/local`
       --ratio-wide                    ratio                                 0.35      0.1 <= ratio <= 0.9
 
       --(no-)smart-gaps
+      --border-width-smart-gaps       pixels                                0           0 <= gap size
       --inner-gaps                    pixels                                0           0 <= gap size
       --outer-gaps                    pixels                                0           0 <= gap size
 
@@ -426,6 +430,9 @@ Initial proportion of the width the wide layout’s master area occupies, defaul
 
 `--(no-)smart-gaps`  
 Automatically hides the gaps when there is only one view or monocle layout.
+
+`--border-width-smart-gaps`  
+Border width for when smart gaps hides the gaps for all layouts except monocle, default `0`, minimum `0`. Has no effect if `--no-smart-gaps`.
 
 `--inner-gaps` *pixels*  
 Inner gaps width, default `0`, minimum `0`.
