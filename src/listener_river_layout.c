@@ -54,7 +54,7 @@ static void layout_handle_layout_demand(void *data,
 	river_layout_v3_commit(output->river_layout, layout_name, serial);
 
 	// maybe style
-	displ_request_style(output, tag);
+	displ_request_style(output, tag, view_count);
 }
 
 static void layout_handle_namespace_in_use(void *data,

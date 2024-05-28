@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #include "output.h"
 #include "tag.h"
@@ -42,6 +43,6 @@ bool displ_init(void);
 void displ_destroy(void);
 
 // request style as per tag, output must be focused or no focus reported (startup case)
-void displ_request_style(const struct Output *output, const struct Tag *tag);
+void displ_request_style(const struct Output *output, const struct Tag *tag, const uint32_t view_count);
 
 #endif // DISPL_H

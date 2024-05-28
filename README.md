@@ -104,6 +104,7 @@ wideriver \
     --outer-gaps                   0           \
     --border-width                 2           \
     --border-width-monocle         0           \
+    --border-width-smart-gaps      0           \
     --border-color-focused         "0x93a1a1"  \
     --border-color-focused-monocle "0x586e75"  \
     --border-color-unfocused       "0x586e75"  \
@@ -322,6 +323,8 @@ Gaps, in pixels, between windows may be injected. They are off by default.
 
 `--smart-gaps` automatically hides the gaps when there is only one view or monocle layout.
 
+`--border-width-smart-gaps` the border width for when smart gaps hides the gaps, excluding monocle layout. For a seamless experience, set this to the same value as `--border-width-monocle`
+
      ---------------------------------------------------------- 
     | o    o    o    o    o    o    o    o    o    o    o    o |
     |    ----------------------     -----------------------    |
@@ -382,6 +385,7 @@ Should install under `/usr/local`
 
       --border-width                  pixels                                2           0 <= width
       --border-width-monocle          pixels                                0           0 <= width
+      --border-width-smart-gaps       pixels                                0           0 <= width
 
       --border-color-focused          0xRRGGBB[AA]                          0x93a1a1
       --border-color-focused-monocle  0xRRGGBB[AA]                          0x586e75
@@ -438,6 +442,9 @@ Border width for all layouts except monocle, default `2`, minimum `0`.
 
 `--border-width-monocle` *pixels*  
 Border width for monocle layout, default `0`, minimum `0`.
+
+`--border-width-smart-gaps` *pixels*  
+Border width for when smart gaps hides the gaps for all layouts except monocle, default `0`, minimum `0`. Has no effect if `--no-smart-gaps`.
 
 `--border-color-focused` `0x`*RRGGBB*\[*AA*\]  
 Border color for focused views in all layouts excluding monocle, default `0x93a1a1`.

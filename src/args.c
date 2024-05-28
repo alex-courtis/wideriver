@@ -22,17 +22,18 @@ static struct option cli_long_options[] = {
 	{ "ratio-wide",                   required_argument, 0, 0, }, // 6
 	{ "smart-gaps",                   no_argument,       0, 0, }, // 7
 	{ "no-smart-gaps",                no_argument,       0, 0, }, // 8
-	{ "inner-gaps",                   required_argument, 0, 0, }, // 9
-	{ "outer-gaps",                   required_argument, 0, 0, }, // 10
-	{ "border-width",                 required_argument, 0, 0, }, // 11
-	{ "border-width-monocle",         required_argument, 0, 0, }, // 12
-	{ "border-color-focused",         required_argument, 0, 0, }, // 13
-	{ "border-color-focused-monocle", required_argument, 0, 0, }, // 14
-	{ "border-color-unfocused",       required_argument, 0, 0, }, // 15
-	{ "help",                         no_argument,       0, 0, }, // 16
-	{ "help-defaults",                no_argument,       0, 0, }, // 17
-	{ "log-threshold",                required_argument, 0, 0, }, // 18
-	{ "version",                      no_argument,       0, 0, }, // 19
+	{ "border-width-smart-gaps",      required_argument, 0, 0, }, // 9
+	{ "inner-gaps",                   required_argument, 0, 0, }, // 10
+	{ "outer-gaps",                   required_argument, 0, 0, }, // 11
+	{ "border-width",                 required_argument, 0, 0, }, // 12
+	{ "border-width-monocle",         required_argument, 0, 0, }, // 13
+	{ "border-color-focused",         required_argument, 0, 0, }, // 14
+	{ "border-color-focused-monocle", required_argument, 0, 0, }, // 15
+	{ "border-color-unfocused",       required_argument, 0, 0, }, // 16
+	{ "help",                         no_argument,       0, 0, }, // 17
+	{ "help-defaults",                no_argument,       0, 0, }, // 18
+	{ "log-threshold",                required_argument, 0, 0, }, // 19
+	{ "version",                      no_argument,       0, 0, }, // 20
 	{ 0,                              0,                 0, 0, }
 };
 
@@ -106,68 +107,75 @@ void args_cli(int argc, char **argv) {
 				cfg_set_smart_gaps(false);
 				break;
 			case 9:
+				if (!cfg_set_border_width_smart_gaps(optarg)) {
+					log_error("invalid --border-width-smart-gaps '%s'\n", optarg);
+					usage(EXIT_FAILURE);
+					return;
+				}
+				break;
+			case 10:
 				if (!cfg_set_inner_gaps(optarg)) {
 					log_error("invalid --inner-gaps '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
-			case 10:
+			case 11:
 				if (!cfg_set_outer_gaps(optarg)) {
 					log_error("invalid --outer-gaps '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
-			case 11:
+			case 12:
 				if (!cfg_set_border_width(optarg)) {
 					log_error("invalid --border-width '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
-			case 12:
+			case 13:
 				if (!cfg_set_border_width_monocle(optarg)) {
 					log_error("invalid --border-width-monocle '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
-			case 13:
+			case 14:
 				if (!cfg_set_border_color_focused(optarg)) {
 					log_error("invalid --border-color-focused '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
-			case 14:
+			case 15:
 				if (!cfg_set_border_color_focused_monocle(optarg)) {
 					log_error("invalid --border-color-focused-monocle '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
-			case 15:
+			case 16:
 				if (!cfg_set_border_color_unfocused(optarg)) {
 					log_error("invalid --border-color-unfocused '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
-			case 16:
+			case 17:
 				usage(EXIT_SUCCESS);
 				return;
-			case 17:
+			case 18:
 				usage_defaults();
 				return;
-			case 18:
+			case 19:
 				if (!log_set_threshold(optarg)) {
 					log_error("invalid --log-threshold '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
-			case 19:
+			case 20:
 				fprintf(stdout, "wideriver version %s\n", VERSION);
 				exit(EXIT_SUCCESS);
 				return;
@@ -190,6 +198,7 @@ void args_cli(int argc, char **argv) {
 	log_info("--outer-gaps                   %u", cfg->outer_gaps);
 	log_info("--border-width                 %u", cfg->border_width);
 	log_info("--border-width-monocle         %u", cfg->border_width_monocle);
+	log_info("--border-width-smart-gaps      %u", cfg->border_width_smart_gaps);
 	log_info("--border-color-focused         %s", cfg->border_color_focused);
 	log_info("--border-color-focused-monocle %s", cfg->border_color_focused_monocle);
 	log_info("--border-color-unfocused       %s", cfg->border_color_unfocused);
