@@ -119,7 +119,7 @@ It's sometimes easier to use the pandoc docker image than to install it:
 docker run --rm --volume "${PWD}:/data" --volume "/tmp:/tmp" --user "$(id -u):$(id -g)" pandoc/latex "$@"
 ```
 
-markdown-toc is used to inject the table of contents into `README.md`
+[markdown-toc](https://github.com/jonschlinkert/markdown-toc) is used to inject the table of contents into `README.md`
 
 Update the templates and run `make doc`.
 
