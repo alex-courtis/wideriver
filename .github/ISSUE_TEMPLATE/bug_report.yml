@@ -4,20 +4,8 @@ labels: [bug]
 body:
   - type: textarea
     attributes:
-      label: "Expected behavior"
-      description: "Describe the behavior you expect:"
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: "Actual behavior"
-      description: "Describe the actual behaviour. You can attach screenshots or videos. [grim](https://git.sr.ht/~emersion/grim/) and [wf-recorder](https://github.com/ammen99/wf-recorder) may be useful."
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: "Steps to reproduce"
-      description: "Steps to reproduce using the minimal config provided below."
+      label: "Description"
+      description: "A short description of the problem you are reporting. You can attach screenshots or videos. [grim](https://git.sr.ht/~emersion/grim/) and [wf-recorder](https://github.com/ammen99/wf-recorder) may be useful."
     validations:
       required: true
   - type: input
@@ -34,9 +22,15 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: "Startup logs"
-      description: "Logs up to \"wideriver started\" are useful as they show the startup arguments. Likely at `/tmp/wideriver.${XDG_VTNR}.${USER}.log`"
+      label: "Logs"
+      description: "Logs showing at minimum the startup arguments. Likely at `/tmp/wideriver.${XDG_VTNR}.${USER}.log`"
       render: text
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: "Steps to reproduce"
+      description: "Steps to reproduce using the configuration shown in the logs"
     validations:
       required: true
 
