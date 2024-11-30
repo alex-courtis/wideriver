@@ -24,6 +24,7 @@ struct Cfg c = {
 	.border_color_focused = BORDER_COLOR_FOCUSED_DEFAULT,
 	.border_color_focused_monocle = BORDER_COLOR_FOCUSED_MONOCLE_DEFAULT,
 	.border_color_unfocused = BORDER_COLOR_UNFOCUSED_DEFAULT,
+	.layout_format = DEFAULT_LAYOUT_FORMAT,
 };
 
 const struct Cfg * const cfg = &c;
@@ -188,6 +189,38 @@ bool cfg_set_border_width_monocle(const char *s) {
 		c.border_width_monocle = l;
 		return true;
 	}
+}
+
+bool cfg_set_layout_format(const char *s) {
+	if (strlen(s) > LAYOUT_FORMAT_LEN)
+		return false;
+
+	int escaped = 0;
+	bool in_brackets = false;
+
+	for (int i = 0; s[i] != '\0'; i++) {
+		if (s[i] == '{' && escaped == 0)
+			in_brackets = true;
+		else if (s[i] == '}' && escaped == 0 && in_brackets) {
+			if ((s[i-1] != LAYOUT &&
+				s[i-1] != COUNT  &&
+				s[i-1] != RATIO) ||
+				s[i-2] != '{'
+			) {
+				return false;
+			}
+			in_brackets = false;
+		} else if (s[i] ==  '\\' && escaped == 0 && !in_brackets) {
+			escaped = 2;
+		}
+
+		escaped -= 1;
+		if (escaped < 0)
+			escaped = 0;
+	}
+
+	strcpy(c.layout_format, s);
+	return true;
 }
 
 bool cfg_set_border_color_focused(const char *s) {

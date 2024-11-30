@@ -8,10 +8,11 @@
 #include "log.h"
 #include "slist.h"
 #include "tag.h"
+#include "cfg.h"
 
 #include "layout.h"
 
-const char *description_info(const struct Demand* const demand, const struct Tag* const tag) {
+const char *layout_image(const struct Demand* const demand, const struct Tag* const tag) {
 	static char desc[20];
 
 	switch(tag->layout_cur) {
@@ -49,6 +50,88 @@ const char *description_info(const struct Demand* const demand, const struct Tag
 				snprintf(desc, sizeof(desc), "├─┤ ├─┤");
 			}
 			break;
+	}
+
+	return desc;
+}
+
+// nix run .#wideriver -- --layout left --ratio-master 0.5 --count-wide-left 0 --border-width 3 --border-color-focused 0xe0def4 --border-color-unfocused 0x6e6a86 --layout-format "{r}\n{l}\n{c}"
+const char *description_info(const struct Demand* const demand, const struct Tag* const tag) {
+	double ratio;
+	int count;
+	const char *image = layout_image(demand, tag);
+	switch(tag->layout_cur) {
+		case LEFT:
+		case RIGHT:
+		case TOP:
+		case BOTTOM:
+			count = tag->count_master;
+			ratio = tag->ratio_master;
+			break;
+		case WIDE:
+			count = tag->count_wide_left;
+			ratio = tag->ratio_wide;
+			break;
+		case MONOCLE:
+			count = demand->view_count;
+			ratio = 1.0;
+			break;
+	}
+
+	static char desc[LAYOUT_FORMAT_LEN+5];
+	int j = 0;
+	int escaped = 0;
+	bool in_brackets = false;
+	for (int i = 0; cfg->layout_format[i] != '\0'; i++) {
+		if (escaped > 0) {
+			switch (cfg->layout_format[i]) {
+				case 'n':
+					desc[j] = '\n';
+					break;
+				case 't':
+					desc[j] = '\t';
+					break;
+				case 'r':
+					desc[j] = '\r';
+					break;
+				case 'v':
+					desc[j] = '\v';
+					break;
+				case '{':
+					desc[j] = '{';
+					break;
+				case '}':
+					desc[j] = '}';
+					break;
+				default:
+					break;
+			}
+			j++;
+		} else if (cfg->layout_format[i] == '{')
+			in_brackets = true;
+		else if (cfg->layout_format[i] == '}' && in_brackets) {
+			switch (cfg->layout_format[i-1]) {
+				case RATIO:
+					j += snprintf(desc+j, sizeof(desc)-j, "%g", ratio);
+					break;
+				case COUNT:
+					j += snprintf(desc+j, sizeof(desc)-j, "%u", count);
+					break;
+				case LAYOUT:
+					j += snprintf(desc+j, sizeof(desc)-j, "%s", image);
+					break;
+			}
+			in_brackets = false;
+		} else if (cfg->layout_format[i] ==  '\\' && !in_brackets)
+			escaped = 2;
+		else if (!in_brackets) {
+			desc[j] = cfg->layout_format[i];
+			j++;
+		}
+
+		escaped -= 1;
+		if (escaped < 0)
+			escaped = 0;
 	}
 
 	return desc;
