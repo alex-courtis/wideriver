@@ -39,6 +39,8 @@ void usage(const int status) {
 			"  --log-threshold                 %s|%s|%s|%s              %s\n"
 			"  --version\n"
 			"\n"
+			"  --layout-format                 format                   {l} = layout image {c} = count, {r} = ratio"
+			"\n"
 			"COMMANDS, sent via riverctl(1):\n"
 			"\n"
 			"  --layout                        %s|%s|%s|%s|%s|%s\n"

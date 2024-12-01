@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 #include <stdio.h>
 
 #include "river-layout-v3.h"
@@ -57,8 +58,8 @@ const char *layout_image(const struct Demand* const demand, const struct Tag* co
 
 // nix run .#wideriver -- --layout left --ratio-master 0.5 --count-wide-left 0 --border-width 3 --border-color-focused 0xe0def4 --border-color-unfocused 0x6e6a86 --layout-format "{r}\n{l}\n{c}"
 const char *description_info(const struct Demand* const demand, const struct Tag* const tag) {
-	double ratio;
-	int count;
+	double ratio = 0;
+	int count = 0;
 	const char *image = layout_image(demand, tag);
 	switch(tag->layout_cur) {
 		case LEFT:
