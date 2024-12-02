@@ -126,20 +126,17 @@ void layout_description_info__invalids(void **state) {
 	// manually set an invalid layout
 	strcpy(((struct Cfg*)cfg)->layout_format,            "image: {foo}  count: {c c} ratio: {rATIO}  end");
 
-	// TODO #21 this is not correct
-	assert_str_equal(description_info(&demand, &tag),    "image:   count: 3 ratio:   endunt: 3  ratio: 0.5  end");
-	// should be
-	// assert_str_equal(description_info(&demand, &tag), "image:   count:  ratio:   end");
+	// TODO #21 this is not correct; count should not be substituted
+	assert_str_equal(description_info(&demand, &tag),    "image:   count: 3 ratio:   end");
 }
 
 void layout_description_info__escapes(void **state) {
 	struct Demand demand = { .view_count = 9, };
 	struct Tag tag = { .layout_cur = WIDE, .count_master = 2, .count_wide_left = 3, .ratio_master = 0.4, .ratio_wide = 0.5, };
 
-	assert_true(cfg_set_layout_format("i: {l}\\tcount: {c}\\tratio: {r}  end"));
+	assert_true(cfg_set_layout_format("i: {l}\\ncount:\\t{c}\\rratio:\\v{r}   end"));
 
-	// TODO #21 this is not correct - it looks like the static desc in description_info is not being cleared or a \0 is not appended
-	assert_str_equal(description_info(&demand, &tag), "i: ├─┤ ├─┤\tcount: 3\tratio: 0.5  end5  end");
+	assert_str_equal(description_info(&demand, &tag), "i: ├─┤ ├─┤\ncount:\t3\rratio:\v0.5   end");
 }
 
 int main(void) {

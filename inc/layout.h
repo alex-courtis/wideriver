@@ -21,7 +21,7 @@ struct Box {
 	uint32_t height;
 };
 
-// return a river layout name, caller frees
+// return a river layout name
 const char *layout_description(const struct Demand *demand, const struct Tag *tag);
 
 // populate views with Box for river layout push dimensions, caller frees

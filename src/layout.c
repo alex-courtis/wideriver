@@ -135,6 +135,9 @@ const char *description_info(const struct Demand* const demand, const struct Tag
 			escaped = 0;
 	}
 
+	// terminate the string
+	desc[j] = '\0';
+
 	return desc;
 }
 
