@@ -210,6 +210,7 @@ void args_cli(int argc, char **argv) {
 	log_info("--border-color-focused         %s", cfg->border_color_focused);
 	log_info("--border-color-focused-monocle %s", cfg->border_color_focused_monocle);
 	log_info("--border-color-unfocused       %s", cfg->border_color_unfocused);
+	log_info("--layout-format                %s", cfg->layout_format);
 	log_info("--log-threshold                %s", log_threshold_name(log_get_threshold()));
 }
 
