@@ -56,6 +56,7 @@
       buildInputs = with pkgs; [
         clang
         clang-tools  # Includes clangd
+		cppcheck
 		cmocka
 		include-what-you-use
 		valgrind
