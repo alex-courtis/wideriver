@@ -31,6 +31,7 @@ enum LayoutFormatElem {
 	LAYOUT = 'l',
 	COUNT = 'c',
 	RATIO = 'r',
+	NAME = 'n',
 };
 
 #define DEFAULT_LAYOUT_FORMAT "{l}"

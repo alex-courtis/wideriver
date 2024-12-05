@@ -203,10 +203,11 @@ bool cfg_set_layout_format(const char *s) {
 			in_brackets = true;
 		else if (s[i] == '}' && escaped == 0 && in_brackets) {
 			if ((s[i-1] != LAYOUT &&
-				s[i-1] != COUNT  &&
-				s[i-1] != RATIO) ||
-				s[i-2] != '{'
-			) {
+						s[i-1] != COUNT   &&
+						s[i-1] != NAME    &&
+						s[i-1] != RATIO) ||
+					s[i-2] != '{'
+			   ) {
 				return false;
 			}
 			in_brackets = false;

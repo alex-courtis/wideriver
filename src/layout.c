@@ -56,8 +56,28 @@ const char *layout_image(const struct Demand* const demand, const struct Tag* co
 	return desc;
 }
 
-// nix run .#wideriver -- --layout left --ratio-master 0.5 --count-wide-left 0 --border-width 3 --border-color-focused 0xe0def4 --border-color-unfocused 0x6e6a86 --layout-format "{r}\n{l}\n{c}"
 const char *description_info(const struct Demand* const demand, const struct Tag* const tag) {
+	char name[8] = "";
+	switch (tag->layout_cur) {
+		case LEFT:
+			snprintf(name, sizeof(name), "left");
+			break;
+		case RIGHT:
+			snprintf(name, sizeof(name), "right");
+			break;
+		case TOP:
+			snprintf(name, sizeof(name), "top");
+			break;
+		case BOTTOM:
+			snprintf(name, sizeof(name), "bottom");
+			break;
+		case WIDE:
+			snprintf(name, sizeof(name), "wide");
+			break;
+		case MONOCLE:
+			snprintf(name, sizeof(name), "monocle");
+			break;
+	}
 	double ratio = 0;
 	unsigned int count = 0;
 	const char *image = layout_image(demand, tag);
@@ -121,6 +141,8 @@ const char *description_info(const struct Demand* const demand, const struct Tag
 				case LAYOUT:
 					j += snprintf(desc+j, sizeof(desc)-j, "%s", image);
 					break;
+				case NAME:
+					j += snprintf(desc+j, sizeof(desc)-j, "%s", name);
 			}
 			in_brackets = false;
 		} else if (cfg->layout_format[i] ==  '\\' && !in_brackets)
