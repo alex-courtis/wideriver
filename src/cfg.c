@@ -220,7 +220,7 @@ bool cfg_set_layout_format(const char *s) {
 			escaped = 0;
 	}
 
-	strcpy(c.layout_format, s);
+	strncpy(c.layout_format, s, sizeof(c.layout_format));
 	return true;
 }
 

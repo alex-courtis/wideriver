@@ -56,7 +56,10 @@ const char *layout_image(const struct Demand* const demand, const struct Tag* co
 	return desc;
 }
 
-const char *description_info(const struct Demand* const demand, const struct Tag* const tag) {
+const char *layout_description(const struct Demand* const demand, const struct Tag* const tag) {
+	if (!demand || !tag)
+		return "";
+
 	char name[8] = "";
 	switch (tag->layout_cur) {
 		case LEFT:
@@ -158,43 +161,6 @@ const char *description_info(const struct Demand* const demand, const struct Tag
 	}
 
 	return desc;
-}
-
-const char *description_debug(const struct Demand* const demand, const struct Tag* const tag) {
-	static char desc[128];
-
-	switch(tag->layout_cur) {
-		case LEFT:
-		case RIGHT:
-		case TOP:
-		case BOTTOM:
-			snprintf(desc, sizeof(desc), "%s %u %g ", description_info(demand, tag), tag->count_master, tag->ratio_master);
-			break;
-		case WIDE:
-			snprintf(desc, sizeof(desc), "%s %u %g ", description_info(demand, tag), tag->count_wide_left, tag->ratio_wide);
-			break;
-		case MONOCLE:
-			snprintf(desc, sizeof(desc), "%s", description_info(demand, tag));
-			break;
-	}
-
-	return desc;
-}
-
-const char *layout_description(const struct Demand* const demand, const struct Tag* const tag) {
-
-	if (!demand || !tag)
-		return "";
-
-	switch (log_get_threshold()) {
-		case DEBUG:
-			return description_debug(demand, tag);
-		case INFO:
-		case WARNING:
-		case ERROR:
-		default:
-			return description_info(demand, tag);
-	}
 }
 
 struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
