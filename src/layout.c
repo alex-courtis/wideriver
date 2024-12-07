@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 #include <stdio.h>
 
 #include "river-layout-v3.h"
@@ -8,10 +9,11 @@
 #include "log.h"
 #include "slist.h"
 #include "tag.h"
+#include "cfg.h"
 
 #include "layout.h"
 
-const char *description_info(const struct Demand* const demand, const struct Tag* const tag) {
+const char *layout_image(const struct Demand* const demand, const struct Tag* const tag) {
 	static char desc[20];
 
 	switch(tag->layout_cur) {
@@ -54,41 +56,114 @@ const char *description_info(const struct Demand* const demand, const struct Tag
 	return desc;
 }
 
-const char *description_debug(const struct Demand* const demand, const struct Tag* const tag) {
-	static char desc[128];
+const char *layout_description(const struct Demand* const demand, const struct Tag* const tag) {
+	if (!demand || !tag)
+		return "";
 
+	char name[8] = "";
+	switch (tag->layout_cur) {
+		case LEFT:
+			snprintf(name, sizeof(name), "left");
+			break;
+		case RIGHT:
+			snprintf(name, sizeof(name), "right");
+			break;
+		case TOP:
+			snprintf(name, sizeof(name), "top");
+			break;
+		case BOTTOM:
+			snprintf(name, sizeof(name), "bottom");
+			break;
+		case WIDE:
+			snprintf(name, sizeof(name), "wide");
+			break;
+		case MONOCLE:
+			snprintf(name, sizeof(name), "monocle");
+			break;
+	}
+	double ratio = 0;
+	unsigned int count = 0;
+	const char *image = layout_image(demand, tag);
 	switch(tag->layout_cur) {
 		case LEFT:
 		case RIGHT:
 		case TOP:
 		case BOTTOM:
-			snprintf(desc, sizeof(desc), "%s %u %g ", description_info(demand, tag), tag->count_master, tag->ratio_master);
+			count = tag->count_master;
+			ratio = tag->ratio_master;
 			break;
 		case WIDE:
-			snprintf(desc, sizeof(desc), "%s %u %g ", description_info(demand, tag), tag->count_wide_left, tag->ratio_wide);
+			count = tag->count_wide_left;
+			ratio = tag->ratio_wide;
 			break;
 		case MONOCLE:
-			snprintf(desc, sizeof(desc), "%s", description_info(demand, tag));
+			count = demand->view_count;
+			ratio = 1.0;
 			break;
 	}
 
-	return desc;
-}
+	static char desc[LAYOUT_FORMAT_LEN+5];
+	int j = 0;
+	int escaped = 0;
+	bool in_brackets = false;
+	for (int i = 0; cfg->layout_format[i] != '\0'; i++) {
+		if (escaped > 0) {
+			switch (cfg->layout_format[i]) {
+				case 'n':
+					desc[j] = '\n';
+					break;
+				case 't':
+					desc[j] = '\t';
+					break;
+				case 'r':
+					desc[j] = '\r';
+					break;
+				case 'v':
+					desc[j] = '\v';
+					break;
+				case '{':
+					desc[j] = '{';
+					break;
+				case '}':
+					desc[j] = '}';
+					break;
+				default:
+					break;
+			}
+			j++;
+		} else if (cfg->layout_format[i] == '{')
+			in_brackets = true;
+		else if (cfg->layout_format[i] == '}' && in_brackets) {
+			switch (cfg->layout_format[i-1]) {
+				case RATIO:
+					j += snprintf(desc+j, sizeof(desc)-j, "%g", ratio);
+					break;
+				case COUNT:
+					j += snprintf(desc+j, sizeof(desc)-j, "%u", count);
+					break;
+				case LAYOUT:
+					j += snprintf(desc+j, sizeof(desc)-j, "%s", image);
+					break;
+				case NAME:
+					j += snprintf(desc+j, sizeof(desc)-j, "%s", name);
+			}
+			in_brackets = false;
+		} else if (cfg->layout_format[i] ==  '\\' && !in_brackets)
+			escaped = 2;
+		else if (!in_brackets) {
+			desc[j] = cfg->layout_format[i];
+			j++;
+		}
 
-const char *layout_description(const struct Demand* const demand, const struct Tag* const tag) {
-
-	if (!demand || !tag)
-		return "";
-
-	switch (log_get_threshold()) {
-		case DEBUG:
-			return description_debug(demand, tag);
-		case INFO:
-		case WARNING:
-		case ERROR:
-		default:
-			return description_info(demand, tag);
+		escaped -= 1;
+		if (escaped < 0)
+			escaped = 0;
 	}
+
+	// terminate the string
+	desc[j] = '\0';
+
+	return desc;
 }
 
 struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
