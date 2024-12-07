@@ -160,6 +160,9 @@ const char *layout_description(const struct Demand* const demand, const struct T
 			escaped = 0;
 	}
 
+	// terminate the string
+	desc[j] = '\0';
+
 	return desc;
 }
 

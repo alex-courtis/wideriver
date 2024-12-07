@@ -69,7 +69,7 @@ doc: wideriver
 #
 iwyu: override CC = $(IWYU) -Xiwyu --check_also="inc/*h"
 iwyu: clean $(SRC_O) $(TST_O)
-IWYU = include-what-you-use -Xiwyu --no_fwd_decls -Xiwyu --error=1 -Xiwyu --verbose=3
+IWYU = include-what-you-use -Xiwyu --no_fwd_decls -Xiwyu --error=1 -Xiwyu --verbose=3 -Xiwyu --mapping_file=.iwyu.mappings
 
 #
 # cppcheck

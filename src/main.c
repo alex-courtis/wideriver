@@ -6,8 +6,6 @@
 #include <sys/signalfd.h>
 #include <unistd.h>
 #include <wayland-client-core.h>
-#include "asm-generic/errno-base.h"
-#include "sys/poll.h"
 
 #include "args.h"
 #include "displ.h"

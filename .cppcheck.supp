@@ -1,3 +1,8 @@
+unusedFunction:pro/*.h
+
 unusedFunction:tst/asserts.h
 unusedFunction:tst/util.c
 unusedFunction:tst/wrap-*.c
+
+# TODO use --check-level=exhaustive once available in CI
+normalCheckLevelMaxBranches
