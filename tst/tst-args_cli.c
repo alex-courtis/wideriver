@@ -32,7 +32,7 @@ int after_each(void **state) {
 }
 
 void args_parse_cli__valid(void **state) {
-	int argc = 34;
+	int argc = 36;
 	char *argv[] = { "dummy",
 		"--layout", "left",
 		"--layout-alt", "right",
@@ -51,6 +51,7 @@ void args_parse_cli__valid(void **state) {
 		"--border-color-focused-monocle", "0xDDEEFFA9",
 		"--border-color-unfocused", "0x001122",
 		"--log-threshold", "ERROR",
+		"--layout-format", "{l} {r} {c}",
 	};
 
 	args_cli(argc, argv);
@@ -71,6 +72,7 @@ void args_parse_cli__valid(void **state) {
 	assert_str_equal(cfg->border_color_focused, "0xAABBCC");
 	assert_str_equal(cfg->border_color_focused_monocle, "0xDDEEFFA9");
 	assert_str_equal(cfg->border_color_unfocused, "0x001122");
+	assert_str_equal(cfg->layout_format, "{l} {r} {c}");
 
 	assert_log(INFO,
 			"--layout                       left\n"
@@ -89,6 +91,7 @@ void args_parse_cli__valid(void **state) {
 			"--border-color-focused         0xAABBCC\n"
 			"--border-color-focused-monocle 0xDDEEFFA9\n"
 			"--border-color-unfocused       0x001122\n"
+			"--layout-format                {l} {r} {c}\n"
 			"--log-threshold                error\n"
 			);
 }
@@ -288,6 +291,19 @@ void args_parse_cli__bad_border_color_unfocused(void **state) {
 	assert_log(ERROR, "invalid --border-color-unfocused 'bar'\n\n");
 }
 
+void args_parse_cli__bad_layout_format(void **state) {
+	int argc = 3;
+	char *argv[] = { "dummy",
+		"--layout-format", "{foo} {c} {r}",
+	};
+
+	expect_value(__wrap_usage, status, EXIT_FAILURE);
+
+	args_cli(argc, argv);
+
+	assert_log(ERROR, "invalid --layout-format '{foo} {c} {r}'\n\n");
+}
+
 void args_parse_cli__bad_log_threshold(void **state) {
 	int argc = 3;
 	char *argv[] = { "dummy",
@@ -319,6 +335,7 @@ int main(void) {
 		TEST(args_parse_cli__bad_border_color_focused),
 		TEST(args_parse_cli__bad_border_color_focused_monocle),
 		TEST(args_parse_cli__bad_border_color_unfocused),
+		TEST(args_parse_cli__bad_layout_format),
 		TEST(args_parse_cli__bad_log_threshold),
 	};
 
