@@ -7,7 +7,7 @@
 #include <string.h>
 
 #include "enum.h"
-#include "util.h"
+#include "file.h"
 
 // 0 unused, 1 DEBUG, 4 ERROR
 static char b[5][262144] = { 0 };
