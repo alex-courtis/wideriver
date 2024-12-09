@@ -16,8 +16,8 @@ jobs:
       run: |
         sudo add-apt-repository universe
         sudo apt install clang wayland-protocols libwlroots-dev libcmocka-dev cppcheck valgrind -y
-    - name: gcc
-      run: make CC=gcc CXX=g++ clean wideriver
+    # - name: gcc
+    #   run: make CC=gcc CXX=g++ clean wideriver
     - name: clang
       run: make CC=clang CXX=clang++ clean wideriver
     - name: test

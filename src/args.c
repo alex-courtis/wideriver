@@ -34,6 +34,7 @@ static struct option cli_long_options[] = {
 	{ "help-defaults",                no_argument,       0, 0, }, // 18
 	{ "log-threshold",                required_argument, 0, 0, }, // 19
 	{ "version",                      no_argument,       0, 0, }, // 20
+	{ "layout-format",                required_argument, 0, 0, }, // 21
 	{ 0,                              0,                 0, 0, }
 };
 
@@ -179,6 +180,13 @@ void args_cli(int argc, char **argv) {
 				fprintf(stdout, "wideriver version %s\n", VERSION);
 				exit(EXIT_SUCCESS);
 				return;
+			case 21:
+				if (!cfg_set_layout_format(optarg)) {
+					log_error("invalid --layout-format '%s'\n", optarg);
+					usage(EXIT_FAILURE);
+					return;
+				}
+				break;
 			default:
 				fprintf(stderr, "\n");
 				usage(EXIT_FAILURE);
@@ -202,6 +210,7 @@ void args_cli(int argc, char **argv) {
 	log_info("--border-color-focused         %s", cfg->border_color_focused);
 	log_info("--border-color-focused-monocle %s", cfg->border_color_focused_monocle);
 	log_info("--border-color-unfocused       %s", cfg->border_color_unfocused);
+	log_info("--layout-format                %s", cfg->layout_format);
 	log_info("--log-threshold                %s", log_threshold_name(log_get_threshold()));
 }
 
