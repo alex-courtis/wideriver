@@ -9,6 +9,7 @@
 #include "enum.h"
 #include "log.h"
 #include "slist.h"
+#include "stable.h"
 #include "tag.h"
 #include "cfg.h"
 #include "util.h"
@@ -16,41 +17,41 @@
 #include "layout.h"
 
 const char *layout_image(const struct Demand* const demand, const struct Tag* const tag) {
-	static char desc[20];
+	static char image[20];
 
 	switch(tag->layout_cur) {
 		case LEFT:
 			if (tag->count_master == 0 ) {
-				snprintf(desc, sizeof(desc), "│├──┤");
+				snprintf(image, sizeof(image), "│├──┤");
 			} else {
-				snprintf(desc, sizeof(desc), "│ ├─┤");
+				snprintf(image, sizeof(image), "│ ├─┤");
 			}
 			break;
 		case RIGHT:
 			if (tag->count_master == 0 ) {
-				snprintf(desc, sizeof(desc), "├──┤│");
+				snprintf(image, sizeof(image), "├──┤│");
 			} else {
-				snprintf(desc, sizeof(desc), "├─┤ │");
+				snprintf(image, sizeof(image), "├─┤ │");
 			}
 			break;
 		case TOP:
-			snprintf(desc, sizeof(desc), "├─┬─┤");
+			snprintf(image, sizeof(image), "├─┬─┤");
 			break;
 		case BOTTOM:
-			snprintf(desc, sizeof(desc), "├─┴─┤");
+			snprintf(image, sizeof(image), "├─┴─┤");
 			break;
 		case MONOCLE:
 			if (demand->view_count > 1) {
-				snprintf(desc, sizeof(desc), "│ %u │", demand->view_count);
+				snprintf(image, sizeof(image), "│ %u │", demand->view_count);
 			} else {
-				snprintf(desc, sizeof(desc), "│   │");
+				snprintf(image, sizeof(image), "│   │");
 			}
 			break;
 		case WIDE:
 			if (tag->count_wide_left == 0) {
-				snprintf(desc, sizeof(desc), "││  ├─┤");
+				snprintf(image, sizeof(image), "││  ├─┤");
 			} else {
-				snprintf(desc, sizeof(desc), "├─┤ ├─┤");
+				snprintf(image, sizeof(image), "├─┤ ├─┤");
 			}
 			break;
 		default:
@@ -58,57 +59,69 @@ const char *layout_image(const struct Demand* const demand, const struct Tag* co
 			break;
 	}
 
-	return desc;
+	return image;
 }
 
 const char *layout_description(const struct Demand* const demand, const struct Tag* const tag) {
 	if (!demand || !tag)
 		return "";
 
-	char count[10] = "{c}";
-	char ratio[10] = "{r}";
+	const struct STable *replacements = stable_init(8, 8, true);
+	stable_put(replacements, "\\n", "\n");
+	stable_put(replacements, "\\t", "\t");
+	stable_put(replacements, "\\r", "\r");
+	stable_put(replacements, "\\v", "\v");
+
+	// layout details
+	char ratio[4], count[3];
 	switch(tag->layout_cur) {
 		case LEFT:
 		case RIGHT:
 		case TOP:
 		case BOTTOM:
-			snprintf(count, 10, "%d", tag->count_master);
-			snprintf(ratio, 10, "%g", tag->ratio_master);
+			snprintf(count, sizeof(count), "%u", tag->count_master);
+			stable_put(replacements, "{c}", count);
+
+			snprintf(ratio, sizeof(ratio), "%g", tag->ratio_master);
+			stable_put(replacements, "{r}", ratio);
 			break;
 		case WIDE:
-			snprintf(count, 10, "%d", tag->count_wide_left);
-			snprintf(ratio, 10, "%g", tag->ratio_wide);
+			snprintf(count, sizeof(count), "%u", tag->count_wide_left);
+			stable_put(replacements, "{c}", count);
+
+			snprintf(ratio, sizeof(ratio), "%g", tag->ratio_wide);
+			stable_put(replacements, "{r}", ratio);
 			break;
 		case MONOCLE:
-			snprintf(count, 10, "%d", demand->view_count);
-			snprintf(ratio, 10, "%g", 1.0);
+			snprintf(count, sizeof(count), "%u", demand->view_count);
+			stable_put(replacements, "{c}", count);
+
+			stable_put(replacements, "{r}", "1");
 			break;
 		default:
 			break;
 	}
 
-	const char *image = layout_image(demand, tag);
-	const char *name = layout_name(tag->layout_cur);
+	// layout
+	stable_put(replacements, "{l}", layout_image(demand, tag));
+	stable_put(replacements, "{n}", layout_name(tag->layout_cur));
 
+	// perform all replacements
+	char *res = strdup(cfg->layout_format);
+	for (const struct STableIter *i = stable_iter(replacements); i; i = stable_next(i)) {
+		if (i->val) {
+			char *next = string_replace(res, i->key, i->val);
+			free(res);
+			res = next;
+		}
+	}
+
+	// populate the output
 	static char desc[LAYOUT_FORMAT_LEN + 5];
+	strncpy(desc, res, LAYOUT_FORMAT_LEN + 5);
+	free(res);
 
-	char *counted, *ratioed, *imaged, *named;
-	char *escaped_n, *escaped_t, *escaped_r, *escaped_v;
-
-	counted = string_replace(cfg->layout_format, "{c}", count);
-	ratioed = string_replace(counted, "{r}", ratio);
-	imaged = string_replace(ratioed, "{l}", image ? image : "{l}");
-	named = string_replace(imaged, "{n}", name ? name : "{n}");
-
-	escaped_n = string_replace(named, "\\n", "\n");
-	escaped_t = string_replace(escaped_n, "\\t", "\t");
-	escaped_r = string_replace(escaped_t, "\\r", "\r");
-	escaped_v = string_replace(escaped_r, "\\v", "\v");
-
-	strncpy(desc, escaped_v, LAYOUT_FORMAT_LEN + 5);
-
-	free(counted); free(ratioed); free(imaged); free(named);
-	free(escaped_n); free(escaped_t); free(escaped_r); free(escaped_v);
+	stable_free(replacements);
 
 	return desc;
 }
