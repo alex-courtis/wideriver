@@ -82,41 +82,51 @@ void layout_image__monocle(void **state) {
 	assert_str_equal(layout_image(&demand2, &tag), "│ 2 │");
 }
 
+void layout_image__invalid(void **state) {
+	struct Tag tag = { .layout_cur = 0, };
+
+	struct Demand demand1 = { .view_count = 1 };
+	assert_nul(layout_image(&demand1, &tag));
+
+	struct Demand demand2 = { .view_count = 2 };
+	assert_nul(layout_image(&demand2, &tag));
+}
+
 void layout_description_info__none(void **state) {
 	struct Demand demand = { 0 };
 	struct Tag tag = { 0 };
 
-	assert_true(cfg_set_layout_format("foo"));
+	assert_true(cfg_set_layout_format("{c}{l}{r}{n}"));
 
-	assert_str_equal(layout_description(&demand, &tag), "foo");
+	assert_str_equal(layout_description(&demand, &tag), "{c}{l}{r}{n}");
 }
 
 void layout_description_info__monocle(void **state) {
 	struct Demand demand = { .view_count = 9, };
 	struct Tag tag = { .layout_cur = MONOCLE, };
 
-	assert_true(cfg_set_layout_format("image: {l}  count: {c}  ratio: {r}  end"));
+	assert_true(cfg_set_layout_format("image: {l}  count: {c}  ratio: {r}  name: {n}  end"));
 
 	// TODO #21 remove the monocle count
-	assert_str_equal(layout_description(&demand, &tag), "image: │ 9 │  count: 9  ratio: 1  end");
+	assert_str_equal(layout_description(&demand, &tag), "image: │ 9 │  count: 9  ratio: 1  name: monocle  end");
 }
 
 void layout_description_info__lrtb(void **state) {
 	struct Demand demand = { .view_count = 9, };
 	struct Tag tag = { .layout_cur = LEFT, .count_master = 2, .count_wide_left = 3, .ratio_master = 0.4, .ratio_wide = 0.5, };
 
-	assert_true(cfg_set_layout_format("image: {l}  count: {c}  ratio: {r}  end"));
+	assert_true(cfg_set_layout_format("image: {l}  count: {c}  ratio: {r}  name: {n}  end"));
 
-	assert_str_equal(layout_description(&demand, &tag), "image: │ ├─┤  count: 2  ratio: 0.4  end");
+	assert_str_equal(layout_description(&demand, &tag), "image: │ ├─┤  count: 2  ratio: 0.4  name: left  end");
 }
 
 void layout_description_info__wide(void **state) {
 	struct Demand demand = { .view_count = 9, };
 	struct Tag tag = { .layout_cur = WIDE, .count_master = 2, .count_wide_left = 3, .ratio_master = 0.4, .ratio_wide = 0.5, };
 
-	assert_true(cfg_set_layout_format("image: {l}  count: {c}  ratio: {r}  end"));
+	assert_true(cfg_set_layout_format("image: {l}  count: {c}  ratio: {r}  name: {n}  end"));
 
-	assert_str_equal(layout_description(&demand, &tag), "image: ├─┤ ├─┤  count: 3  ratio: 0.5  end");
+	assert_str_equal(layout_description(&demand, &tag), "image: ├─┤ ├─┤  count: 3  ratio: 0.5  name: wide  end");
 }
 
 void layout_description_info__invalids(void **state) {
@@ -126,8 +136,7 @@ void layout_description_info__invalids(void **state) {
 	// manually set an invalid layout
 	strcpy(((struct Cfg*)cfg)->layout_format,            "image: {foo}  count: {c c} ratio: {rATIO}  end");
 
-	// TODO #21 this is not correct; count should not be substituted
-	assert_str_equal(layout_description(&demand, &tag),    "image:   count: 3 ratio:   end");
+	assert_str_equal(layout_description(&demand, &tag),    "image: {foo}  count: {c c} ratio: {rATIO}  end");
 }
 
 void layout_description_info__escapes(void **state) {
@@ -147,6 +156,7 @@ int main(void) {
 		TEST(layout_image__bottom),
 		TEST(layout_image__wide),
 		TEST(layout_image__monocle),
+		TEST(layout_image__invalid),
 
 		TEST(layout_description_info__none),
 		TEST(layout_description_info__monocle),

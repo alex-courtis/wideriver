@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "river-layout-v3.h"
 
@@ -10,6 +11,7 @@
 #include "slist.h"
 #include "tag.h"
 #include "cfg.h"
+#include "util.h"
 
 #include "layout.h"
 
@@ -51,6 +53,9 @@ const char *layout_image(const struct Demand* const demand, const struct Tag* co
 				snprintf(desc, sizeof(desc), "├─┤ ├─┤");
 			}
 			break;
+		default:
+			return NULL;
+			break;
 	}
 
 	return desc;
@@ -60,108 +65,50 @@ const char *layout_description(const struct Demand* const demand, const struct T
 	if (!demand || !tag)
 		return "";
 
-	char name[8] = "";
-	switch (tag->layout_cur) {
-		case LEFT:
-			snprintf(name, sizeof(name), "left");
-			break;
-		case RIGHT:
-			snprintf(name, sizeof(name), "right");
-			break;
-		case TOP:
-			snprintf(name, sizeof(name), "top");
-			break;
-		case BOTTOM:
-			snprintf(name, sizeof(name), "bottom");
-			break;
-		case WIDE:
-			snprintf(name, sizeof(name), "wide");
-			break;
-		case MONOCLE:
-			snprintf(name, sizeof(name), "monocle");
-			break;
-	}
-	double ratio = 0;
-	unsigned int count = 0;
-	const char *image = layout_image(demand, tag);
+	char count[10] = "{c}";
+	char ratio[10] = "{r}";
 	switch(tag->layout_cur) {
 		case LEFT:
 		case RIGHT:
 		case TOP:
 		case BOTTOM:
-			count = tag->count_master;
-			ratio = tag->ratio_master;
+			snprintf(count, 10, "%d", tag->count_master);
+			snprintf(ratio, 10, "%g", tag->ratio_master);
 			break;
 		case WIDE:
-			count = tag->count_wide_left;
-			ratio = tag->ratio_wide;
+			snprintf(count, 10, "%d", tag->count_wide_left);
+			snprintf(ratio, 10, "%g", tag->ratio_wide);
 			break;
 		case MONOCLE:
-			count = demand->view_count;
-			ratio = 1.0;
+			snprintf(count, 10, "%d", demand->view_count);
+			snprintf(ratio, 10, "%g", 1.0);
+			break;
+		default:
 			break;
 	}
 
-	static char desc[LAYOUT_FORMAT_LEN+5];
-	int j = 0;
-	int escaped = 0;
-	bool in_brackets = false;
-	for (int i = 0; cfg->layout_format[i] != '\0'; i++) {
-		if (escaped > 0) {
-			switch (cfg->layout_format[i]) {
-				case 'n':
-					desc[j] = '\n';
-					break;
-				case 't':
-					desc[j] = '\t';
-					break;
-				case 'r':
-					desc[j] = '\r';
-					break;
-				case 'v':
-					desc[j] = '\v';
-					break;
-				case '{':
-					desc[j] = '{';
-					break;
-				case '}':
-					desc[j] = '}';
-					break;
-				default:
-					break;
-			}
-			j++;
-		} else if (cfg->layout_format[i] == '{')
-			in_brackets = true;
-		else if (cfg->layout_format[i] == '}' && in_brackets) {
-			switch (cfg->layout_format[i-1]) {
-				case RATIO:
-					j += snprintf(desc+j, sizeof(desc)-j, "%g", ratio);
-					break;
-				case COUNT:
-					j += snprintf(desc+j, sizeof(desc)-j, "%u", count);
-					break;
-				case LAYOUT:
-					j += snprintf(desc+j, sizeof(desc)-j, "%s", image);
-					break;
-				case NAME:
-					j += snprintf(desc+j, sizeof(desc)-j, "%s", name);
-			}
-			in_brackets = false;
-		} else if (cfg->layout_format[i] ==  '\\' && !in_brackets)
-			escaped = 2;
-		else if (!in_brackets) {
-			desc[j] = cfg->layout_format[i];
-			j++;
-		}
+	const char *image = layout_image(demand, tag);
+	const char *name = layout_name(tag->layout_cur);
 
-		escaped -= 1;
-		if (escaped < 0)
-			escaped = 0;
-	}
+	static char desc[LAYOUT_FORMAT_LEN + 5];
 
-	// terminate the string
-	desc[j] = '\0';
+	char *counted, *ratioed, *imaged, *named;
+	char *escaped_n, *escaped_t, *escaped_r, *escaped_v;
+
+	counted = string_replace(cfg->layout_format, "{c}", count);
+	ratioed = string_replace(counted, "{r}", ratio);
+	imaged = string_replace(ratioed, "{l}", image ? image : "{l}");
+	named = string_replace(imaged, "{n}", name ? name : "{n}");
+
+	escaped_n = string_replace(named, "\\n", "\n");
+	escaped_t = string_replace(escaped_n, "\\t", "\t");
+	escaped_r = string_replace(escaped_t, "\\r", "\r");
+	escaped_v = string_replace(escaped_r, "\\v", "\v");
+
+	strncpy(desc, escaped_v, LAYOUT_FORMAT_LEN + 5);
+
+	free(counted); free(ratioed); free(imaged); free(named);
+	free(escaped_n); free(escaped_t); free(escaped_r); free(escaped_v);
 
 	return desc;
 }
