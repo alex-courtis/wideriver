@@ -22,7 +22,8 @@ struct Box {
 };
 
 // return a river layout name
-const char *layout_description(const struct Demand *demand, const struct Tag *tag);
+// caller frees
+char *layout_description(const struct Demand *demand, const struct Tag *tag);
 
 // populate views with Box for river layout push dimensions, caller frees
 struct SList *layout(const struct Demand *demand, const struct Tag *tag);
@@ -31,7 +32,8 @@ struct SList *layout(const struct Demand *demand, const struct Tag *tag);
 void push(const struct SList *views, struct river_layout_v3 *river_layout_v3, const uint32_t serial);
 
 // layout image
-const char *layout_image(const struct Demand* const demand, const struct Tag* const tag);
+// caller frees
+char *layout_image(const struct Demand* const demand, const struct Tag* const tag);
 
 // fully rendered layout
 const char *description_info(const struct Demand* const demand, const struct Tag* const tag);

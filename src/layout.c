@@ -16,56 +16,58 @@
 
 #include "layout.h"
 
-const char *layout_image(const struct Demand* const demand, const struct Tag* const tag) {
-	static char image[20];
+char *layout_image(const struct Demand* const demand, const struct Tag* const tag) {
+	char *image = calloc(20, sizeof(char));
 
 	switch(tag->layout_cur) {
 		case LEFT:
 			if (tag->count_master == 0 ) {
-				snprintf(image, sizeof(image), "│├──┤");
+				snprintf(image, 20, "│├──┤");
 			} else {
-				snprintf(image, sizeof(image), "│ ├─┤");
+				snprintf(image, 20, "│ ├─┤");
 			}
 			break;
 		case RIGHT:
 			if (tag->count_master == 0 ) {
-				snprintf(image, sizeof(image), "├──┤│");
+				snprintf(image, 20, "├──┤│");
 			} else {
-				snprintf(image, sizeof(image), "├─┤ │");
+				snprintf(image, 20, "├─┤ │");
 			}
 			break;
 		case TOP:
-			snprintf(image, sizeof(image), "├─┬─┤");
+			snprintf(image, 20, "├─┬─┤");
 			break;
 		case BOTTOM:
-			snprintf(image, sizeof(image), "├─┴─┤");
+			snprintf(image, 20, "├─┴─┤");
 			break;
 		case MONOCLE:
 			if (demand->view_count > 1) {
-				snprintf(image, sizeof(image), "│ %u │", demand->view_count);
+				snprintf(image, 20, "│ %u │", demand->view_count);
 			} else {
-				snprintf(image, sizeof(image), "│   │");
+				snprintf(image, 20, "│   │");
 			}
 			break;
 		case WIDE:
 			if (tag->count_wide_left == 0) {
-				snprintf(image, sizeof(image), "││  ├─┤");
+				snprintf(image, 20, "││  ├─┤");
 			} else {
-				snprintf(image, sizeof(image), "├─┤ ├─┤");
+				snprintf(image, 20, "├─┤ ├─┤");
 			}
 			break;
 		default:
-			return NULL;
+			free(image);
+			image = NULL;
 			break;
 	}
 
 	return image;
 }
 
-const char *layout_description(const struct Demand* const demand, const struct Tag* const tag) {
+char *layout_description(const struct Demand* const demand, const struct Tag* const tag) {
 	if (!demand || !tag)
 		return "";
 
+	// escapes
 	const struct STable *replacements = stable_init(8, 8, true);
 	stable_put(replacements, "\\n", "\n");
 	stable_put(replacements, "\\t", "\t");
@@ -73,7 +75,7 @@ const char *layout_description(const struct Demand* const demand, const struct T
 	stable_put(replacements, "\\v", "\v");
 
 	// layout details
-	char ratio[4], count[3];
+	char ratio[13], count[3];
 	switch(tag->layout_cur) {
 		case LEFT:
 		case RIGHT:
@@ -102,25 +104,26 @@ const char *layout_description(const struct Demand* const demand, const struct T
 			break;
 	}
 
-	// layout
-	stable_put(replacements, "{l}", layout_image(demand, tag));
-	stable_put(replacements, "{n}", layout_name(tag->layout_cur));
-
-	// perform all replacements
-	char *res = strdup(cfg->layout_format);
-	for (const struct STableIter *i = stable_iter(replacements); i; i = stable_next(i)) {
-		if (i->val) {
-			char *next = string_replace(res, i->key, i->val);
-			free(res);
-			res = next;
-		}
+	// layout info
+	char *image = layout_image(demand, tag);
+	if (image) {
+		stable_put(replacements, "{l}", image);
 	}
 
-	// populate the output
-	static char desc[LAYOUT_FORMAT_LEN + 5];
-	strncpy(desc, res, LAYOUT_FORMAT_LEN + 5);
-	free(res);
+	const char *name = layout_name(tag->layout_cur);
+	if (name) {
+		stable_put(replacements, "{n}", name);
+	}
 
+	// perform all replacements
+	char *desc = strdup(cfg->layout_format);
+	for (const struct STableIter *i = stable_iter(replacements); i; i = stable_next(i)) {
+		char *next = string_replace(desc, i->key, i->val);
+		free(desc);
+		desc = next;
+	}
+
+	free(image);
 	stable_free(replacements);
 
 	return desc;
