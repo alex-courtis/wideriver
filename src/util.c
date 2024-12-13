@@ -31,17 +31,20 @@ char *string_replace(const char * const src, const char * const target, const ch
 	while ((match = strstr(s, target))) {
 
 		// copy up to match
-		r = stpncpy(r, s, match - s);
+		memcpy(r, s, match - s);
+		r += match - s;
 
 		// copy replacement
-		r = stpncpy(r, replacement, len_replacement);
+		memcpy(r, replacement, len_replacement);
+		r += len_replacement;
 
 		// advance src to after match
 		s = match + len_target;
 	}
 
-	// copy remainder
-	r = stpncpy(r, s, len_res - (r - res) - 1);
+	// copy remainder, ensuring terminated
+	memcpy(r, s, len_res - (r - res) - 1);
+	res[len_res - 1] = '\0';
 
 	return res;
 }
