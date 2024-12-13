@@ -4,7 +4,7 @@ PKGS_TST = cmocka
 CFLAGS += $(foreach p,$(PKGS_TST),$(shell pkg-config --cflags $(p)))
 LDLIBS += $(foreach p,$(PKGS_TST),$(shell pkg-config --libs $(p)))
 
-OBJS =  tst/util.o \
+OBJS =  tst/file.o \
 		$(patsubst %.c,%.o,$(wildcard tst/wrap-*.c)) \
 		$(filter-out src/main.o,$(SRC_O)) \
 		$(PRO_O) $(LIB_O)

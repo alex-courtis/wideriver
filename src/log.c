@@ -1,8 +1,8 @@
 #include <errno.h>
 #include <stdbool.h>
-#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 #include <time.h>
 
 #include "enum.h"

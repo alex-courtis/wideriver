@@ -27,6 +27,15 @@ enum LogThreshold {
 	LOG_THRESHOLD_DEFAULT = INFO,
 };
 
+enum LayoutFormatElem {
+	LAYOUT = 'l',
+	COUNT = 'c',
+	RATIO = 'r',
+	NAME = 'n',
+};
+
+#define DEFAULT_LAYOUT_FORMAT "{l}"
+
 const char *layout_name(const enum Layout layout);
 enum Layout layout_val(const char *name);
 
