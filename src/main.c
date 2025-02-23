@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/signalfd.h>
 #include <unistd.h>
 #include <wayland-client-core.h>
@@ -82,7 +83,8 @@ int loop(void) {
 			// signal received: int, quit, term
 			struct signalfd_siginfo fdsi;
 			if (read(pfd_signal->fd, &fdsi, sizeof(fdsi)) == sizeof(fdsi)) {
-				return fdsi.ssi_signo;
+				log_info("Received signal %d %s", fdsi.ssi_signo, strsignal(fdsi.ssi_signo));
+				return EXIT_SUCCESS;
 			}
 		} else if (pfd_wayland->revents & pfd_wayland->events) {
 
@@ -118,7 +120,7 @@ int main(int argc, char **argv) {
 
 	rc = loop();
 
-	log_info("wideriver done");
+	log_info("wideriver done %d", rc);
 
 done:
 	displ_destroy();
