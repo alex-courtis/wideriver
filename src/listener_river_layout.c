@@ -25,11 +25,13 @@ static void layout_handle_layout_demand(void *data,
 		uint32_t serial) {
 	log_debug("demand:\tview_count:     %02u", view_count);
 	log_debug("demand:\tusable:         %ux%u", usable_width, usable_height);
-	log_debug("demand:\ttags:           0x%u", tags);
+	log_debug("demand:\ttags:           0x%x", tags);
 
 	struct Output *output = (struct Output*)data;
 	if (!output)
 		return;
+
+	log_debug("demand:\twl_output:      %p", output->wl_output);
 
 	const struct Demand demand = {
 		.view_count = view_count,
@@ -67,11 +69,11 @@ static void layout_handle_namespace_in_use(void *data,
 static void layout_handle_user_command_tags(void *data,
 		struct river_layout_v3 *river_layout_manager_v3,
 		uint32_t tags) {
-	log_debug("command:\ttags: 0x%ux", tags);
+	log_debug("command:\ttags: 0x%x", tags);
 
 	struct Output *output = (struct Output*)data;
 	if (!output) {
-		log_error("command:\ttags 0x%ux missing output", tags);
+		log_error("command:\ttags 0x%x missing output", tags);
 		return;
 	}
 
