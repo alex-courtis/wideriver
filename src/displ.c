@@ -172,11 +172,17 @@ void displ_destroy(void) {
 }
 
 void displ_request_style(const struct Output *output, const struct Tag *tag, const uint32_t view_count) {
+	log_debug("request:\tview_count:     %u", view_count);
+
 	if (!output || !tag)
 		return;
 
+	log_debug("request:\twl_output:      %p", output->wl_output);
+	log_debug("request:\twl_output_foc:  %p", d.wl_output_focused);
+
 	// output must be focused or no focus reported
 	if (d.wl_output_focused != output->wl_output && d.wl_output_focused) {
+		log_debug("request:\tnot focused or no focus reported");
 		return;
 	}
 

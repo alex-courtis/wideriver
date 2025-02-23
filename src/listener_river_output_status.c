@@ -14,7 +14,7 @@
 void output_status_handle_focused_tags(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1,
 		uint32_t tags) {
-	log_debug("status:\tfocused_tags:   0x%u", tags);
+	log_debug("status:\tfocused_tags:   0x%x", tags);
 }
 
 void output_status_handle_view_tags(void *data,
@@ -26,7 +26,7 @@ void output_status_handle_view_tags(void *data,
 void output_status_handle_urgent_tags(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1,
 		uint32_t tags) {
-	log_debug("status:\turgent_tags:    0x%u", tags);
+	log_debug("status:\turgent_tags:    0x%x", tags);
 }
 
 void output_status_handle_layout_name(void *data,

@@ -19,7 +19,7 @@ void handle_focused_output(void *data,
 
 	struct Displ *displ = data;
 
-	log_debug("seat:\tfocused_output");
+	log_debug("seat:\tfocused_out:    %p", output);
 
 	displ->wl_output_focused = output;
 }
@@ -27,7 +27,7 @@ void handle_focused_output(void *data,
 void handle_unfocused_output(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		struct wl_output *output) {
-	log_debug("seat:\tunfocused_output");
+	log_debug("seat:\tunfocused_out:  %p", output);
 }
 
 void handle_focused_view(void *data,
