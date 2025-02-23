@@ -1,6 +1,5 @@
-#include <unistd.h>
 #include <strings.h>
-
+#include <stddef.h>
 #include "enum.h"
 
 struct NameVal {

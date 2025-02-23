@@ -41,6 +41,8 @@
 
 #define BORDER_COLOR_UNFOCUSED_DEFAULT "0x586e75"
 
+#define LAYOUT_FORMAT_LEN 90
+
 // never null
 extern const struct Cfg * const cfg;
 
@@ -61,6 +63,7 @@ struct Cfg {
 	char border_color_focused[11];
 	char border_color_focused_monocle[11];
 	char border_color_unfocused[11];
+	char layout_format[LAYOUT_FORMAT_LEN];
 };
 
 // returns false if not valid
@@ -77,6 +80,7 @@ bool cfg_set_inner_gaps(const char *s);
 bool cfg_set_outer_gaps(const char *s);
 bool cfg_set_border_width(const char *s);
 bool cfg_set_border_width_monocle(const char *s);
+bool cfg_set_layout_format(const char *s);
 
 // returns false if not 0xRRGGBB
 bool cfg_set_border_color_focused(const char *s);

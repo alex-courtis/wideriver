@@ -48,13 +48,15 @@ static void layout_handle_layout_demand(void *data,
 	slist_free_vals(&boxes, NULL);
 
 	// river layout name
-	const char *layout_name = layout_description(&demand, tag);
+	char *layout_name = layout_description(&demand, tag);
 
 	// commit
 	river_layout_v3_commit(output->river_layout, layout_name, serial);
 
 	// maybe style
 	displ_request_style(output, tag, view_count);
+
+	free(layout_name);
 }
 
 static void layout_handle_namespace_in_use(void *data,
