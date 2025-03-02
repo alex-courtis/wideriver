@@ -8,8 +8,5 @@ unusedFunction:tst/wrap-*.c
 
 staticFunction:tst/*c
 
-# TODO use --check-level=exhaustive once available in CI
-normalCheckLevelMaxBranches
-
 # this is just not practical
 nullPointerOutOfMemory

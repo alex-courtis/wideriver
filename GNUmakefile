@@ -76,7 +76,12 @@ IWYU = include-what-you-use -Xiwyu --no_fwd_decls -Xiwyu --error=1 -Xiwyu --verb
 # cppcheck
 #
 cppcheck: $(SRC_H) $(SRC_C) $(TST_H) $(TST_C)
-	cppcheck $(^) --enable=warning,unusedFunction,performance,portability --suppressions-list=.cppcheck.supp --error-exitcode=1 $(CPPFLAGS)
+	cppcheck $(^)\
+		--enable=warning,unusedFunction,performance,portability \
+		--check-level=exhaustive \
+		--suppressions-list=.cppcheck.supp \
+		--error-exitcode=1 \
+		$(CPPFLAGS)
 
 #
 # valgrind
