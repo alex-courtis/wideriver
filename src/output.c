@@ -41,14 +41,14 @@ struct Output *output_init(struct wl_output *wl_output,
 		log_warn("Failed to create river layout, ignoring output.");
 		return NULL;
 	}
-	log_debug("wl_output:           river_layout_v3                             %p", river_layout);
+	log_debug_c_s("init:"); log_debug_c("output:"); log_debug_c("river_layout"); log_debug_c_e("%p", river_layout);
 
 	struct zriver_output_status_v1 *river_output_status = zriver_status_manager_v1_get_river_output_status(river_status_manager, wl_output);
 	if (!river_output_status) {
 		log_warn("Failed to create river status manager, ignoring output.");
 		return NULL;
 	}
-	log_debug("wl_output:           zriver_output_status_v1                     %p", river_output_status);
+	log_debug_c_s("init:"); log_debug_c("output:"); log_debug_c("river_output_status"); log_debug_c_e("%p", river_output_status);
 
 	struct Output *output = calloc(1, sizeof(struct Output));
 	output->wl_output = wl_output;
@@ -65,23 +65,22 @@ struct Output *output_init(struct wl_output *wl_output,
 }
 
 void output_destroy(const void *o) {
-	static char *FMT = "output destroy:      %-40s    %p";
-
 	if (!o)
 		return;
 
 	const struct Output* const output = o;
-	log_debug("output destroy:  %3d %-40s    %p", output->name, "wl_output", output->wl_output);
+	log_debug_c_s("destroy:"); log_debug_c("output:"); log_debug_c_e("%d", output->name);
 
 	if (output->river_layout) {
 		river_layout_v3_destroy(output->river_layout);
-		log_debug(FMT, "river_layout_v3", output->river_layout);
+		log_debug_c_s("destroy:"); log_debug_c("output:"); log_debug_c("river_layout"); log_debug_c_e("%p", output->river_layout);
 	}
 	if (output->river_output_status) {
 		zriver_output_status_v1_destroy(output->river_output_status);
-		log_debug(FMT, "zriver_output_status_v1", output->river_output_status);
+		log_debug_c_s("destroy:"); log_debug_c("output:"); log_debug_c("river_output_status"); log_debug_c_e("%p", output->river_output_status);
 	}
 	if (output->wl_output) {
+		log_debug_c_s("destroy:"); log_debug_c("output:"); log_debug_c("wl_output"); log_debug_c_e("%p", output->wl_output);
 		wl_output_destroy(output->wl_output);
 	}
 	tags_destroy(output->tags);

@@ -19,7 +19,7 @@ static void handle_focused_output(void *data,
 
 	struct Displ *displ = data;
 
-	log_debug("seat:\tfocused_output");
+	log_debug_c_s("seat:"); log_debug_c_e("focused_output");
 
 	displ->wl_output_focused = output;
 }
@@ -27,19 +27,19 @@ static void handle_focused_output(void *data,
 static void handle_unfocused_output(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		struct wl_output *output) {
-	log_debug("seat:\tunfocused_output");
+	log_debug_c_s("seat:"); log_debug_c_e("unfocused_output");
 }
 
 static void handle_focused_view(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		const char *title) {
-	log_debug("seat:\tfocused_view:   %s", title);
+	log_debug_c_s("seat:"); log_debug_c("focused_view:"); log_debug_c_e("%s", title);
 }
 
 static void handle_mode(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		const char *name) {
-	log_debug("seat:\tmode:           %s", name);
+	log_debug_c_s("seat:"); log_debug_c("mode:"); log_debug_c_e("%s", name);
 }
 
 static const struct zriver_seat_status_v1_listener listener = {

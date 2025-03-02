@@ -23,9 +23,10 @@ static void layout_handle_layout_demand(void *data,
 		uint32_t usable_height,
 		uint32_t tags,
 		uint32_t serial) {
-	log_debug("demand:\tview_count:     %02u", view_count);
-	log_debug("demand:\tusable:         %ux%u", usable_width, usable_height);
-	log_debug("demand:\ttags:           0x%u", tags);
+
+	log_debug_c_s("demand:"); log_debug_c("view_count:"); log_debug_c_e("%02u", view_count);
+	log_debug_c_s("demand:"); log_debug_c("usable:");     log_debug_c_e("%ux%u", usable_width, usable_height);
+	log_debug_c_s("demand:"); log_debug_c("tags:");       log_debug_c_e("0x%u", tags);
 
 	struct Output *output = (struct Output*)data;
 	if (!output)
@@ -67,7 +68,7 @@ static void layout_handle_namespace_in_use(void *data,
 static void layout_handle_user_command_tags(void *data,
 		struct river_layout_v3 *river_layout_manager_v3,
 		uint32_t tags) {
-	log_debug("command:\ttags: 0x%ux", tags);
+	log_debug_c_s("command:"); log_debug_c("tags:"); log_debug_c_e("0x%u", tags);
 
 	struct Output *output = (struct Output*)data;
 	if (!output) {
@@ -81,7 +82,7 @@ static void layout_handle_user_command_tags(void *data,
 static void layout_handle_user_command(void *data,
 		struct river_layout_v3 *river_layout_manager_v3,
 		const char *command) {
-	log_debug("command:\t'%s'", command);
+	log_debug_c_s("command:"); log_debug_c_e("'%s'", command);
 
 	struct Output *output = (struct Output*)data;
 	if (!output) {

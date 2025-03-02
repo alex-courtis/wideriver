@@ -26,17 +26,17 @@ struct Displ d = { 0 };
 const struct Displ * const displ = &d;
 
 static void complete_border_width(void) {
-	log_debug("complete:\twidth:          %d->%d", d.style_current.border_width, d.style_desired.border_width);
+	log_debug_c_s("complete:"); log_debug_c("width:"); log_debug_c_e("%d->%d", d.style_current.border_width, d.style_desired.border_width);
 	d.style_current.border_width = d.style_desired.border_width;
 }
 
 static void complete_border_color_focused(void) {
-	log_debug("complete:\tfocused:        %s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
+	log_debug_c_s("complete:"); log_debug_c("focused:"); log_debug_c_e("%s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
 	d.style_current.border_color_focused = d.style_desired.border_color_focused;
 }
 
 static void complete_border_color_unfocused(void) {
-	log_debug("complete:\tunfocused:      %s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
+	log_debug_c_s("complete:"); log_debug_c("unfocused:"); log_debug_c_e("%s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
 	d.style_current.border_color_unfocused = d.style_desired.border_color_unfocused;
 }
 
@@ -134,37 +134,34 @@ err:
 }
 
 void displ_destroy(void) {
-	static char *FMT = "displ destroy:       %-40s    %p";
-
 	ptable_free_vals(d.outputs, output_destroy);
 
 	if (d.river_layout_manager) {
-		log_debug(FMT, "river_layout_manager_v3", d.river_layout_manager);
+		log_debug_c_s("destroy:"); log_debug_c("displ:"); log_debug_c("river_layout_manager:"); log_debug_c_e("%p", d.river_layout_manager);
 		river_layout_manager_v3_destroy(d.river_layout_manager);
 	}
 	if (d.river_status_manager) {
-		log_debug(FMT, "zriver_status_manager_v1", d.river_status_manager);
+		log_debug_c_s("destroy:"); log_debug_c("displ:"); log_debug_c("river_status_manager:"); log_debug_c_e("%p", d.river_status_manager);
 		zriver_status_manager_v1_destroy(d.river_status_manager);
 	}
 	if (d.river_seat_status) {
-		log_debug(FMT, "zriver_seat_status_v1", d.river_seat_status);
+		log_debug_c_s("destroy:"); log_debug_c("displ:"); log_debug_c("river_seat_status:"); log_debug_c_e("%p", d.river_seat_status);
 		zriver_seat_status_v1_destroy(d.river_seat_status);
 	}
 	if (d.river_control) {
-		log_debug(FMT, "zriver_control_v1", d.river_control);
+		log_debug_c_s("destroy:"); log_debug_c("displ:"); log_debug_c("river_control:"); log_debug_c_e("%p", d.river_control);
 		zriver_control_v1_destroy(d.river_control);
 	}
 	if (d.wl_seat) {
-		log_debug(FMT, "wl_seat", d.wl_seat);
+		log_debug_c_s("destroy:"); log_debug_c("displ:"); log_debug_c("wl_seat:"); log_debug_c_e("%p", d.wl_seat);
 		wl_seat_destroy(d.wl_seat);
 	}
 	if (d.wl_registry) {
-		log_debug(FMT, "wl_registry", d.wl_registry);
+		log_debug_c_s("destroy:"); log_debug_c("displ:"); log_debug_c("wl_registry:"); log_debug_c_e("%p", d.wl_registry);
 		wl_registry_destroy(d.wl_registry);
 	}
 	if (d.wl_display) {
-		log_debug(FMT, "wl_display", d.wl_display);
-		log_debug("displ destroy:       wl_display                                  %p", d.wl_display);
+		log_debug_c_s("destroy:"); log_debug_c("displ:"); log_debug_c("wl_display:"); log_debug_c_e("%p", d.wl_display);
 		wl_display_disconnect(d.wl_display);
 	}
 
