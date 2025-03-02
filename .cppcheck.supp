@@ -1,4 +1,5 @@
 unusedFunction:pro/*.h
+unusedFunction:inc/log.h
 
 unusedFunction:tst/asserts.h
 unusedFunction:tst/util.c
