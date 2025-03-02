@@ -17,17 +17,7 @@ char THRESHOLD_CHAR[] = {
 	'E',
 };
 
-char *THRESHOLD_LABEL[] = {
-	"",
-	"",
-	"",
-	"WARNING: ",
-	"ERROR: ",
-};
-
 enum LogThreshold log_threshold = LOG_THRESHOLD_DEFAULT;
-
-bool log_prefix = true;
 
 void print_prefix(const enum LogThreshold threshold, FILE *__restrict __stream) {
 	static char buf[16];
@@ -49,11 +39,7 @@ void log_(const enum LogThreshold threshold, const int eno, const char *__restri
 
 	stream = threshold == ERROR ? stderr : stdout;
 
-	if (log_prefix) {
-		print_prefix(threshold, stream);
-	}
-
-	fprintf(stream, "%s", THRESHOLD_LABEL[threshold]);
+	print_prefix(threshold, stream);
 
 	vfprintf(stream, __format, __args);
 
