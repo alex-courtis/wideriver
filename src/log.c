@@ -53,6 +53,7 @@ static void log_(const enum LogThreshold threshold, const enum LogMode mode, con
 	switch (mode) {
 		case NORMAL:
 			print_prefix(threshold, stream);
+			// fallthrough
 		case COL_END:
 			vfprintf(stream, __format, __args);
 			if (eno) {
@@ -62,6 +63,7 @@ static void log_(const enum LogThreshold threshold, const enum LogMode mode, con
 			break;
 		case COL_START:
 			print_prefix(threshold, stream);
+			// fallthrough
 		case COL:
 			vsnprintf(col_buf, COL_WIDTH, __format, __args);
 			fprintf(stream, "%-*s", COL_WIDTH, col_buf);
