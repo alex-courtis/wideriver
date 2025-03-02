@@ -30,7 +30,7 @@ static struct NameVal log_thresholds[] = {
 	{ .val = INFO,		.name = "info",		},
 	{ .val = WARNING,	.name = "warning",	},
 	{ .val = ERROR,		.name = "error",	},
-	{ .val = DEBUG,		.name = "debug",	},
+	{ .val = FATAL,		.name = "fatal",	},
 	{ .val = 0,			.name = NULL,		},
 };
 

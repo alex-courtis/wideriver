@@ -15,6 +15,7 @@ char THRESHOLD_CHAR[] = {
 	'I',
 	'W',
 	'E',
+	'F',
 };
 
 enum LogThreshold log_threshold = LOG_THRESHOLD_DEFAULT;

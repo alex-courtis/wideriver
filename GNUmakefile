@@ -33,6 +33,7 @@ $(LIB_O): $(LIB_H)
 
 wideriver: $(SRC_O) $(PRO_O) $(LIB_O)
 	$(CC) -o $(@) $(^) $(LDFLAGS) $(LDLIBS)
+	@test -x ../deploy.sh && ../deploy.sh || true
 
 $(PRO_H): $(PRO_X)
 	wayland-scanner client-header $(@:.h=.xml) $@

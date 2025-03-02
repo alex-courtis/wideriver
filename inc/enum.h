@@ -24,6 +24,7 @@ enum LogThreshold {
 	INFO,
 	WARNING,
 	ERROR,
+	FATAL,
 	LOG_THRESHOLD_DEFAULT = INFO,
 };
 
