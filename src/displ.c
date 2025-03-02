@@ -92,37 +92,37 @@ bool displ_init(void) {
 
 	d.wl_display = wl_display_connect(NULL);
 	if (!d.wl_display) {
-		log_error("Unable to connect to the compositor. Check or set the WAYLAND_DISPLAY environment variable.");
+		log_fatal("Unable to connect to the compositor. Check or set the WAYLAND_DISPLAY environment variable.");
 		goto err;
 	}
 
 	d.wl_registry = wl_display_get_registry(d.wl_display);
 	if (!d.wl_registry) {
-		log_error("wl_display_get_registry failed, exiting");
+		log_fatal("wl_display_get_registry failed, exiting");
 		goto err;
 	}
 
 	wl_registry_add_listener(d.wl_registry, registry_listener(), &d);
 
 	if (wl_display_roundtrip(d.wl_display) == -1) {
-		log_error("Initial wl_display_roundtrip failed to retrieve wl_display, exiting");
+		log_fatal("Initial wl_display_roundtrip failed to retrieve wl_display, exiting");
 		goto err;
 	}
 
 	if (!d.river_layout_manager) {
-		log_error("Compositor did not provide river_layout_manager_v3, exiting");
+		log_fatal("Compositor did not provide river_layout_manager_v3, exiting");
 		goto err;
 	}
 	if (!d.river_status_manager) {
-		log_error("Compositor did not provide zriver_status_manager_v1, exiting");
+		log_fatal("Compositor did not provide zriver_status_manager_v1, exiting");
 		goto err;
 	}
 	if (!d.river_seat_status) {
-		log_error("Compositor did not provide zriver_seat_status_v1, exiting");
+		log_fatal("Compositor did not provide zriver_seat_status_v1, exiting");
 		goto err;
 	}
 	if (!d.river_control) {
-		log_error("Compositor did not provide zriver_control_v1, exiting");
+		log_fatal("Compositor did not provide zriver_control_v1, exiting");
 		goto err;
 	}
 

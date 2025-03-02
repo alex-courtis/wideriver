@@ -15,6 +15,10 @@ void log_error(const char *__restrict __format, ...);
 
 void log_error_errno(const char *__restrict __format, ...);
 
+void log_fatal(const char *__restrict __format, ...);
+
+void log_fatal_errno(const char *__restrict __format, ...);
+
 enum LogThreshold log_get_threshold(void);
 
 // false if not valid

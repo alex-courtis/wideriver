@@ -38,7 +38,7 @@ void log_(const enum LogThreshold threshold, const int eno, const char *__restri
 
 	static FILE *stream;
 
-	stream = threshold == ERROR ? stderr : stdout;
+	stream = threshold >= ERROR ? stderr : stdout;
 
 	print_prefix(threshold, stream);
 
@@ -85,6 +85,20 @@ void log_error_errno(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(ERROR, errno, __format, args);
+	va_end(args);
+}
+
+void log_fatal(const char *__restrict __format, ...) {
+	va_list args;
+	va_start(args, __format);
+	log_(FATAL, 0, __format, args);
+	va_end(args);
+}
+
+void log_fatal_errno(const char *__restrict __format, ...) {
+	va_list args;
+	va_start(args, __format);
+	log_(FATAL, errno, __format, args);
 	va_end(args);
 }
 

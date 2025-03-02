@@ -49,7 +49,7 @@ int rc_errno_pipe_ok(const char *op) {
 		log_info("Wayland display terminated, exiting.");
 		return EXIT_SUCCESS;
 	} else {
-		log_error_errno("%s failed, exiting", op);
+		log_fatal_errno("%s failed, exiting", op);
 		return errno;
 	}
 }
@@ -74,7 +74,7 @@ int loop(void) {
 
 		// poll for all events
 		if (poll(pfds, NPFDS, -1) < 0) {
-			log_error_errno("poll failed, exiting");
+			log_fatal_errno("poll failed, exiting");
 			return EXIT_FAILURE;
 		}
 
@@ -93,7 +93,7 @@ int loop(void) {
 				return rc_errno_pipe_ok("wl_display_read_events");
 			}
 		} else {
-			log_error("Unknown event received, exiting");
+			log_fatal("Unknown event received, exiting");
 			return EXIT_FAILURE;
 		}
 	}
@@ -105,7 +105,7 @@ int main(int argc, char **argv) {
 	int rc = EXIT_SUCCESS;
 
 	if (!getenv("WAYLAND_DISPLAY")) {
-		log_error("Environment variable WAYLAND_DISPLAY not set, exiting");
+		log_fatal("Environment variable WAYLAND_DISPLAY not set, exiting");
 		exit(EXIT_FAILURE);
 	}
 

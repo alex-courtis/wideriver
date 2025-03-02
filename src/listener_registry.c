@@ -39,7 +39,7 @@ static void global(void *data,
 			displ->river_layout_manager = wl_registry_bind(wl_registry, name, &river_layout_manager_v3_interface, RIVER_LAYOUT_V3_VERSION);
 			log_debug(FMT, name, interface, version, displ->river_layout_manager);
 		} else {
-			log_error("Invalid river_layout_manager_v3_interface version %d expected %d, exiting", version, RIVER_LAYOUT_V3_VERSION);
+			log_fatal("Invalid river_layout_manager_v3_interface version %d expected %d, exiting", version, RIVER_LAYOUT_V3_VERSION);
 			return;
 		}
 

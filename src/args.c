@@ -53,49 +53,49 @@ void args_cli(int argc, char **argv) {
 		switch (long_index) {
 			case 0:
 				if (!cfg_set_layout(optarg)) {
-					log_error("invalid --layout '%s'\n", optarg);
+					log_fatal("invalid --layout '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 1:
 				if (!cfg_set_layout_alt(optarg)) {
-					log_error("invalid --layout-alt '%s'\n", optarg);
+					log_fatal("invalid --layout-alt '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 2:
 				if (!cfg_set_stack(optarg)) {
-					log_error("invalid --stack '%s'\n", optarg);
+					log_fatal("invalid --stack '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 3:
 				if (!cfg_set_count_master(optarg)) {
-					log_error("invalid --count-master '%s'\n", optarg);
+					log_fatal("invalid --count-master '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 4:
 				if (!cfg_set_ratio_master(optarg)) {
-					log_error("invalid --ratio-master '%s'\n", optarg);
+					log_fatal("invalid --ratio-master '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 5:
 				if (!cfg_set_count_wide_left(optarg)) {
-					log_error("invalid --count-wide-left '%s'\n", optarg);
+					log_fatal("invalid --count-wide-left '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 6:
 				if (!cfg_set_ratio_wide(optarg)) {
-					log_error("invalid --ratio-wide '%s'\n", optarg);
+					log_fatal("invalid --ratio-wide '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
@@ -108,56 +108,56 @@ void args_cli(int argc, char **argv) {
 				break;
 			case 9:
 				if (!cfg_set_border_width_smart_gaps(optarg)) {
-					log_error("invalid --border-width-smart-gaps '%s'\n", optarg);
+					log_fatal("invalid --border-width-smart-gaps '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 10:
 				if (!cfg_set_inner_gaps(optarg)) {
-					log_error("invalid --inner-gaps '%s'\n", optarg);
+					log_fatal("invalid --inner-gaps '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 11:
 				if (!cfg_set_outer_gaps(optarg)) {
-					log_error("invalid --outer-gaps '%s'\n", optarg);
+					log_fatal("invalid --outer-gaps '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 12:
 				if (!cfg_set_border_width(optarg)) {
-					log_error("invalid --border-width '%s'\n", optarg);
+					log_fatal("invalid --border-width '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 13:
 				if (!cfg_set_border_width_monocle(optarg)) {
-					log_error("invalid --border-width-monocle '%s'\n", optarg);
+					log_fatal("invalid --border-width-monocle '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 14:
 				if (!cfg_set_border_color_focused(optarg)) {
-					log_error("invalid --border-color-focused '%s'\n", optarg);
+					log_fatal("invalid --border-color-focused '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 15:
 				if (!cfg_set_border_color_focused_monocle(optarg)) {
-					log_error("invalid --border-color-focused-monocle '%s'\n", optarg);
+					log_fatal("invalid --border-color-focused-monocle '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
 				break;
 			case 16:
 				if (!cfg_set_border_color_unfocused(optarg)) {
-					log_error("invalid --border-color-unfocused '%s'\n", optarg);
+					log_fatal("invalid --border-color-unfocused '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
@@ -170,7 +170,7 @@ void args_cli(int argc, char **argv) {
 				return;
 			case 19:
 				if (!log_set_threshold(optarg)) {
-					log_error("invalid --log-threshold '%s'\n", optarg);
+					log_fatal("invalid --log-threshold '%s'\n", optarg);
 					usage(EXIT_FAILURE);
 					return;
 				}
