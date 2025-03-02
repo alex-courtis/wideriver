@@ -20,7 +20,7 @@ char THRESHOLD_CHAR[] = {
 
 enum LogThreshold log_threshold = LOG_THRESHOLD_DEFAULT;
 
-void print_prefix(const enum LogThreshold threshold, FILE *__restrict __stream) {
+static void print_prefix(const enum LogThreshold threshold, FILE *__restrict __stream) {
 	static char buf[16];
 	static time_t t;
 
@@ -31,7 +31,7 @@ void print_prefix(const enum LogThreshold threshold, FILE *__restrict __stream) 
 	fprintf(__stream, "%c [%s] ", THRESHOLD_CHAR[threshold], buf);
 }
 
-void log_(const enum LogThreshold threshold, const int eno, const char *__restrict __format, va_list __args) {
+static void log_(const enum LogThreshold threshold, const int eno, const char *__restrict __format, va_list __args) {
 	if (threshold < log_threshold) {
 		return;
 	}

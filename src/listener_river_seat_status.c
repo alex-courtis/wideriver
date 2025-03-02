@@ -11,7 +11,7 @@
 // Displ data
 //
 
-void handle_focused_output(void *data,
+static void handle_focused_output(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		struct wl_output *output) {
 	if (!data || !output)
@@ -24,19 +24,19 @@ void handle_focused_output(void *data,
 	displ->wl_output_focused = output;
 }
 
-void handle_unfocused_output(void *data,
+static void handle_unfocused_output(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		struct wl_output *output) {
 	log_debug("seat:\tunfocused_output");
 }
 
-void handle_focused_view(void *data,
+static void handle_focused_view(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		const char *title) {
 	log_debug("seat:\tfocused_view:   %s", title);
 }
 
-void handle_mode(void *data,
+static void handle_mode(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		const char *name) {
 	log_debug("seat:\tmode:           %s", name);

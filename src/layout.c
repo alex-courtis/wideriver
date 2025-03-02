@@ -11,7 +11,7 @@
 
 #include "layout.h"
 
-const char *description_info(const struct Demand* const demand, const struct Tag* const tag) {
+static const char *description_info(const struct Demand* const demand, const struct Tag* const tag) {
 	static char desc[20];
 
 	switch(tag->layout_cur) {
@@ -54,7 +54,7 @@ const char *description_info(const struct Demand* const demand, const struct Tag
 	return desc;
 }
 
-const char *description_debug(const struct Demand* const demand, const struct Tag* const tag) {
+static const char *description_debug(const struct Demand* const demand, const struct Tag* const tag) {
 	static char desc[128];
 
 	switch(tag->layout_cur) {

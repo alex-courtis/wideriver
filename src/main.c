@@ -17,7 +17,7 @@ static struct pollfd pfds[NPFDS];
 static struct pollfd *pfd_wayland = NULL;
 static struct pollfd *pfd_signal = NULL;
 
-void init_pfds(void) {
+static void init_pfds(void) {
 
 	// wayland FD
 	if (!pfd_wayland) {
@@ -44,7 +44,7 @@ void init_pfds(void) {
 }
 
 // EXIT_SUCCESS on EPIPE otherwise error with op and errno
-int rc_errno_pipe_ok(const char *op) {
+static int rc_errno_pipe_ok(const char *op) {
 	if (errno == EPIPE) {
 		log_info("Wayland display terminated, exiting.");
 		return EXIT_SUCCESS;
@@ -55,7 +55,7 @@ int rc_errno_pipe_ok(const char *op) {
 }
 
 // see Wayland Protocol docs Appendix B wl_display_prepare_read_queue
-int loop(void) {
+static int loop(void) {
 
 	while (true) {
 		init_pfds();

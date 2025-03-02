@@ -25,22 +25,22 @@ struct Displ d = { 0 };
 
 const struct Displ * const displ = &d;
 
-void complete_border_width(void) {
+static void complete_border_width(void) {
 	log_debug("complete:\twidth:          %d->%d", d.style_current.border_width, d.style_desired.border_width);
 	d.style_current.border_width = d.style_desired.border_width;
 }
 
-void complete_border_color_focused(void) {
+static void complete_border_color_focused(void) {
 	log_debug("complete:\tfocused:        %s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
 	d.style_current.border_color_focused = d.style_desired.border_color_focused;
 }
 
-void complete_border_color_unfocused(void) {
+static void complete_border_color_unfocused(void) {
 	log_debug("complete:\tunfocused:      %s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
 	d.style_current.border_color_unfocused = d.style_desired.border_color_unfocused;
 }
 
-void desire_style(const struct Tag *tag, const uint32_t view_count) {
+static void desire_style(const struct Tag *tag, const uint32_t view_count) {
 	if (tag) {
 		if (tag->layout_cur == MONOCLE) {
 			d.style_desired.border_width = cfg->border_width_monocle;
@@ -56,7 +56,7 @@ void desire_style(const struct Tag *tag, const uint32_t view_count) {
 	}
 }
 
-void control_command_style(const struct Style desired, const struct Style current) {
+static void control_command_style(const struct Style desired, const struct Style current) {
 	static char buf[8];
 
 	struct SList *args = NULL;

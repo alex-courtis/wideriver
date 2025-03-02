@@ -11,31 +11,31 @@
 // Output data
 //
 
-void output_status_handle_focused_tags(void *data,
+static void output_status_handle_focused_tags(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1,
 		uint32_t tags) {
 	log_debug("status:\tfocused_tags:   0x%u", tags);
 }
 
-void output_status_handle_view_tags(void *data,
+static void output_status_handle_view_tags(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1,
 		struct wl_array *tags) {
 	log_debug("status:\tview_tags");
 }
 
-void output_status_handle_urgent_tags(void *data,
+static void output_status_handle_urgent_tags(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1,
 		uint32_t tags) {
 	log_debug("status:\turgent_tags:    0x%u", tags);
 }
 
-void output_status_handle_layout_name(void *data,
+static void output_status_handle_layout_name(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1,
 		const char *name) {
 	log_debug("status:\tlayout_name     %s", name);
 }
 
-void output_status_handle_layout_name_clear(void *data,
+static void output_status_handle_layout_name_clear(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1) {
 	log_debug("status:\tlayout_name_clear");
 }

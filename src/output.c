@@ -89,7 +89,7 @@ void output_destroy(const void *o) {
 	free((void*)output);
 }
 
-void apply_layout(const struct Cmd *cmd, struct Tag *tag) {
+static void apply_layout(const struct Cmd *cmd, struct Tag *tag) {
 	if (cmd->layout) {
 		if (tag->layout_cur != cmd->layout) {
 			tag->layout_prev = tag->layout_cur;
@@ -102,13 +102,13 @@ void apply_layout(const struct Cmd *cmd, struct Tag *tag) {
 	}
 }
 
-void apply_stack(const struct Cmd *cmd, struct Tag *tag) {
+static void apply_stack(const struct Cmd *cmd, struct Tag *tag) {
 	if (cmd->stack) {
 		tag->stack = cmd->stack;
 	}
 }
 
-void apply_count_ratio(const struct Cmd *cmd, struct Tag *tag) {
+static void apply_count_ratio(const struct Cmd *cmd, struct Tag *tag) {
 	uint32_t *count = NULL;
 	double *ratio = NULL;
 

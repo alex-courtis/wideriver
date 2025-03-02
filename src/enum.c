@@ -46,7 +46,7 @@ const char *name(const struct NameVal *name_vals, const unsigned int val) {
 	return NULL;
 }
 
-unsigned int val(const struct NameVal *name_vals, const char *name) {
+static unsigned int val(const struct NameVal *name_vals, const char *name) {
 	if (!name_vals || !name) {
 		return 0;
 	}
