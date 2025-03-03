@@ -174,8 +174,14 @@ void displ_request_style(const struct Output *output, const struct Tag *tag, con
 	if (!output || !tag)
 		return;
 
+	const struct Output * const output_focused = (struct Output*)ptable_get(displ->outputs, d.wl_output_focused);
+
+	log_d_c_s("  displ_request_style"); log_d_c("output");         log_d_c("%d", output ? output->name : 0); log_d_c_e("%p", (void*)output->wl_output);
+	log_d_c_s("  displ_request_style"); log_d_c("output_focused"); log_d_c("%d", output_focused ? output_focused->name : 0); log_d_c_e("%p", (void*)d.wl_output_focused);
+
 	// output must be focused or no focus reported
 	if (d.wl_output_focused != output->wl_output && d.wl_output_focused) {
+		log_d_c_s("  displ_request_style"); log_d_c_e("not focused or no focus");
 		return;
 	}
 

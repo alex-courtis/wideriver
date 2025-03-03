@@ -26,9 +26,9 @@ static void layout_handle_layout_demand(void *data,
 
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("layout_layout_demand"); log_d_c("%d", output->name); log_d_c("view_count"); log_d_c_e("%02u", view_count);
-	log_d_c_s("layout_layout_demand"); log_d_c("%d", output->name); log_d_c("usable");     log_d_c_e("%ux%u", usable_width, usable_height);
-	log_d_c_s("layout_layout_demand"); log_d_c("%d", output->name); log_d_c("tags");       log_d_c_e("0x%u", tags);
+	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("view_count"); log_d_c_e("%02u", view_count);
+	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("usable");     log_d_c_e("%ux%u", usable_width, usable_height);
+	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("tags");       log_d_c_e("0x%u", tags);
 
 	const struct Demand demand = {
 		.view_count = view_count,
