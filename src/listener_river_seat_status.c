@@ -22,7 +22,7 @@ static void handle_focused_output(void *data,
 
 	struct Output *output = (struct Output*)ptable_get(displ->outputs, wl_output);
 
-	log_d_c_s("seat_focused_output"); log_d_c_e("%d", output ? output->name : -1);
+	log_d_c_s("seat_focused_output"); log_d_c_e("%d", output ? output->name : 0);
 
 	displ->wl_output_focused = wl_output;
 }
@@ -35,7 +35,7 @@ static void handle_unfocused_output(void *data,
 
 	struct Output *output = (struct Output*)ptable_get(displ->outputs, wl_output);
 
-	log_d_c_s("seat_unfocused_output"); log_d_c_e("%d", output ? output->name : -1);
+	log_d_c_s("seat_unfocused_output"); log_d_c_e("%d", output ? output->name : 0);
 }
 
 static void handle_focused_view(void *data,
