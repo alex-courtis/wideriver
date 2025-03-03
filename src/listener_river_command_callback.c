@@ -16,7 +16,7 @@ static void river_command_handle_success(void *data,
 	zriver_command_callback_v1_destroy(zriver_command_callback_v1);
 
 	if (data)
-		((control_complete_fn)data)();
+		(*(control_complete_fn*)&data)();
 }
 
 static void river_command_handle_failure(void *data,
@@ -27,7 +27,7 @@ static void river_command_handle_failure(void *data,
 	zriver_command_callback_v1_destroy(zriver_command_callback_v1);
 
 	if (data)
-		((control_complete_fn)data)();
+		(*(control_complete_fn*)&data)();
 }
 
 static const struct zriver_command_callback_v1_listener listener = {

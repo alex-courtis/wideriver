@@ -36,6 +36,6 @@ void control_execute(const struct SList *args, control_complete_fn complete) {
 	struct zriver_command_callback_v1 *cb = zriver_control_v1_run_command(displ->river_control, displ->wl_seat);
 
 	// listen
-	zriver_command_callback_v1_add_listener(cb, river_command_callback_listener(), (void*)complete);
+	zriver_command_callback_v1_add_listener(cb, river_command_callback_listener(), *(void**)&complete);
 }
 
