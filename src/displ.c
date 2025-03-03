@@ -26,7 +26,7 @@ struct Displ d = { 0 };
 const struct Displ * const displ = &d;
 
 static void complete_border_width(void) {
-	log_debug_c_s("complete:"); log_debug_c("width:"); log_debug_c_e("%d->%d", d.style_current.border_width, d.style_desired.border_width);
+	log_debug_c_s("complete:"); log_debug_c("width:"); log_debug_c_e("%lu->%lu", d.style_current.border_width, d.style_desired.border_width);
 	d.style_current.border_width = d.style_desired.border_width;
 }
 

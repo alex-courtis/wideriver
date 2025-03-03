@@ -186,23 +186,23 @@ void args_cli(int argc, char **argv) {
 		}
 	}
 
-	log_info("--layout                       %s", layout_name(cfg->layout));
-	log_info("--layout-alt                   %s", layout_name(cfg->layout_alt));
-	log_info("--stack                        %s", stack_name(cfg->stack));
-	log_info("--count-master                 %u", cfg->count_master);
-	log_info("--ratio-master                 %g", cfg->ratio_master);
-	log_info("--count-wide-left              %u", cfg->count_wide_left);
-	log_info("--ratio-wide                   %g", cfg->ratio_wide);
-	log_info("--%ssmart-gaps", cfg->smart_gaps ? "" : "no-");
-	log_info("--inner-gaps                   %u", cfg->inner_gaps);
-	log_info("--outer-gaps                   %u", cfg->outer_gaps);
-	log_info("--border-width                 %u", cfg->border_width);
-	log_info("--border-width-monocle         %u", cfg->border_width_monocle);
-	log_info("--border-width-smart-gaps      %u", cfg->border_width_smart_gaps);
-	log_info("--border-color-focused         %s", cfg->border_color_focused);
-	log_info("--border-color-focused-monocle %s", cfg->border_color_focused_monocle);
-	log_info("--border-color-unfocused       %s", cfg->border_color_unfocused);
-	log_info("--log-threshold                %s", log_threshold_name(log_get_threshold()));
+	log_info("--layout                       %s",  layout_name(cfg->layout));
+	log_info("--layout-alt                   %s",  layout_name(cfg->layout_alt));
+	log_info("--stack                        %s",  stack_name(cfg->stack));
+	log_info("--count-master                 %u",  cfg->count_master);
+	log_info("--ratio-master                 %g",  cfg->ratio_master);
+	log_info("--count-wide-left              %u",  cfg->count_wide_left);
+	log_info("--ratio-wide                   %g",  cfg->ratio_wide);
+	log_info("--%ssmart-gaps",                     cfg->smart_gaps ? "" : "no-");
+	log_info("--inner-gaps                   %u",  cfg->inner_gaps);
+	log_info("--outer-gaps                   %u",  cfg->outer_gaps);
+	log_info("--border-width                 %lu", cfg->border_width);
+	log_info("--border-width-monocle         %lu", cfg->border_width_monocle);
+	log_info("--border-width-smart-gaps      %u",  cfg->border_width_smart_gaps);
+	log_info("--border-color-focused         %s",  cfg->border_color_focused);
+	log_info("--border-color-focused-monocle %s",  cfg->border_color_focused_monocle);
+	log_info("--border-color-unfocused       %s",  cfg->border_color_unfocused);
+	log_info("--log-threshold                %s",  log_threshold_name(log_get_threshold()));
 }
 
 static struct option cmd_long_options[] = {
@@ -260,7 +260,7 @@ const struct Cmd *args_cmd(int argc, char **argv) {
 				}
 				break;
 			default:
-				log_error("invalid command '%s'");
+				log_error("invalid command");
 				goto err;
 		}
 	}
