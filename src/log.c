@@ -9,27 +9,28 @@
 
 #include "log.h"
 
+#define COL_WIDTH 24
+static char col_buf[COL_WIDTH];
+
 char THRESHOLD_CHAR[] = {
 	'?',
 	'D',
 	'I',
 	'W',
 	'E',
-};
-
-char *THRESHOLD_LABEL[] = {
-	"",
-	"",
-	"",
-	"WARNING: ",
-	"ERROR: ",
+	'F',
 };
 
 enum LogThreshold log_threshold = LOG_THRESHOLD_DEFAULT;
 
-bool log_prefix = true;
+enum LogMode {
+	NORMAL = 0,
+	COL_START,
+	COL,
+	COL_END,
+};
 
-void print_prefix(const enum LogThreshold threshold, FILE *__restrict __stream) {
+static void print_prefix(const enum LogThreshold threshold, FILE *__restrict __stream) {
 	static char buf[16];
 	static time_t t;
 
@@ -40,64 +41,107 @@ void print_prefix(const enum LogThreshold threshold, FILE *__restrict __stream) 
 	fprintf(__stream, "%c [%s] ", THRESHOLD_CHAR[threshold], buf);
 }
 
-void log_(const enum LogThreshold threshold, const int eno, const char *__restrict __format, va_list __args) {
+static void log_(const enum LogThreshold threshold, const enum LogMode mode, const int eno, const char *__restrict __format, va_list __args) {
 	if (threshold < log_threshold) {
 		return;
 	}
 
 	static FILE *stream;
 
-	stream = threshold == ERROR ? stderr : stdout;
+	stream = threshold >= ERROR ? stderr : stdout;
 
-	if (log_prefix) {
-		print_prefix(threshold, stream);
+	switch (mode) {
+		case NORMAL:
+			print_prefix(threshold, stream);
+			__attribute__((fallthrough));
+		case COL_END:
+			vfprintf(stream, __format, __args);
+			if (eno) {
+				fprintf(stream, " %d: %s", eno, strerror(eno));
+			}
+			fprintf(stream, "\n");
+			break;
+		case COL_START:
+			print_prefix(threshold, stream);
+			__attribute__((fallthrough));
+		case COL:
+			vsnprintf(col_buf, COL_WIDTH, __format, __args);
+			fprintf(stream, "%-*s", COL_WIDTH, col_buf);
+			break;
+		default:
+			break;
 	}
-
-	fprintf(stream, "%s", THRESHOLD_LABEL[threshold]);
-
-	vfprintf(stream, __format, __args);
-
-	if (eno) {
-		fprintf(stream, " %d: %s", eno, strerror(eno));
-	}
-
-	fprintf(stream, "\n");
 
 	fflush(stream);
 }
 
-void log_debug(const char *__restrict __format, ...) {
+void log_d(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
-	log_(DEBUG, 0, __format, args);
+	log_(DEBUG, NORMAL, 0, __format, args);
 	va_end(args);
 }
 
-void log_info(const char *__restrict __format, ...) {
+void log_d_c_s(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
-	log_(INFO, 0, __format, args);
+	log_(DEBUG, COL_START, 0, __format, args);
 	va_end(args);
 }
 
-void log_warn(const char *__restrict __format, ...) {
+void log_d_c(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
-	log_(WARNING, 0, __format, args);
+	log_(DEBUG, COL, 0, __format, args);
 	va_end(args);
 }
 
-void log_error(const char *__restrict __format, ...) {
+void log_d_c_e(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
-	log_(ERROR, 0, __format, args);
+	log_(DEBUG, COL_END, 0, __format, args);
 	va_end(args);
 }
 
-void log_error_errno(const char *__restrict __format, ...) {
+void log_i(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
-	log_(ERROR, errno, __format, args);
+	log_(INFO, NORMAL, 0, __format, args);
+	va_end(args);
+}
+
+void log_w(const char *__restrict __format, ...) {
+	va_list args;
+	va_start(args, __format);
+	log_(WARNING, NORMAL, 0, __format, args);
+	va_end(args);
+}
+
+void log_e(const char *__restrict __format, ...) {
+	va_list args;
+	va_start(args, __format);
+	log_(ERROR, NORMAL, 0, __format, args);
+	va_end(args);
+}
+
+void log_e_errno(const char *__restrict __format, ...) {
+	va_list args;
+	va_start(args, __format);
+	log_(ERROR, NORMAL, errno, __format, args);
+	va_end(args);
+}
+
+void log_f(const char *__restrict __format, ...) {
+	va_list args;
+	va_start(args, __format);
+	log_(FATAL, NORMAL, 0, __format, args);
+	va_end(args);
+}
+
+void log_f_errno(const char *__restrict __format, ...) {
+	va_list args;
+	va_start(args, __format);
+	log_(FATAL, NORMAL, errno, __format, args);
 	va_end(args);
 }
 

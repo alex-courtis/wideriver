@@ -392,7 +392,7 @@ Should install under `/usr/local`
       --border-color-unfocused        0xRRGGBB[AA]                          0x586e75
 
       --help
-      --log-threshold                 debug|info|warning|error              info
+      --log-threshold                 debug|info|warning|error|fatal        info
       --version
 
     COMMANDS, sent via riverctl(1):
@@ -455,7 +455,7 @@ Border color for focused view in monocle layout, default `0x586e75`. It is recom
 `--border-color-unfocused` `0x`*RRGGBB*\[*AA*\]  
 Border color for unfocused views in all layouts, default `0x586e75`. Does not apply for monocle layout.
 
-`--log-threshold` `debug`\|`info`\|`warning`\|`error`  
+`--log-threshold` `debug`\|`info`\|`warning`\|`error`\|`fatal`  
 Minimum log level, default `info`.
 
 ## COMMANDS

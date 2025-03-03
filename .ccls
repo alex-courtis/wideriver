@@ -9,10 +9,13 @@ clang
 -DVERSION="0.0.1-SNAPSHOT"
 -DRIVER_LAYOUT_V3_VERSION=2
 
+# TODO reinstate in config.mk and remove -Wno-format-zero-length
 -pedantic
 -Wall
 -Wextra
+-Wimplicit-fallthrough
 -Wno-unused-parameter
+-Wno-format-zero-length
 
 %c -Wold-style-definition
 %c -Wstrict-prototypes

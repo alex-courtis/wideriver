@@ -1,4 +1,4 @@
-#include <unistd.h>
+#include <stddef.h>
 #include <strings.h>
 
 #include "enum.h"
@@ -30,7 +30,7 @@ static struct NameVal log_thresholds[] = {
 	{ .val = INFO,		.name = "info",		},
 	{ .val = WARNING,	.name = "warning",	},
 	{ .val = ERROR,		.name = "error",	},
-	{ .val = DEBUG,		.name = "debug",	},
+	{ .val = FATAL,		.name = "fatal",	},
 	{ .val = 0,			.name = NULL,		},
 };
 
@@ -46,7 +46,7 @@ const char *name(const struct NameVal *name_vals, const unsigned int val) {
 	return NULL;
 }
 
-unsigned int val(const struct NameVal *name_vals, const char *name) {
+static unsigned int val(const struct NameVal *name_vals, const char *name) {
 	if (!name_vals || !name) {
 		return 0;
 	}

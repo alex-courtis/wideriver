@@ -13,21 +13,24 @@ static void river_command_handle_success(void *data,
 		struct zriver_command_callback_v1 *zriver_command_callback_v1,
 		const char *output) {
 
+	log_d_c_s("command_success"); log_d_c_e("'%s'", output);
+
 	zriver_command_callback_v1_destroy(zriver_command_callback_v1);
 
 	if (data)
-		((control_complete_fn)data)();
+		(*(control_complete_fn*)&data)();
 }
 
 static void river_command_handle_failure(void *data,
 		struct zriver_command_callback_v1 *zriver_command_callback_v1,
 		const char *failure_message) {
-	log_error("river command failure '%s'", failure_message);
+
+	log_e("command_failure '%s'", failure_message);
 
 	zriver_command_callback_v1_destroy(zriver_command_callback_v1);
 
 	if (data)
-		((control_complete_fn)data)();
+		(*(control_complete_fn*)&data)();
 }
 
 static const struct zriver_command_callback_v1_listener listener = {

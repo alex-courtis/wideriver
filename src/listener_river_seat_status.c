@@ -4,6 +4,7 @@
 
 #include "displ.h"
 #include "log.h"
+#include "ptable.h"
 
 #include "listener_river_seat_status.h"
 
@@ -11,35 +12,42 @@
 // Displ data
 //
 
-void handle_focused_output(void *data,
+static void handle_focused_output(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
-		struct wl_output *output) {
-	if (!data || !output)
+		struct wl_output *wl_output) {
+	if (!data || !wl_output)
 		return;
 
 	struct Displ *displ = data;
 
-	log_debug("seat:\tfocused_output");
+	struct Output *output = (struct Output*)ptable_get(displ->outputs, wl_output);
 
-	displ->wl_output_focused = output;
+	log_d_c_s("seat_focused_output"); log_d_c_e("%d", output ? output->name : 0);
+
+	displ->wl_output_focused = wl_output;
 }
 
-void handle_unfocused_output(void *data,
+static void handle_unfocused_output(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
-		struct wl_output *output) {
-	log_debug("seat:\tunfocused_output");
+		struct wl_output *wl_output) {
+
+	struct Displ *displ = data;
+
+	struct Output *output = (struct Output*)ptable_get(displ->outputs, wl_output);
+
+	log_d_c_s("seat_unfocused_output"); log_d_c_e("%d", output ? output->name : 0);
 }
 
-void handle_focused_view(void *data,
+static void handle_focused_view(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		const char *title) {
-	log_debug("seat:\tfocused_view:   %s", title);
+	log_d_c_s("seat_focused_view"); log_d_c("title"); log_d_c_e("%s", title);
 }
 
-void handle_mode(void *data,
+static void handle_mode(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		const char *name) {
-	log_debug("seat:\tmode:           %s", name);
+	log_d_c_s("seat_mode"); log_d_c("name"); log_d_c_e("%s", name);
 }
 
 static const struct zriver_seat_status_v1_listener listener = {

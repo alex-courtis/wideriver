@@ -4,6 +4,7 @@
 #include "river-status-unstable-v1.h"
 
 #include "log.h"
+#include "output.h"
 
 #include "listener_river_output_status.h"
 
@@ -11,33 +12,43 @@
 // Output data
 //
 
-void output_status_handle_focused_tags(void *data,
+static void output_status_handle_focused_tags(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1,
 		uint32_t tags) {
-	log_debug("status:\tfocused_tags:   0x%u", tags);
+	struct Output *output = (struct Output*)data;
+
+	log_d_c_s("output_focused_tags"); log_d_c("%d", output ? output->name : 0); log_d_c("tags"); log_d_c_e("0x%u", tags);
 }
 
-void output_status_handle_view_tags(void *data,
+static void output_status_handle_view_tags(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1,
 		struct wl_array *tags) {
-	log_debug("status:\tview_tags");
+	struct Output *output = (struct Output*)data;
+
+	log_d_c_s("output_view_tags"); log_d_c_e("%d", output ? output->name : 0);
 }
 
-void output_status_handle_urgent_tags(void *data,
+static void output_status_handle_urgent_tags(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1,
 		uint32_t tags) {
-	log_debug("status:\turgent_tags:    0x%u", tags);
+	struct Output *output = (struct Output*)data;
+
+	log_d_c_s("output_urgent_tags"); log_d_c("%d", output ? output->name : 0); log_d_c("tags"); log_d_c_e("0x%u", tags);
 }
 
-void output_status_handle_layout_name(void *data,
+static void output_status_handle_layout_name(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1,
 		const char *name) {
-	log_debug("status:\tlayout_name     %s", name);
+	struct Output *output = (struct Output*)data;
+
+	log_d_c_s("output_layout_name"); log_d_c("%d", output ? output->name : 0); log_d_c("name"); log_d_c_e("'%s'", name);
 }
 
-void output_status_handle_layout_name_clear(void *data,
+static void output_status_handle_layout_name_clear(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1) {
-	log_debug("status:\tlayout_name_clear");
+	struct Output *output = (struct Output*)data;
+
+	log_d_c_s("output_layout_name_clear"); log_d_c_e("%d", output ? output->name : 0);
 }
 
 static const struct zriver_output_status_v1_listener listener = {

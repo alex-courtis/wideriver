@@ -23,13 +23,12 @@ static void layout_handle_layout_demand(void *data,
 		uint32_t usable_height,
 		uint32_t tags,
 		uint32_t serial) {
-	log_debug("demand:\tview_count:     %02u", view_count);
-	log_debug("demand:\tusable:         %ux%u", usable_width, usable_height);
-	log_debug("demand:\ttags:           0x%u", tags);
 
 	struct Output *output = (struct Output*)data;
-	if (!output)
-		return;
+
+	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("view_count"); log_d_c_e("%02u", view_count);
+	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("usable");     log_d_c_e("%ux%u", usable_width, usable_height);
+	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("tags");       log_d_c_e("0x%u", tags);
 
 	const struct Demand demand = {
 		.view_count = view_count,
@@ -59,7 +58,7 @@ static void layout_handle_layout_demand(void *data,
 
 static void layout_handle_namespace_in_use(void *data,
 		struct river_layout_v3 *river_layout_v3) {
-	log_error("river namespace in use, exiting");
+	log_e("river namespace in use, exiting");
 
 	exit(EXIT_FAILURE);
 }
@@ -67,13 +66,14 @@ static void layout_handle_namespace_in_use(void *data,
 static void layout_handle_user_command_tags(void *data,
 		struct river_layout_v3 *river_layout_manager_v3,
 		uint32_t tags) {
-	log_debug("command:\ttags: 0x%ux", tags);
-
 	struct Output *output = (struct Output*)data;
+
 	if (!output) {
-		log_error("command:\ttags 0x%ux missing output", tags);
+		log_e("layout_user_command_tags 0x%ux missing output", tags);
 		return;
 	}
+
+	log_d_c_s("layout_user_command_tags"); log_d_c("%d", output->name); log_d_c("tags"); log_d_c_e("0x%u", tags);
 
 	output->command_tags_mask = tags;
 }
@@ -81,17 +81,18 @@ static void layout_handle_user_command_tags(void *data,
 static void layout_handle_user_command(void *data,
 		struct river_layout_v3 *river_layout_manager_v3,
 		const char *command) {
-	log_debug("command:\t'%s'", command);
 
 	struct Output *output = (struct Output*)data;
 	if (!output) {
-		log_error("command:\t'%s' missing output", command);
+		log_e("layout_user_command '%s' missing output", command);
 		return;
 	}
 
+	log_d_c_s("layout_user_command"); log_d_c("%d", output->name); log_d_c("command"); log_d_c_e("'%s'", command);
+
 	// version 2 guarantees tags will always be sent before command
 	if (!output->command_tags_mask) {
-		log_error("command:\t'%s' not sent command tags", command);
+		log_e("layout_user_command '%s' not sent command tags", command);
 		return;
 	}
 

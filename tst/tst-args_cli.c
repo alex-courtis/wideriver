@@ -103,7 +103,7 @@ void args_parse_cli__bad_layout(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --layout 'bleh'\n\n");
+	assert_log(FATAL, "invalid --layout 'bleh'\n\n");
 }
 
 void args_parse_cli__bad_layout_alt(void **state) {
@@ -116,7 +116,7 @@ void args_parse_cli__bad_layout_alt(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --layout-alt 'foo'\n\n");
+	assert_log(FATAL, "invalid --layout-alt 'foo'\n\n");
 }
 
 void args_parse_cli__bad_stack(void **state) {
@@ -129,7 +129,7 @@ void args_parse_cli__bad_stack(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --stack 'bleh'\n\n");
+	assert_log(FATAL, "invalid --stack 'bleh'\n\n");
 }
 
 void args_parse_cli__bad_count_master(void **state) {
@@ -142,7 +142,7 @@ void args_parse_cli__bad_count_master(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --count-master '-1'\n\n");
+	assert_log(FATAL, "invalid --count-master '-1'\n\n");
 }
 
 void args_parse_cli__bad_ratio_master(void **state) {
@@ -155,7 +155,7 @@ void args_parse_cli__bad_ratio_master(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --ratio-master '-1'\n\n");
+	assert_log(FATAL, "invalid --ratio-master '-1'\n\n");
 }
 
 void args_parse_cli__bad_count_wide_left(void **state) {
@@ -168,7 +168,7 @@ void args_parse_cli__bad_count_wide_left(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --count-wide-left '-1'\n\n");
+	assert_log(FATAL, "invalid --count-wide-left '-1'\n\n");
 }
 
 void args_parse_cli__bad_ratio_wide(void **state) {
@@ -181,7 +181,7 @@ void args_parse_cli__bad_ratio_wide(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --ratio-wide '-1'\n\n");
+	assert_log(FATAL, "invalid --ratio-wide '-1'\n\n");
 }
 
 void args_parse_cli__bad_border_width_smart_gaps(void **state) {
@@ -194,7 +194,7 @@ void args_parse_cli__bad_border_width_smart_gaps(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --border-width-smart-gaps '-1'\n\n");
+	assert_log(FATAL, "invalid --border-width-smart-gaps '-1'\n\n");
 }
 
 void args_parse_cli__bad_inner_gaps(void **state) {
@@ -207,7 +207,7 @@ void args_parse_cli__bad_inner_gaps(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --inner-gaps '-1'\n\n");
+	assert_log(FATAL, "invalid --inner-gaps '-1'\n\n");
 }
 
 void args_parse_cli__bad_outer_gaps(void **state) {
@@ -220,7 +220,7 @@ void args_parse_cli__bad_outer_gaps(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --outer-gaps '-1'\n\n");
+	assert_log(FATAL, "invalid --outer-gaps '-1'\n\n");
 }
 
 void args_parse_cli__bad_border_width(void **state) {
@@ -233,7 +233,7 @@ void args_parse_cli__bad_border_width(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --border-width 'A'\n\n");
+	assert_log(FATAL, "invalid --border-width 'A'\n\n");
 }
 
 void args_parse_cli__bad_border_width_monocle(void **state) {
@@ -246,7 +246,7 @@ void args_parse_cli__bad_border_width_monocle(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --border-width-monocle ''\n\n");
+	assert_log(FATAL, "invalid --border-width-monocle ''\n\n");
 }
 
 void args_parse_cli__bad_border_color_focused(void **state) {
@@ -259,7 +259,7 @@ void args_parse_cli__bad_border_color_focused(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --border-color-focused 'bleh'\n\n");
+	assert_log(FATAL, "invalid --border-color-focused 'bleh'\n\n");
 }
 
 void args_parse_cli__bad_border_color_focused_monocle(void **state) {
@@ -272,7 +272,7 @@ void args_parse_cli__bad_border_color_focused_monocle(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --border-color-focused-monocle 'foo'\n\n");
+	assert_log(FATAL, "invalid --border-color-focused-monocle 'foo'\n\n");
 }
 
 void args_parse_cli__bad_border_color_unfocused(void **state) {
@@ -285,7 +285,7 @@ void args_parse_cli__bad_border_color_unfocused(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --border-color-unfocused 'bar'\n\n");
+	assert_log(FATAL, "invalid --border-color-unfocused 'bar'\n\n");
 }
 
 void args_parse_cli__bad_log_threshold(void **state) {
@@ -298,7 +298,7 @@ void args_parse_cli__bad_log_threshold(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_log(ERROR, "invalid --log-threshold 'bleh'\n\n");
+	assert_log(FATAL, "invalid --log-threshold 'bleh'\n\n");
 }
 
 int main(void) {

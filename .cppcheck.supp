@@ -1,9 +1,12 @@
+unusedFunction:src/log.c
+
 unusedFunction:pro/*.h
-unusedFunction:inc/log.h
 
 unusedFunction:tst/asserts.h
 unusedFunction:tst/util.c
 unusedFunction:tst/wrap-*.c
 
-# TODO use --check-level=exhaustive once available in CI
-normalCheckLevelMaxBranches
+staticFunction:tst/*c
+
+# this is just not practical
+nullPointerOutOfMemory
