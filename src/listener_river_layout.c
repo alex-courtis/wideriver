@@ -58,15 +58,15 @@ static void layout_handle_layout_demand(void *data,
 	displ_request_style(output, tag, view_count);
 }
 
-static void layout_handle_namespace_in_use(void *data,
-		struct river_layout_v3 *river_layout_v3) {
+static void layout_handle_namespace_in_use(void *data __attribute__((unused)),
+		struct river_layout_v3 *river_layout_v3       __attribute__((unused))) {
 	log_error("river namespace in use, exiting");
 
 	exit(EXIT_FAILURE);
 }
 
 static void layout_handle_user_command_tags(void *data,
-		struct river_layout_v3 *river_layout_manager_v3,
+		struct river_layout_v3 *river_layout_manager_v3 __attribute__((unused)),
 		uint32_t tags) {
 	log_debug_c_s("command:"); log_debug_c("tags:"); log_debug_c_e("0x%u", tags);
 
@@ -80,7 +80,7 @@ static void layout_handle_user_command_tags(void *data,
 }
 
 static void layout_handle_user_command(void *data,
-		struct river_layout_v3 *river_layout_manager_v3,
+		struct river_layout_v3 *river_layout_manager_v3 __attribute__((unused)),
 		const char *command) {
 	log_debug_c_s("command:"); log_debug_c_e("'%s'", command);
 

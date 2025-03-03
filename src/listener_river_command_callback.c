@@ -11,7 +11,7 @@
 
 static void river_command_handle_success(void *data,
 		struct zriver_command_callback_v1 *zriver_command_callback_v1,
-		const char *output) {
+		const char *output __attribute__((unused))) {
 
 	zriver_command_callback_v1_destroy(zriver_command_callback_v1);
 
