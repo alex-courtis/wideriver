@@ -75,70 +75,70 @@ static void log_(const enum LogThreshold threshold, const enum LogMode mode, con
 	fflush(stream);
 }
 
-void log_debug(const char *__restrict __format, ...) {
+void log_d(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(DEBUG, NORMAL, 0, __format, args);
 	va_end(args);
 }
 
-void log_debug_c_s(const char *__restrict __format, ...) {
+void log_d_c_s(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(DEBUG, COL_START, 0, __format, args);
 	va_end(args);
 }
 
-void log_debug_c(const char *__restrict __format, ...) {
+void log_d_c(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(DEBUG, COL, 0, __format, args);
 	va_end(args);
 }
 
-void log_debug_c_e(const char *__restrict __format, ...) {
+void log_d_c_e(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(DEBUG, COL_END, 0, __format, args);
 	va_end(args);
 }
 
-void log_info(const char *__restrict __format, ...) {
+void log_i(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(INFO, NORMAL, 0, __format, args);
 	va_end(args);
 }
 
-void log_warn(const char *__restrict __format, ...) {
+void log_w(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(WARNING, NORMAL, 0, __format, args);
 	va_end(args);
 }
 
-void log_error(const char *__restrict __format, ...) {
+void log_e(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(ERROR, NORMAL, 0, __format, args);
 	va_end(args);
 }
 
-void log_error_errno(const char *__restrict __format, ...) {
+void log_e_errno(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(ERROR, NORMAL, errno, __format, args);
 	va_end(args);
 }
 
-void log_fatal(const char *__restrict __format, ...) {
+void log_f(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(FATAL, NORMAL, 0, __format, args);
 	va_end(args);
 }
 
-void log_fatal_errno(const char *__restrict __format, ...) {
+void log_f_errno(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(FATAL, NORMAL, errno, __format, args);

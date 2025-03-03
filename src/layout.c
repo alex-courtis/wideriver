@@ -121,10 +121,10 @@ struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
 			break;
 	}
 
-	log_debug_c_s("layout:"); log_debug_c_e("%s", layout_name(tag->layout_cur));
-	log_debug_c_s("layout:"); log_debug_c("before(%u)", num_before);            log_debug_c("%u,%u", box_before.x, box_before.y); log_debug_c_e("%ux%u", box_before.width, box_before.height);
-	log_debug_c_s("layout:"); log_debug_c("master(%u)", num_master);            log_debug_c("%u,%u", box_master.x, box_master.y); log_debug_c_e("%ux%u", box_master.width, box_master.height);
-	log_debug_c_s("layout:"); log_debug_c("after(%u)", num_after);              log_debug_c("%u,%u", box_after.x, box_after.y);   log_debug_c_e("%ux%u", box_after.width, box_after.height);
+	log_d_c_s("layout:"); log_d_c_e("%s", layout_name(tag->layout_cur));
+	log_d_c_s("layout:"); log_d_c("before(%u)", num_before);            log_d_c("%u,%u", box_before.x, box_before.y); log_d_c_e("%ux%u", box_before.width, box_before.height);
+	log_d_c_s("layout:"); log_d_c("master(%u)", num_master);            log_d_c("%u,%u", box_master.x, box_master.y); log_d_c_e("%ux%u", box_master.width, box_master.height);
+	log_d_c_s("layout:"); log_d_c("after(%u)", num_after);              log_d_c("%u,%u", box_after.x, box_after.y);   log_d_c_e("%ux%u", box_after.width, box_after.height);
 
 	// populate
 	switch(tag->layout_cur) {
@@ -177,7 +177,7 @@ void push(const struct SList *views, struct river_layout_v3 *river_layout_v3, co
 	uint32_t n = 0;
 	for (const struct SList *i = views; i; i = i->nex) {
 		struct Box *box = i->val;
-		log_debug_c_s("push:"); log_debug_c("%02u", n++); log_debug_c("%u,%u", box->x, box->x); log_debug_c_e("%ux%u", box->width, box->height);
+		log_d_c_s("push:"); log_d_c("%02u", n++); log_d_c("%u,%u", box->x, box->x); log_d_c_e("%ux%u", box->width, box->height);
 		river_layout_v3_push_view_dimensions(river_layout_v3, box->x, box->y, box->width, box->height, serial);
 	}
 }

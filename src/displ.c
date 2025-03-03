@@ -26,17 +26,17 @@ struct Displ d = { 0 };
 const struct Displ * const displ = &d;
 
 static void complete_border_width(void) {
-	log_debug_c_s("complete:"); log_debug_c("width:"); log_debug_c_e("%lu->%lu", d.style_current.border_width, d.style_desired.border_width);
+	log_d_c_s("complete:"); log_d_c("width:"); log_d_c_e("%lu->%lu", d.style_current.border_width, d.style_desired.border_width);
 	d.style_current.border_width = d.style_desired.border_width;
 }
 
 static void complete_border_color_focused(void) {
-	log_debug_c_s("complete:"); log_debug_c("focused:"); log_debug_c_e("%s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
+	log_d_c_s("complete:"); log_d_c("focused:"); log_d_c_e("%s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
 	d.style_current.border_color_focused = d.style_desired.border_color_focused;
 }
 
 static void complete_border_color_unfocused(void) {
-	log_debug_c_s("complete:"); log_debug_c("unfocused:"); log_debug_c_e("%s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
+	log_d_c_s("complete:"); log_d_c("unfocused:"); log_d_c_e("%s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
 	d.style_current.border_color_unfocused = d.style_desired.border_color_unfocused;
 }
 
@@ -92,37 +92,37 @@ bool displ_init(void) {
 
 	d.wl_display = wl_display_connect(NULL);
 	if (!d.wl_display) {
-		log_fatal("Unable to connect to the compositor. Check or set the WAYLAND_DISPLAY environment variable.");
+		log_f("Unable to connect to the compositor. Check or set the WAYLAND_DISPLAY environment variable.");
 		goto err;
 	}
 
 	d.wl_registry = wl_display_get_registry(d.wl_display);
 	if (!d.wl_registry) {
-		log_fatal("wl_display_get_registry failed, exiting");
+		log_f("wl_display_get_registry failed, exiting");
 		goto err;
 	}
 
 	wl_registry_add_listener(d.wl_registry, registry_listener(), &d);
 
 	if (wl_display_roundtrip(d.wl_display) == -1) {
-		log_fatal("Initial wl_display_roundtrip failed to retrieve wl_display, exiting");
+		log_f("Initial wl_display_roundtrip failed to retrieve wl_display, exiting");
 		goto err;
 	}
 
 	if (!d.river_layout_manager) {
-		log_fatal("Compositor did not provide river_layout_manager_v3, exiting");
+		log_f("Compositor did not provide river_layout_manager_v3, exiting");
 		goto err;
 	}
 	if (!d.river_status_manager) {
-		log_fatal("Compositor did not provide zriver_status_manager_v1, exiting");
+		log_f("Compositor did not provide zriver_status_manager_v1, exiting");
 		goto err;
 	}
 	if (!d.river_seat_status) {
-		log_fatal("Compositor did not provide zriver_seat_status_v1, exiting");
+		log_f("Compositor did not provide zriver_seat_status_v1, exiting");
 		goto err;
 	}
 	if (!d.river_control) {
-		log_fatal("Compositor did not provide zriver_control_v1, exiting");
+		log_f("Compositor did not provide zriver_control_v1, exiting");
 		goto err;
 	}
 
@@ -134,36 +134,36 @@ err:
 }
 
 void displ_destroy(void) {
-	log_debug("displ_destroy");
+	log_d("displ_destroy");
 
 	ptable_free_vals(d.outputs, output_destroy);
 
 	if (d.river_layout_manager) {
-		log_debug_c_s("displ_destroy"); log_debug_c(""); log_debug_c("river_layout_manager"); log_debug_c_e("%p", (void*)d.river_layout_manager);
+		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("river_layout_manager"); log_d_c_e("%p", (void*)d.river_layout_manager);
 		river_layout_manager_v3_destroy(d.river_layout_manager);
 	}
 	if (d.river_status_manager) {
-		log_debug_c_s("displ_destroy"); log_debug_c(""); log_debug_c("river_status_manager"); log_debug_c_e("%p", (void*)d.river_status_manager);
+		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("river_status_manager"); log_d_c_e("%p", (void*)d.river_status_manager);
 		zriver_status_manager_v1_destroy(d.river_status_manager);
 	}
 	if (d.river_seat_status) {
-		log_debug_c_s("displ_destroy"); log_debug_c(""); log_debug_c("river_seat_status"); log_debug_c_e("%p", (void*)d.river_seat_status);
+		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("river_seat_status"); log_d_c_e("%p", (void*)d.river_seat_status);
 		zriver_seat_status_v1_destroy(d.river_seat_status);
 	}
 	if (d.river_control) {
-		log_debug_c_s("displ_destroy"); log_debug_c(""); log_debug_c("river_control"); log_debug_c_e("%p", (void*)d.river_control);
+		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("river_control"); log_d_c_e("%p", (void*)d.river_control);
 		zriver_control_v1_destroy(d.river_control);
 	}
 	if (d.wl_seat) {
-		log_debug_c_s("displ_destroy"); log_debug_c(""); log_debug_c("wl_seat"); log_debug_c_e("%p", (void*)d.wl_seat);
+		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("wl_seat"); log_d_c_e("%p", (void*)d.wl_seat);
 		wl_seat_destroy(d.wl_seat);
 	}
 	if (d.wl_registry) {
-		log_debug_c_s("displ_destroy"); log_debug_c(""); log_debug_c("wl_registry"); log_debug_c_e("%p", (void*)d.wl_registry);
+		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("wl_registry"); log_d_c_e("%p", (void*)d.wl_registry);
 		wl_registry_destroy(d.wl_registry);
 	}
 	if (d.wl_display) {
-		log_debug_c_s("displ_destroy"); log_debug_c(""); log_debug_c("wl_display"); log_debug_c_e("%p", (void*)d.wl_display);
+		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("wl_display"); log_d_c_e("%p", (void*)d.wl_display);
 		wl_display_disconnect(d.wl_display);
 	}
 

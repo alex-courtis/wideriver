@@ -27,7 +27,7 @@ const struct Cmd *cmd_init(const char *args) {
 	free(str);
 
 	if (argc == 0) {
-		log_error("command empty '%s'", args);
+		log_e("command empty '%s'", args);
 		return NULL;
 	}
 
@@ -42,7 +42,7 @@ const struct Cmd *cmd_init(const char *args) {
 	// retain tokens whilst parsing
 	const struct Cmd *cmd = args_cmd(argc, argv);
 	if (!cmd) {
-		log_error("command invalid '%s'", args);
+		log_e("command invalid '%s'", args);
 	}
 
 	slist_free_vals(&tokens, NULL);

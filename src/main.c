@@ -46,10 +46,10 @@ static void init_pfds(void) {
 // EXIT_SUCCESS on EPIPE otherwise error with op and errno
 static int rc_errno_pipe_ok(const char *op) {
 	if (errno == EPIPE) {
-		log_info("Wayland display terminated, exiting.");
+		log_i("Wayland display terminated, exiting.");
 		return EXIT_SUCCESS;
 	} else {
-		log_fatal_errno("%s failed, exiting", op);
+		log_f_errno("%s failed, exiting", op);
 		return errno;
 	}
 }
@@ -74,7 +74,7 @@ static int loop(void) {
 
 		// poll for all events
 		if (poll(pfds, NPFDS, -1) < 0) {
-			log_fatal_errno("poll failed, exiting");
+			log_f_errno("poll failed, exiting");
 			return EXIT_FAILURE;
 		}
 
@@ -83,7 +83,7 @@ static int loop(void) {
 			// signal received: int, quit, term
 			struct signalfd_siginfo fdsi;
 			if (read(pfd_signal->fd, &fdsi, sizeof(fdsi)) == sizeof(fdsi)) {
-				log_info("Received signal %d %s", fdsi.ssi_signo, strsignal(fdsi.ssi_signo));
+				log_i("Received signal %d %s", fdsi.ssi_signo, strsignal(fdsi.ssi_signo));
 				return EXIT_SUCCESS;
 			}
 		} else if (pfd_wayland->revents & pfd_wayland->events) {
@@ -93,7 +93,7 @@ static int loop(void) {
 				return rc_errno_pipe_ok("wl_display_read_events");
 			}
 		} else {
-			log_fatal("Unknown event received, exiting");
+			log_f("Unknown event received, exiting");
 			return EXIT_FAILURE;
 		}
 	}
@@ -105,7 +105,7 @@ int main(int argc, char **argv) {
 	int rc = EXIT_SUCCESS;
 
 	if (!getenv("WAYLAND_DISPLAY")) {
-		log_fatal("Environment variable WAYLAND_DISPLAY not set, exiting");
+		log_f("Environment variable WAYLAND_DISPLAY not set, exiting");
 		exit(EXIT_FAILURE);
 	}
 
@@ -116,11 +116,11 @@ int main(int argc, char **argv) {
 		goto done;
 	}
 
-	log_info("wideriver started");
+	log_i("wideriver started");
 
 	rc = loop();
 
-	log_info("wideriver done %d", rc);
+	log_i("wideriver done %d", rc);
 
 done:
 	displ_destroy();

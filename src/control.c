@@ -30,7 +30,7 @@ void control_execute(const struct SList *args, control_complete_fn complete) {
 		zriver_control_v1_add_argument(displ->river_control, i->val);
 	}
 
-	log_debug_c_s("control:"); log_debug_c_e("%s", buf);
+	log_d_c_s("control:"); log_d_c_e("%s", buf);
 
 	// execute
 	struct zriver_command_callback_v1 *cb = zriver_control_v1_run_command(displ->river_control, displ->wl_seat);

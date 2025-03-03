@@ -23,34 +23,34 @@ struct Output *output_init(struct wl_output *wl_output,
 		struct river_layout_manager_v3 *river_layout_manager,
 		struct zriver_status_manager_v1 *river_status_manager) {
 
-	log_debug_c_s("output_init"); log_debug_c("%d", name); log_debug_c("wl_output"); log_debug_c_e("%p", (void*)wl_output);
+	log_d_c_s("output_init"); log_d_c("%d", name); log_d_c("wl_output"); log_d_c_e("%p", (void*)wl_output);
 
 	if (!wl_output) {
-		log_warn("Cannot create output %d, missing wayland output.", name);
+		log_w("Cannot create output %d, missing wayland output.", name);
 		return NULL;
 	}
 	if (!river_layout_manager) {
-		log_warn("Cannot create output %d, missing river layout manager.", name);
+		log_w("Cannot create output %d, missing river layout manager.", name);
 		return NULL;
 	}
 	if (!river_status_manager) {
-		log_warn("Cannot create output %d, missing river status manager.", name);
+		log_w("Cannot create output %d, missing river status manager.", name);
 		return NULL;
 	}
 
 	struct river_layout_v3 *river_layout = river_layout_manager_v3_get_layout(river_layout_manager, wl_output, "wideriver");
 	if (!river_layout) {
-		log_warn("Failed to create river layout, ignoring output %d", name);
+		log_w("Failed to create river layout, ignoring output %d", name);
 		return NULL;
 	}
-	log_debug_c_s("output_init"); log_debug_c("%d", name); log_debug_c("river_layout"); log_debug_c_e("%p", (void*)river_layout);
+	log_d_c_s("output_init"); log_d_c("%d", name); log_d_c("river_layout"); log_d_c_e("%p", (void*)river_layout);
 
 	struct zriver_output_status_v1 *river_output_status = zriver_status_manager_v1_get_river_output_status(river_status_manager, wl_output);
 	if (!river_output_status) {
-		log_warn("Failed to create river status manager, ignoring output %d", name);
+		log_w("Failed to create river status manager, ignoring output %d", name);
 		return NULL;
 	}
-	log_debug_c_s("output_init"); log_debug_c("%d", name); log_debug_c("river_output_status"); log_debug_c_e("%p", (void*)river_output_status);
+	log_d_c_s("output_init"); log_d_c("%d", name); log_d_c("river_output_status"); log_d_c_e("%p", (void*)river_output_status);
 
 	struct Output *output = calloc(1, sizeof(struct Output));
 	output->wl_output = wl_output;
@@ -71,18 +71,18 @@ void output_destroy(const void *o) {
 		return;
 
 	const struct Output* const output = o;
-	log_debug_c_s("output_destroy"); log_debug_c_e("%d %s", output->name, "");
+	log_d_c_s("output_destroy"); log_d_c_e("%d %s", output->name, "");
 
 	if (output->river_layout) {
 		river_layout_v3_destroy(output->river_layout);
-		log_debug_c_s("output_destroy"); log_debug_c("%d", output->name); log_debug_c("river_layout"); log_debug_c_e("%p", (void*)output->river_layout);
+		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("river_layout"); log_d_c_e("%p", (void*)output->river_layout);
 	}
 	if (output->river_output_status) {
 		zriver_output_status_v1_destroy(output->river_output_status);
-		log_debug_c_s("output_destroy"); log_debug_c("%d", output->name); log_debug_c("river_output_status"); log_debug_c_e("%p", (void*)output->river_output_status);
+		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("river_output_status"); log_d_c_e("%p", (void*)output->river_output_status);
 	}
 	if (output->wl_output) {
-		log_debug_c_s("output_destroy"); log_debug_c("%d", output->name); log_debug_c("wl_output"); log_debug_c_e("%p", (void*)output->wl_output);
+		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("wl_output"); log_d_c_e("%p", (void*)output->wl_output);
 		wl_output_destroy(output->wl_output);
 	}
 	tags_destroy(output->tags);
