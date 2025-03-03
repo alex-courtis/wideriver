@@ -196,8 +196,8 @@ void args_cli(int argc, char **argv) {
 	log_i("--%ssmart-gaps",                     cfg->smart_gaps ? "" : "no-");
 	log_i("--inner-gaps                   %u",  cfg->inner_gaps);
 	log_i("--outer-gaps                   %u",  cfg->outer_gaps);
-	log_i("--border-width                 %lu", cfg->border_width);
-	log_i("--border-width-monocle         %lu", cfg->border_width_monocle);
+	log_i("--border-width                 %zu", cfg->border_width);
+	log_i("--border-width-monocle         %zu", cfg->border_width_monocle);
 	log_i("--border-width-smart-gaps      %u",  cfg->border_width_smart_gaps);
 	log_i("--border-color-focused         %s",  cfg->border_color_focused);
 	log_i("--border-color-focused-monocle %s",  cfg->border_color_focused_monocle);

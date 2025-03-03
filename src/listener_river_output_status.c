@@ -41,7 +41,7 @@ static void output_status_handle_layout_name(void *data,
 		const char *name) {
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("output_layout_name"); log_d_c("%d", output ? output->name : 0); log_d_c("name"); log_d_c_e("%s", name);
+	log_d_c_s("output_layout_name"); log_d_c("%d", output ? output->name : 0); log_d_c("name"); log_d_c_e("'%s'", name);
 }
 
 static void output_status_handle_layout_name_clear(void *data,

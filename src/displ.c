@@ -26,17 +26,17 @@ struct Displ d = { 0 };
 const struct Displ * const displ = &d;
 
 static void complete_border_width(void) {
-	log_d_c_s("complete:"); log_d_c("width:"); log_d_c_e("%lu->%lu", d.style_current.border_width, d.style_desired.border_width);
+	log_d_c_s("  complete"); log_d_c("border_width"); log_d_c_e("%zu->%zu", d.style_current.border_width, d.style_desired.border_width);
 	d.style_current.border_width = d.style_desired.border_width;
 }
 
 static void complete_border_color_focused(void) {
-	log_d_c_s("complete:"); log_d_c("focused:"); log_d_c_e("%s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
+	log_d_c_s("  complete"); log_d_c("border_color_focused"); log_d_c_e("%s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
 	d.style_current.border_color_focused = d.style_desired.border_color_focused;
 }
 
 static void complete_border_color_unfocused(void) {
-	log_d_c_s("complete:"); log_d_c("unfocused:"); log_d_c_e("%s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
+	log_d_c_s("  complete"); log_d_c("border_color_unfocused"); log_d_c_e("%s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
 	d.style_current.border_color_unfocused = d.style_desired.border_color_unfocused;
 }
 
