@@ -9,7 +9,7 @@ INCS = -Iinc -Ipro -Ilib/col/inc
 CPPFLAGS += $(INCS) -D_GNU_SOURCE -DVERSION=\"$(VERSION)\" -DRIVER_LAYOUT_V3_VERSION=$(RIVER_LAYOUT_V3_VERSION)
 
 OFLAGS = -O3
-WFLAGS = -Wall -Wextra -Werror -Wno-unused-parameter -Wimplicit-fallthrough -Wno-format-zero-length
+WFLAGS = -pedantic -Wall -Wextra -Werror -Wimplicit-fallthrough -Wno-unused-parameter -Wno-format-zero-length
 DFLAGS = -g
 COMPFLAGS = $(WFLAGS) $(OFLAGS) $(DFLAGS)
 
