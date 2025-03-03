@@ -10,7 +10,7 @@ OBJS =  tst/util.o \
 		$(PRO_O) $(LIB_O)
 
 WRAPS_COMMON = -Wl,$\
-	--wrap=log_fatal,--wrap=log_error,--wrap=log_warn,--wrap=log_info,--wrap=log_debug
+	--wrap=log_f,--wrap=log_e,--wrap=log_w,--wrap=log_i,--wrap=log_d
 
 tst-args_cli: WRAPS=,$\
 	--wrap=usage

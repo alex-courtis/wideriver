@@ -72,49 +72,49 @@ void __wrap_log_(enum LogThreshold t, const char *__restrict __format, ...) {
 	va_end(args);
 }
 
-void __wrap_log_debug(const char *__restrict __format, ...) {
+void __wrap_log_d(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	_log(DEBUG, __format, args);
 	va_end(args);
 }
 
-void __wrap_log_info(const char *__restrict __format, ...) {
+void __wrap_log_i(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	_log(INFO, __format, args);
 	va_end(args);
 }
 
-void __wrap_log_warn(const char *__restrict __format, ...) {
+void __wrap_log_w(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	_log(WARNING, __format, args);
 	va_end(args);
 }
 
-void __wrap_log_error(const char *__restrict __format, ...) {
+void __wrap_log_e(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	_log(ERROR, __format, args);
 	va_end(args);
 }
 
-void __wrap_log_error_errno(const char *__restrict __format, ...) {
+void __wrap_log_e_errno(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	_log(ERROR, __format, args);
 	va_end(args);
 }
 
-void __wrap_log_fatal(const char *__restrict __format, ...) {
+void __wrap_log_f(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	_log(FATAL, __format, args);
 	va_end(args);
 }
 
-void __wrap_log_fatal_errno(const char *__restrict __format, ...) {
+void __wrap_log_f_errno(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	_log(FATAL, __format, args);
