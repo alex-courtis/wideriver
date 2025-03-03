@@ -12,7 +12,7 @@
 //
 
 static void handle_focused_output(void *data,
-		struct zriver_seat_status_v1 *zriver_seat_status_v1 __attribute__((unused)),
+		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		struct wl_output *output) {
 	if (!data || !output)
 		return;
@@ -24,20 +24,20 @@ static void handle_focused_output(void *data,
 	displ->wl_output_focused = output;
 }
 
-static void handle_unfocused_output(void *data              __attribute__((unused)),
-		struct zriver_seat_status_v1 *zriver_seat_status_v1 __attribute__((unused)),
-		struct wl_output *output __attribute__((unused))) {
+static void handle_unfocused_output(void *data,
+		struct zriver_seat_status_v1 *zriver_seat_status_v1,
+		struct wl_output *output) {
 	log_debug_c_s("seat:"); log_debug_c_e("unfocused_output");
 }
 
-static void handle_focused_view(void *data                  __attribute__((unused)),
-		struct zriver_seat_status_v1 *zriver_seat_status_v1 __attribute__((unused)),
+static void handle_focused_view(void *data,
+		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		const char *title) {
 	log_debug_c_s("seat:"); log_debug_c("focused_view:"); log_debug_c_e("%s", title);
 }
 
-static void handle_mode(void *data                          __attribute__((unused)),
-		struct zriver_seat_status_v1 *zriver_seat_status_v1 __attribute__((unused)),
+static void handle_mode(void *data,
+		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		const char *name) {
 	log_debug_c_s("seat:"); log_debug_c("mode:"); log_debug_c_e("%s", name);
 }

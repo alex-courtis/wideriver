@@ -72,7 +72,7 @@ static void global(void *data,
 }
 
 static void global_remove(void *data,
-		struct wl_registry *wl_registry __attribute__((unused)),
+		struct wl_registry *wl_registry,
 		uint32_t name) {
 	struct Displ *displ = data;
 
