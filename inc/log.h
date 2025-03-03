@@ -13,9 +13,9 @@ void log_d_c(const char *__restrict __format, ...)     __attribute__ ((__format_
 
 void log_d_c_e(const char *__restrict __format, ...)   __attribute__ ((__format__ (__printf__, 1, 2)));
 
-void log_i(const char *__restrict __format, ...)        __attribute__ ((__format__ (__printf__, 1, 2)));
+void log_i(const char *__restrict __format, ...)       __attribute__ ((__format__ (__printf__, 1, 2)));
 
-void log_w(const char *__restrict __format, ...)        __attribute__ ((__format__ (__printf__, 1, 2)));
+void log_w(const char *__restrict __format, ...)       __attribute__ ((__format__ (__printf__, 1, 2)));
 
 void log_e(const char *__restrict __format, ...)       __attribute__ ((__format__ (__printf__, 1, 2)));
 
