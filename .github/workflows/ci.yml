@@ -40,7 +40,9 @@ jobs:
           llvm \
           llvm-libs \
           ninja \
-          valgrind
+          valgrind \
+          wayland lib32-wayland \
+          wayland-protocols
 
       - uses: actions/checkout@v4
 
