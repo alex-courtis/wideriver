@@ -6,11 +6,8 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch:
-    inputs:
-      dummy:
-        description: dummy
-        required: false
+  workflow_dispatch: {}
+
 jobs:
   all:
     runs-on: ubuntu-latest
