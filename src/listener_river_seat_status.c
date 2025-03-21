@@ -4,6 +4,7 @@
 
 #include "displ.h"
 #include "log.h"
+#include "output.h"
 #include "ptable.h"
 
 #include "listener_river_seat_status.h"

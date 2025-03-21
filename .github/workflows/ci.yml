@@ -7,23 +7,69 @@ on:
     branches:
       - master
   workflow_dispatch:
+    inputs:
+      dummy:
+        description: dummy
+        required: false
 jobs:
   all:
     runs-on: ubuntu-latest
+
+    container:
+      image: archlinux:multilib-devel
+
+    defaults:
+      run:
+        shell: sh -ec "runuser runner {0}" # assume the runner user except where overridden by root
+
+    env:
+      DEBUGINFOD_URLS: "https://debuginfod.archlinux.org" # profile thus debuginfod.sh is not executed
+
     steps:
-    - uses: actions/checkout@v3
-    - name: deps
-      run: |
-        sudo add-apt-repository universe
-        sudo apt install clang wayland-protocols libwlroots-dev libcmocka-dev cppcheck valgrind -y
-    - name: gcc
-      run: make CC=gcc CXX=g++ clean wideriver
-    - name: clang
-      run: make CC=clang CXX=clang++ clean wideriver
-    - name: test
-      run: make CC=clang CXX=clang++ test
-    - name: cppcheck
-      run: make CC=clang CXX=clang++ cppcheck
-    - name: test valgrind
-      run: make CC=gcc CXX=g++ clean test-vg
+      - name: create user
+        shell: sh -e {0}
+        # magic numbers and names not available in environment
+        run: |
+          groupadd --gid 118 docker
+          useradd -m -s /bin/sh --uid 1001 --gid docker runner
+
+      - name: install packages
+        shell: sh -e {0}
+        run: |
+          pacman --noconfirm -Sy \
+          clang \
+          cmake \
+          cmocka \
+          cppcheck \
+          git \
+          llvm \
+          llvm-libs \
+          ninja \
+          valgrind \
+          wayland \
+          wayland-protocols
+
+      - uses: actions/checkout@v4
+
+      - name: set source permissions
+        run: chown -R runner:docker .
+        shell: sh -e {0}
+
+      - run: make CC=gcc   CXX=g++     clean all
+      - run: make CC=gcc   CXX=g++     clean test
+      - run: make CC=clang CXX=clang++ clean all
+      - run: make CC=clang CXX=clang++ clean test
+      - run: make                      clean cppcheck
+      - run: make CC=gcc   CXX=g++     clean test-vg
+      - run: make CC=clang CXX=clang++ clean test-vg
+
+      - name: build include-what-you-use package
+        run: |
+          git clone https://aur.archlinux.org/include-what-you-use.git /tmp/include-what-you-use
+          makepkg OPTIONS=-debug PKGEXT='.pkg.tar' --dir /tmp/include-what-you-use
+      - name: install include-what-you-use package
+        run: pacman -U --noconfirm /tmp/include-what-you-use/*.pkg.tar
+        shell: sh -e {0}
+
+      - run: make clean iwyu
 
