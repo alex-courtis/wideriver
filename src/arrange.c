@@ -201,10 +201,17 @@ void arrange_wide(const struct Demand *demand,
 
 	// 010
 	if (!num_before && num_master && !num_after) {
-		master->width = demand->usable_width - 2 * outer_gap;
-		master->height = demand->usable_height - 2 * outer_gap;
-		master->x = outer_gap;
-		master->y = outer_gap;
+		if (tag->fixed_master_wide) {
+			master->width = (demand->usable_width - 2 * (outer_gap + inner_gap)) * tag->ratio_wide + 0.5f;
+			master->height = demand->usable_height - 2 * outer_gap;
+			master->x = (demand->usable_width - master->width) / 2.0f + 0.5f;
+			master->y = outer_gap;
+		}else {
+			master->width = demand->usable_width - 2 * outer_gap;
+			master->height = demand->usable_height - 2 * outer_gap;
+			master->x = outer_gap;
+			master->y = outer_gap;
+		}
 		return;
 	}
 
@@ -242,10 +249,17 @@ void arrange_wide(const struct Demand *demand,
 
 	// 011
 	if (!num_before && num_master && num_after) {
-		master->width = (demand->usable_width - 2 * outer_gap - inner_gap) * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
-		master->height = demand->usable_height - 2 * outer_gap;
-		master->x = outer_gap;
-		master->y = outer_gap;
+		if (tag->fixed_master_wide) {
+			master->width = (demand->usable_width - 2 * (outer_gap + inner_gap)) * tag->ratio_wide + 0.5f;
+			master->height = demand->usable_height - 2 * outer_gap;
+			master->x = (demand->usable_width - master->width) / 2.0f + 0.5f;
+			master->y = outer_gap;
+		} else {
+			master->width = (demand->usable_width - 2 * outer_gap - inner_gap) * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
+			master->height = demand->usable_height - 2 * outer_gap;
+			master->x = outer_gap;
+			master->y = outer_gap;
+		}
 
 		after->width = demand->usable_width - master->width - 2 * outer_gap - inner_gap;
 		after->height = demand->usable_height - 2 * outer_gap;
@@ -256,10 +270,17 @@ void arrange_wide(const struct Demand *demand,
 
 	// 110
 	if (num_before && num_master && !num_after) {
-		master->width = (demand->usable_width - 2 * outer_gap - inner_gap) * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
-		master->height = demand->usable_height - 2 * outer_gap;
-		master->x = demand->usable_width - master->width - outer_gap;
-		master->y = outer_gap;
+		if (tag->fixed_master_wide) {
+			master->width = (demand->usable_width - 2 * (outer_gap + inner_gap)) * tag->ratio_wide + 0.5f;
+			master->height = demand->usable_height - 2 * outer_gap;
+			master->x = (demand->usable_width - master->width) / 2.0f + 0.5f;
+			master->y = outer_gap;
+		} else {
+			master->width = (demand->usable_width - 2 * outer_gap - inner_gap) * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
+			master->height = demand->usable_height - 2 * outer_gap;
+			master->x = demand->usable_width - master->width - outer_gap;
+			master->y = outer_gap;
+		}
 
 		before->width = master->x - outer_gap - inner_gap;
 		before->height = demand->usable_height - 2 * outer_gap;

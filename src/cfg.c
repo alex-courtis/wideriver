@@ -24,6 +24,7 @@ struct Cfg c = {
 	.border_color_focused = BORDER_COLOR_FOCUSED_DEFAULT,
 	.border_color_focused_monocle = BORDER_COLOR_FOCUSED_MONOCLE_DEFAULT,
 	.border_color_unfocused = BORDER_COLOR_UNFOCUSED_DEFAULT,
+	.fixed_master_wide = FIXED_MASTER_WIDE_DEFAULT,
 };
 
 const struct Cfg * const cfg = &c;
@@ -212,4 +213,8 @@ bool cfg_set_border_color_unfocused(const char *s) {
 		return true;
 	}
 	return false;
+}
+
+void cfg_set_fixed_master_wide(bool fixed_master_wide) {
+	c.fixed_master_wide = fixed_master_wide;
 }

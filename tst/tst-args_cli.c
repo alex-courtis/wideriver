@@ -32,7 +32,7 @@ int after_each(void **state) {
 }
 
 void args_parse_cli__valid(void **state) {
-	int argc = 34;
+	int argc = 35;
 	char *argv[] = { "dummy",
 		"--layout", "left",
 		"--layout-alt", "right",
@@ -51,6 +51,7 @@ void args_parse_cli__valid(void **state) {
 		"--border-color-focused-monocle", "0xDDEEFFA9",
 		"--border-color-unfocused", "0x001122",
 		"--log-threshold", "ERROR",
+		"--fixed-master-wide",
 	};
 
 	args_cli(argc, argv);
@@ -71,6 +72,7 @@ void args_parse_cli__valid(void **state) {
 	assert_str_equal(cfg->border_color_focused, "0xAABBCC");
 	assert_str_equal(cfg->border_color_focused_monocle, "0xDDEEFFA9");
 	assert_str_equal(cfg->border_color_unfocused, "0x001122");
+	assert_true(cfg->fixed_master_wide);
 
 	assert_log(INFO,
 			"--layout                       left\n"
@@ -90,6 +92,7 @@ void args_parse_cli__valid(void **state) {
 			"--border-color-focused-monocle 0xDDEEFFA9\n"
 			"--border-color-unfocused       0x001122\n"
 			"--log-threshold                error\n"
+			"--fixed-master-wide\n"
 			);
 }
 
