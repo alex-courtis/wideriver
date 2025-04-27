@@ -41,13 +41,17 @@ jobs:
         shell: sh -e {0}
         run: .github/workflows/packages/base/install.sh
 
-      - run: make CC=gcc   CXX=g++     clean all
-      - run: make CC=gcc   CXX=g++     clean test
-      - run: make CC=clang CXX=clang++ clean all
-      - run: make CC=clang CXX=clang++ clean test
-      - run: make                      clean cppcheck
-      - run: make CC=gcc   CXX=g++     clean test-vg
-      - run: make CC=clang CXX=clang++ clean test-vg
+      - run: make          clean
+      - run: make CC=gcc   all
+      - run: make CC=gcc   test
+      - run: make CC=gcc   test-vg
+
+      - run: make clean cppcheck
+
+      - run: make          clean
+      - run: make CC=clang all
+      - run: make CC=clang test
+      - run: make CC=clang test-vg
 
       - name: build include-what-you-use package
         run: .github/workflows/packages/include-what-you-use/build.sh

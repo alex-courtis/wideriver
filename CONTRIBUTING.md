@@ -50,9 +50,9 @@ Most will be available if you are running river.
 
 gcc is the default for packaging reasons, however clang is preferred.
 
-Set CC and CXX when invoking make:
+Set CC when invoking make:
 
-`make CC=clang CXX=clang++ ...`
+`make CC=clang ...`
 
 [ccls](https://github.com/MaskRay/ccls) using clang is configured via `.ccls`, for editors that support the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/).
 
