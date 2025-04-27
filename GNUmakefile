@@ -101,6 +101,28 @@ $(TST_T): $(SRC_O) $(PRO_O) $(LIB_O)
 	$(VALGRIND) ./$(EXE)
 
 #
+# local docker dev
+#
+docker-build:
+	docker build --tag "wide-river:latest" .
+
+docker-stop:
+	docker rm -f wide-river || true
+
+docker-run: docker-stop
+	docker run \
+		--name="wide-river" \
+		--volume "${PWD}:/wide-river" \
+		--workdir="/wide-river" \
+		--user "`id -u`:`id -g`" \
+		--detach \
+		"wide-river:latest"
+
+docker-packages:
+	docker exec                    wide-river .github/workflows/packages/include-what-you-use/build.sh
+	docker exec --user "root:root" wide-river .github/workflows/packages/include-what-you-use/install.sh
+
+#
 # targets
 #
 .PHONY: all clean install uninstall doc iwyu cppcheck test test-vg $(TST_T)
