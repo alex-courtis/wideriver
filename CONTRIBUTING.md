@@ -50,9 +50,9 @@ Most will be available if you are running river.
 
 gcc is the default for packaging reasons, however clang is preferred.
 
-Set CC and CXX when invoking make:
+Set CC when invoking make:
 
-`make CC=clang CXX=clang++ ...`
+`make CC=clang ...`
 
 [ccls](https://github.com/MaskRay/ccls) using clang is configured via `.ccls`, for editors that support the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/).
 
@@ -106,6 +106,42 @@ Necessary changes will be indicated in the output with "should".
 See all violations:
 
 `make -k iwyu > /dev/null`
+
+### Developing On The (CI) Arch Image
+
+`Dockerfile` defines an image similar to that used by the docker container in `ci.yml`
+
+It is intended to run in detached mode, thus the `ENTRYPOINT [ "sleep", "infinity" ]`
+
+Build the image:
+```sh
+make docker-build
+```
+
+Run a detached container:
+```sh
+make docker-run
+```
+
+Build and install the AUR include-what-you-use package:
+```sh
+make docker-packages
+```
+
+Execute a command in the container e.g.:
+```sh
+docker exec wide-river make clean test-vg
+```
+
+OR run a shell in the container:
+```sh
+docker exec -it wide-river /bin/bash
+```
+
+Stop and remove the container:
+```sh
+make docker-stop
+```
 
 ## Documentation
 

@@ -21,8 +21,11 @@ jobs:
 
     env:
       DEBUGINFOD_URLS: "https://debuginfod.archlinux.org" # profile thus debuginfod.sh is not executed
+      DEBUGINFOD_CACHE_PATH: "/tmp/debuginfod_client"
 
     steps:
+      - uses: actions/checkout@v4
+
       - name: create user
         shell: sh -e {0}
         # magic numbers and names not available in environment
@@ -30,42 +33,30 @@ jobs:
           groupadd --gid 118 docker
           useradd -m -s /bin/sh --uid 1001 --gid docker runner
 
-      - name: install packages
-        shell: sh -e {0}
-        run: |
-          pacman --noconfirm -Sy \
-          clang \
-          cmake \
-          cmocka \
-          cppcheck \
-          git \
-          llvm \
-          llvm-libs \
-          ninja \
-          valgrind \
-          wayland \
-          wayland-protocols
-
-      - uses: actions/checkout@v4
-
       - name: set source permissions
         run: chown -R runner:docker .
         shell: sh -e {0}
 
-      - run: make CC=gcc   CXX=g++     clean all
-      - run: make CC=gcc   CXX=g++     clean test
-      - run: make CC=clang CXX=clang++ clean all
-      - run: make CC=clang CXX=clang++ clean test
-      - run: make                      clean cppcheck
-      - run: make CC=gcc   CXX=g++     clean test-vg
-      - run: make CC=clang CXX=clang++ clean test-vg
+      - name: install packages
+        shell: sh -e {0}
+        run: .github/workflows/packages/base/install.sh
+
+      - run: make          clean
+      - run: make CC=gcc   all
+      - run: make CC=gcc   test
+      - run: make CC=gcc   test-vg
+
+      - run: make clean cppcheck
+
+      - run: make          clean
+      - run: make CC=clang all
+      - run: make CC=clang test
+      - run: make CC=clang test-vg
 
       - name: build include-what-you-use package
-        run: |
-          git clone https://aur.archlinux.org/include-what-you-use.git /tmp/include-what-you-use
-          makepkg OPTIONS=-debug PKGEXT='.pkg.tar' --dir /tmp/include-what-you-use
+        run: .github/workflows/packages/include-what-you-use/build.sh
       - name: install include-what-you-use package
-        run: pacman -U --noconfirm /tmp/include-what-you-use/*.pkg.tar
+        run: .github/workflows/packages/include-what-you-use/install.sh
         shell: sh -e {0}
 
       - run: make clean iwyu
