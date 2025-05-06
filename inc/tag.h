@@ -17,7 +17,7 @@ struct Tag {
 	uint32_t count_wide_left;
 	double ratio_wide;
 	bool smart_gaps;
-	bool center_master;  // Whether to maintain master ratio in wide layout when no side views
+	bool center_master;
 	uint32_t inner_gaps;
 	uint32_t outer_gaps;
 };

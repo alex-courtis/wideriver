@@ -132,10 +132,14 @@ void arrange_master_stack(const struct Demand* const demand,
 		return;
 	}
 	if (num_stack == 0) {
-		master->width = demand->usable_width - 2 * outer_gap;
-		master->height = demand->usable_height - 2 * outer_gap;
-		master->x = outer_gap;
-		master->y = outer_gap;
+		if (tag->center_master) {
+			center_master_view(demand, tag, master, tag->ratio_master);
+		} else {
+			master->width = demand->usable_width - 2 * outer_gap;
+			master->height = demand->usable_height - 2 * outer_gap;
+			master->x = outer_gap;
+			master->y = outer_gap;
+		}
 		return;
 	}
 
@@ -228,7 +232,7 @@ void arrange_wide(const struct Demand *demand,
 	if (demand->view_count == 1 && tag->smart_gaps) {
 		inner_gap = 0;
 		outer_gap = 0;
-	} 
+	}
 
 	// 000
 	if (num_master == 0 && num_before == 0 && num_after == 0) {
@@ -252,7 +256,7 @@ void arrange_wide(const struct Demand *demand,
 	int right_x = center_x + center_w + inner_gap;
 
 	// 010 - only master
-	if (num_master && !num_before && !num_after) {
+	if (!num_before && num_master && !num_after) {
 		if (tag->center_master) {
 		  center_master_view(demand, tag, master, tag->ratio_wide);
 		} else {
@@ -288,7 +292,7 @@ void arrange_wide(const struct Demand *demand,
 	    return;
 	}
   
-	// 011 
+	// 011
 	if (!num_before && num_master && num_after) {
 		if (tag->center_master) {
 			master->width = center_w;

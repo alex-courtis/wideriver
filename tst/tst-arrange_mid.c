@@ -42,7 +42,7 @@ void arrange_wide__010(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
-	struct Tag tag = { .ratio_wide = 0.5, .center_master = false };
+	struct Tag tag = { .ratio_wide = 999, .center_master = false };
 
 	arrange_wide(&demand, &tag, 0, 1, 0, &before, &master, &after);
 
@@ -275,14 +275,19 @@ void arrange_wide__111_with_gaps(void **state) {
 int main(void) {
 	const struct CMUnitTest tests[] = {
 		TEST(arrange_wide__000),
+
 		TEST(arrange_wide__010),
 		TEST(arrange_wide__010_center_master),
 		TEST(arrange_wide__001),
 		TEST(arrange_wide__100),
+
 		TEST(arrange_wide__101),
+
 		TEST(arrange_wide__011),
 		TEST(arrange_wide__110),
+
 		TEST(arrange_wide__111),
+
 		TEST(arrange_wide__010_with_gaps),
 		TEST(arrange_wide__010_with_gaps_center_master),
 		TEST(arrange_wide__001_with_gaps),
