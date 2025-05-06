@@ -20,6 +20,8 @@ static inline void center_master_view(const struct Demand *d,
 
 	int w = (usable_w * ratio) + 0.5f;
 	int h = (usable_h * ratio) + 0.5f;
+	int x = outer_gap;
+	int y = outer_gap;
 
 	switch (tag->layout_cur) {
 		// we want full-height here
@@ -27,21 +29,24 @@ static inline void center_master_view(const struct Demand *d,
 		case RIGHT:
 		case WIDE:
 			h = usable_h;
+			x = (usable_w - w) / 2;
 			break;
 
 		// we want full-width but not height
 		case TOP:
 		case BOTTOM:
 			w = usable_w;
-			box->y = (usable_h - box->height) / 2;
+			box->x = x;
+			box->y = ((usable_h - h ) / 2.0f) + 0.5f;
 			break;
 		case MONOCLE:
-			// noop, but leave ratios on w,h
+			// noop
 			break;
 	}
+	box->x = x;
+	box->y = y;
 	box->width = w;
 	box->height = h;
-	box->x = (usable_w - box->width) / 2;
 }
 
 
