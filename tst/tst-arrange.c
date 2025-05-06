@@ -66,7 +66,7 @@ void arrange_monocle__many_with_gaps(void **state) {
 
 void arrange_wide__single_view_fixed_master_wide(void **state) {
 	struct Demand demand = { .view_count = 1, .usable_width = 10, .usable_height = 5 };
-	struct Tag tag = { .layout_cur = WIDE, .ratio_wide = 0.5, .fixed_master_wide = true,
+	struct Tag tag = { .layout_cur = WIDE, .ratio_wide = 0.5, .center_master = true,
 		.inner_gaps = 0, .outer_gaps = 0 };
 
 	// With maintain_wide_ratio=true, the single view should be centered and maintain ratio
@@ -79,7 +79,7 @@ void arrange_wide__single_view_fixed_master_wide(void **state) {
 
 void arrange_wide__single_view_no_fixed_master_wide(void **state) {
 	struct Demand demand = { .view_count = 1, .usable_width = 10, .usable_height = 5 };
-	struct Tag tag = { .layout_cur = WIDE, .ratio_wide = 0.5, .fixed_master_wide = false,
+	struct Tag tag = { .layout_cur = WIDE, .ratio_wide = 0.5, .center_master = false,
 		.inner_gaps = 0, .outer_gaps = 0 };
 
 	// With maintain_wide_ratio=false, the single view should expand to full width

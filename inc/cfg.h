@@ -41,7 +41,7 @@
 
 #define BORDER_COLOR_UNFOCUSED_DEFAULT "0x586e75"
 
-#define FIXED_MASTER_WIDE_DEFAULT false
+#define CENTER_MASTER_DEFAULT false
 
 // never null
 extern const struct Cfg * const cfg;
@@ -63,7 +63,7 @@ struct Cfg {
 	char border_color_focused[11];
 	char border_color_focused_monocle[11];
 	char border_color_unfocused[11];
-	bool fixed_master_wide;
+	bool center_master;
 };
 
 // returns false if not valid
@@ -86,6 +86,6 @@ bool cfg_set_border_color_focused(const char *s);
 bool cfg_set_border_color_focused_monocle(const char *s);
 bool cfg_set_border_color_unfocused(const char *s);
 
-void cfg_set_fixed_master_wide(bool fixed_master_wide);
+void cfg_set_center_master(bool fixed_master_wide);
 
 #endif // CFG_H

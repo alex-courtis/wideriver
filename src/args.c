@@ -34,7 +34,7 @@ static struct option cli_long_options[] = {
 	{ "help-defaults",                no_argument,       0, 0, }, // 18
 	{ "log-threshold",                required_argument, 0, 0, }, // 19
 	{ "version",                      no_argument,       0, 0, }, // 20
-	{ "fixed-master-wide",            no_argument,       0, 0, }, // 21
+	{ "center-master",                no_argument,       0, 0, }, // 21
 	{ 0,                              0,                 0, 0, }
 };
 
@@ -181,7 +181,7 @@ void args_cli(int argc, char **argv) {
 				exit(EXIT_SUCCESS);
 				return;
 			case 21:
-				cfg_set_fixed_master_wide(true);
+				cfg_set_center_master(true);
 				break;
 			default:
 				fprintf(stderr, "\n");
@@ -207,7 +207,7 @@ void args_cli(int argc, char **argv) {
 	log_i("--border-color-focused-monocle %s",  cfg->border_color_focused_monocle);
 	log_i("--border-color-unfocused       %s",  cfg->border_color_unfocused);
 	log_i("--log-threshold                %s",  log_threshold_name(log_get_threshold()));
-	log_i("%s",  cfg->fixed_master_wide ? "--fixed-master-wide" : "");
+	log_i("--%scenter-master",                  cfg->center_master ? "" : "no-");
 }
 
 static struct option cmd_long_options[] = {

@@ -22,7 +22,7 @@ struct Tag *tag_init(const uint32_t mask) {
 	tag->smart_gaps = cfg->smart_gaps;
 	tag->inner_gaps = cfg->inner_gaps;
 	tag->outer_gaps = cfg->outer_gaps;
-	tag->fixed_master_wide = cfg->fixed_master_wide;
+	tag->center_master = cfg->center_master;
 
 	tag->mask = mask;
 

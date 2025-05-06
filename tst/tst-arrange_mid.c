@@ -42,20 +42,7 @@ void arrange_wide__010(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
-	struct Tag tag = { .ratio_wide = 0.5, .fixed_master_wide = true };
-
-	arrange_wide(&demand, &tag, 0, 1, 0, &before, &master, &after);
-
-	assert_box_equal(&before, 0, 0, 0, 0);
-	assert_box_equal(&master, 3, 0, 6, 5);
-	assert_box_equal(&after, 0, 0, 0, 0);
-}
-
-void arrange_wide__010_no_fixed_master_wide(void **state) {
-	struct Box master, before, after;
-
-	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
-	struct Tag tag = { .ratio_wide = 0.5, .fixed_master_wide = false };
+	struct Tag tag = { .ratio_wide = 0.5, .center_master = false };
 
 	arrange_wide(&demand, &tag, 0, 1, 0, &before, &master, &after);
 
@@ -64,35 +51,48 @@ void arrange_wide__010_no_fixed_master_wide(void **state) {
 	assert_box_equal(&after, 0, 0, 0, 0);
 }
 
+void arrange_wide__010_center_master(void **state) {
+	struct Box master, before, after;
+
+	struct Demand demand = { .usable_width = 16, .usable_height = 5, };
+	struct Tag tag = { .layout_cur = WIDE, .ratio_wide = 0.5, .center_master = true };
+
+	arrange_wide(&demand, &tag, 0, 1, 0, &before, &master, &after);
+
+	assert_box_equal(&before, 0, 0, 0, 0);
+	assert_box_equal(&master, 4, 0, 8, 5);
+	assert_box_equal(&after, 0, 0, 0, 0);
+}
+
 void arrange_wide__010_with_gaps(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .view_count = 1, .usable_width = 13, .usable_height = 5, };
-	struct Tag tag = { .ratio_wide = 0.5, .fixed_master_wide = true, .smart_gaps = false,
+	struct Tag tag = { .ratio_wide = 0.5, .center_master = false, .smart_gaps = false,
 		.inner_gaps = 1, .outer_gaps = 1 };
 
-	struct Tag smart_tag = { .ratio_wide = 0.5, .fixed_master_wide = true, .smart_gaps = true,
+	struct Tag smart_tag = { .ratio_wide = 0.5, .center_master = false, .smart_gaps = true,
 		.inner_gaps = 1, .outer_gaps = 1 };
 
 	arrange_wide(&demand, &tag, 0, 1, 0, &before, &master, &after);
 	assert_box_equal(&before, 0, 0, 0, 0);
-	assert_box_equal(&master, 3, 1, 6, 3);
+	assert_box_equal(&master, 1, 1, 11, 3);
 	assert_box_equal(&after, 0, 0, 0, 0);
 
 	arrange_wide(&demand, &smart_tag, 0, 1, 0, &before, &master, &after);
 	assert_box_equal(&before, 0, 0, 0, 0);
-	assert_box_equal(&master, 3, 0, 6, 5);
+	assert_box_equal(&master, 0, 0, 13, 5);
 	assert_box_equal(&after, 0, 0, 0, 0);
 }
 
-void arrange_wide__010_with_gaps_no_fixed_master_wide(void **state) {
+void arrange_wide__010_with_gaps_center_master(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .view_count = 1, .usable_width = 13, .usable_height = 5, };
-	struct Tag tag = { .ratio_wide = 0.5, .fixed_master_wide = false, .smart_gaps = false,
+	struct Tag tag = { .ratio_wide = 0.5, .center_master = false, .smart_gaps = false,
 		.inner_gaps = 1, .outer_gaps = 1 };
 
-	struct Tag smart_tag = { .ratio_wide = 0.5, .fixed_master_wide = false, .smart_gaps = true,
+	struct Tag smart_tag = { .ratio_wide = 0.5, .center_master = false, .smart_gaps = true,
 		.inner_gaps = 1, .outer_gaps = 1 };
 
 	arrange_wide(&demand, &tag, 0, 1, 0, &before, &master, &after);
@@ -276,7 +276,7 @@ int main(void) {
 	const struct CMUnitTest tests[] = {
 		TEST(arrange_wide__000),
 		TEST(arrange_wide__010),
-		TEST(arrange_wide__010_no_fixed_master_wide),
+		TEST(arrange_wide__010_center_master),
 		TEST(arrange_wide__001),
 		TEST(arrange_wide__100),
 		TEST(arrange_wide__101),
@@ -284,7 +284,7 @@ int main(void) {
 		TEST(arrange_wide__110),
 		TEST(arrange_wide__111),
 		TEST(arrange_wide__010_with_gaps),
-		TEST(arrange_wide__010_with_gaps_no_fixed_master_wide),
+		TEST(arrange_wide__010_with_gaps_center_master),
 		TEST(arrange_wide__001_with_gaps),
 		TEST(arrange_wide__100_with_gaps),
 		TEST(arrange_wide__101_with_gaps),

@@ -2,12 +2,48 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "arrange.h"
 #include "enum.h"
 #include "layout.h"
 #include "slist.h"
 #include "tag.h"
 
-#include "arrange.h"
+// Center a single master view according to ratio
+static inline void center_master_view(const struct Demand *d,
+		const struct Tag *tag,
+		struct Box *box,
+		float ratio) {
+
+	uint32_t outer_gap = tag->outer_gaps;
+	uint32_t usable_w = d->usable_width - 2 * outer_gap;
+	uint32_t usable_h = d->usable_height - 2 * outer_gap;
+
+	int w = (usable_w * ratio) + 0.5f;
+	int h = (usable_h * ratio) + 0.5f;
+
+	switch (tag->layout_cur) {
+		// we want full-height here
+		case LEFT:
+		case RIGHT:
+		case WIDE:
+			h = usable_h;
+			break;
+
+		// we want full-width but not height
+		case TOP:
+		case BOTTOM:
+			w = usable_w;
+			box->y = (usable_h - box->height) / 2;
+			break;
+		case MONOCLE:
+			// noop, but leave ratios on w,h
+			break;
+	}
+	box->width = w;
+	box->height = h;
+	box->x = (usable_w - box->width) / 2;
+}
+
 
 void arrange_count(const uint32_t view_count,
 		const struct Tag* const tag,
@@ -192,44 +228,49 @@ void arrange_wide(const struct Demand *demand,
 	if (demand->view_count == 1 && tag->smart_gaps) {
 		inner_gap = 0;
 		outer_gap = 0;
-	}
+	} 
 
 	// 000
 	if (num_master == 0 && num_before == 0 && num_after == 0) {
 		return;
 	}
 
-	// 010
-	if (!num_before && num_master && !num_after) {
-		if (tag->fixed_master_wide) {
-			master->width = (demand->usable_width - 2 * (outer_gap + inner_gap)) * tag->ratio_wide + 0.5f;
-			master->height = demand->usable_height - 2 * outer_gap;
-			master->x = (demand->usable_width - master->width) / 2.0f + 0.5f;
-			master->y = outer_gap;
-		}else {
-			master->width = demand->usable_width - 2 * outer_gap;
-			master->height = demand->usable_height - 2 * outer_gap;
-			master->x = outer_gap;
-			master->y = outer_gap;
+	// Pre-calculate some commonly-used dimensions.
+	int avail_w = demand->usable_width - (2 * outer_gap);
+	int avail_h = demand->usable_height - (2 * outer_gap);
+
+	// the normal width and x for the master view
+	int center_w = (avail_w - (2 * inner_gap)) * tag->ratio_wide + 0.5f;
+	int center_x = (demand->usable_width - center_w) / 2.0f + 0.5f;
+
+	// why do we use the complement (1 - ratio_wide) when there is master+one of before/after?
+	int master_complement_w = (demand->usable_width - 2 * outer_gap - inner_gap) * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
+
+	// can be the before or after box
+	int wing_w = center_x - outer_gap - inner_gap;
+	int left_x = outer_gap;
+	int right_x = center_x + center_w + inner_gap;
+
+	// 010 - only master
+	if (num_master && !num_before && !num_after) {
+		if (tag->center_master) {
+		  center_master_view(demand, tag, master, tag->ratio_wide);
+		} else {
+		  master->width = avail_w;
+		  master->height = avail_h;
+		  master->x = outer_gap;
+		  master->y = outer_gap;
 		}
 		return;
 	}
 
-	// 001
-	if (!num_before && !num_master && num_after) {
-		after->width = demand->usable_width - 2 * outer_gap;
-		after->height = demand->usable_height - 2 * outer_gap;
-		after->x = outer_gap;
-		after->y = outer_gap;
-		return;
-	}
-
-	// 100
-	if (num_before && !num_master && !num_after) {
-		before->width = demand->usable_width - 2 * outer_gap;
-		before->height = demand->usable_height - 2 * outer_gap;
-		before->x = outer_gap;
-		before->y = outer_gap;
+	// 100 | 001 - only before or only after
+	if (!num_master && ((num_before != 0) ^ (num_after != 0))) {
+		struct Box *box = num_before ? before : after;
+		box->width = avail_w;
+		box->height = avail_h;
+		box->x = outer_gap;
+		box->y = outer_gap;
 		return;
 	}
 
@@ -244,65 +285,60 @@ void arrange_wide(const struct Demand *demand,
 		after->height = demand->usable_height - 2 * outer_gap;
 		after->x = outer_gap + before->width + inner_gap;
 		after->y = outer_gap;
-		return;
+	    return;
 	}
-
-	// 011
+  
+	// 011 
 	if (!num_before && num_master && num_after) {
-		if (tag->fixed_master_wide) {
-			master->width = (demand->usable_width - 2 * (outer_gap + inner_gap)) * tag->ratio_wide + 0.5f;
-			master->height = demand->usable_height - 2 * outer_gap;
-			master->x = (demand->usable_width - master->width) / 2.0f + 0.5f;
-			master->y = outer_gap;
+		if (tag->center_master) {
+			master->width = center_w;
+			master->x = center_x;
 		} else {
-			master->width = (demand->usable_width - 2 * outer_gap - inner_gap) * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
-			master->height = demand->usable_height - 2 * outer_gap;
+			master->width = master_complement_w;
+			master->height = avail_h;
 			master->x = outer_gap;
 			master->y = outer_gap;
-		}
 
-		after->width = demand->usable_width - master->width - 2 * outer_gap - inner_gap;
-		after->height = demand->usable_height - 2 * outer_gap;
-		after->x = outer_gap + master->width + inner_gap;
-		after->y = outer_gap;
+			after->width = wing_w;
+			after->height = avail_h;
+			after->x = outer_gap + master_complement_w + inner_gap;
+			after->y = outer_gap;
+	  	}
 		return;
 	}
 
 	// 110
 	if (num_before && num_master && !num_after) {
-		if (tag->fixed_master_wide) {
-			master->width = (demand->usable_width - 2 * (outer_gap + inner_gap)) * tag->ratio_wide + 0.5f;
-			master->height = demand->usable_height - 2 * outer_gap;
-			master->x = (demand->usable_width - master->width) / 2.0f + 0.5f;
-			master->y = outer_gap;
+	    if (tag->center_master) {
+			master->width = center_w;
 		} else {
-			master->width = (demand->usable_width - 2 * outer_gap - inner_gap) * (tag->ratio_wide + (1.0f - tag->ratio_wide) / 2.0f) + 0.5f;
-			master->height = demand->usable_height - 2 * outer_gap;
-			master->x = demand->usable_width - master->width - outer_gap;
-			master->y = outer_gap;
+		  master->width = master_complement_w;
 		}
 
+		master->x = demand->usable_width - master->width - outer_gap;
+	    master->y = outer_gap;
+	    master->height = avail_h;
+
 		before->width = master->x - outer_gap - inner_gap;
-		before->height = demand->usable_height - 2 * outer_gap;
-		before->x = outer_gap;
-		before->y = outer_gap;
-		return;
-	}
+	    before->x = left_x;
+	    before->y = outer_gap;
+	    before->height = avail_h;
+	    return;
+  }
 
 	// 111
-	master->width = (demand->usable_width - 2 * (outer_gap + inner_gap)) * tag->ratio_wide + 0.5f;
-	master->height = demand->usable_height - 2 * outer_gap;
-	master->x = (demand->usable_width - master->width) / 2.0f + 0.5f;
+	master->width = center_w;
+	master->x = center_x;
+	master->height = avail_h;
 	master->y = outer_gap;
 
-	before->width = master->x - outer_gap - inner_gap;
-	before->height = demand->usable_height - 2 * outer_gap;
+	before->width = wing_w;
 	before->x = outer_gap;
-	before->y = outer_gap;
-
-	after->width = demand->usable_width - master->x - master->width - inner_gap - outer_gap;
+	before->y = master->y = after->y = outer_gap;
+	before->height = master->height = after->height = avail_h;
+	after->width = wing_w;
 	after->height = demand->usable_height - 2 * outer_gap;
-	after->x = master->x + master->width + inner_gap;
+	after->x = right_x;
 	after->y = outer_gap;
 }
 
