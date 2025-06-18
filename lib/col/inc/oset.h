@@ -17,9 +17,7 @@ struct OSet;
 /*
  * Entry iterator.
  */
-struct OSetIter {
-	const void* const val;
-};
+struct OSetIter;
 
 /*
  * Lifecycle
@@ -48,7 +46,10 @@ bool oset_contains(const struct OSet* const set, const void* const val);
 const struct OSetIter *oset_iter(const struct OSet* const set);
 
 // next iterator value, NULL at end of set
-const struct OSetIter *oset_next(const struct OSetIter* const iter);
+const struct OSetIter *oset_iter_next(const struct OSetIter* const iter);
+
+// iterator value, NULL on NULL iter
+const void *oset_iter_val(const struct OSetIter* const iter);
 
 /*
  * Mutate
@@ -77,6 +78,11 @@ struct SList *oset_vals_slist(const struct OSet* const set);
 /*
  * Info
  */
+
+// to string, user frees
+// lines with format "%s"
+// values must be char*
+char *oset_str(const struct OSet* const set);
 
 // number of values
 size_t oset_size(const struct OSet* const set);
