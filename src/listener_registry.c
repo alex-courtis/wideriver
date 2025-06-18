@@ -79,13 +79,15 @@ static void global_remove(void *data,
 	log_d_c_s("global_remove"); log_d_c_e("%d", name);
 
 	const struct PTableIter *i;
-	for (i = ptable_iter(displ->outputs); i; i = ptable_next(i)) {
-		struct Output *output = (struct Output*)i->val;
-		if (output->name == name) {
+	const struct Output *output = NULL;
+
+	for (i = ptable_iter(displ->outputs); i; i = ptable_iter_next(i)) {
+		output = ptable_iter_val(i);
+		if (output && output->name == name) {
 
 			output_destroy(output);
 
-			ptable_remove(displ->outputs, i->key);
+			ptable_remove(displ->outputs, ptable_iter_key(i));
 
 			break;
 		}
