@@ -104,6 +104,8 @@ static int loop(void) {
 int main(int argc, char **argv) {
 	int rc = EXIT_SUCCESS;
 
+	log_i("wideriver version %s", VERSION);
+
 	if (!getenv("WAYLAND_DISPLAY")) {
 		log_f("Environment variable WAYLAND_DISPLAY not set, exiting");
 		exit(EXIT_FAILURE);

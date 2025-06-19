@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
@@ -20,23 +21,15 @@ struct STable {
 	comparator cmp;
 };
 
-struct STableIterP {
-	/*
-	 * Public, removed const
-	 */
+struct STableIter {
 	const char *key;
 	const void *val;
-
-	/*
-	 * Private
-	 */
 	const struct STable *tab;
-	const char **k;
-	const void **v;
+	size_t position;
 };
 
 // grow to capacity + grow
-void grow_stable(struct STable *tab) {
+static void grow_stable(struct STable *tab) {
 
 	// grow new arrays
 	const char **new_keys = calloc(tab->capacity + tab->grow, sizeof(char*));
@@ -132,54 +125,46 @@ const void *stable_get(const struct STable* const tab, const char* const key) {
 }
 
 const struct STableIter *stable_iter(const struct STable* const tab) {
-	if (!tab)
+	if (!tab || tab->size == 0)
 		return NULL;
 
-	// loop over keys and vals
-	const char **k;
-	const void **v;
-	for (k = tab->keys, v = tab->vals;
-			v < tab->vals + tab->size && k < tab->keys + tab->size;
-			k++, v++) {
-		if (*v) {
-			struct STableIterP *iterp = calloc(1, sizeof(struct STableIterP));
+	// first key/val
+	struct STableIter *i = calloc(1, sizeof(struct STableIter));
+	i->tab = tab;
+	i->key = *(tab->keys);
+	i->val = *(tab->vals);
+	i->position = 0;
 
-			iterp->tab = tab;
-			iterp->key = *k;
-			iterp->val = *v;
-			iterp->k = k;
-			iterp->v = v;
-
-			return (struct STableIter*)iterp;
-		}
-	}
-
-	return NULL;
+	return i;
 }
 
-const struct STableIter *stable_next(const struct STableIter* const iter) {
+const struct STableIter *stable_iter_next(const struct STableIter* const iter) {
 	if (!iter)
 		return NULL;
 
-	struct STableIterP *iterp = (struct STableIterP*)iter;
+	struct STableIter *i = (struct STableIter*)iter;
 
-	if (!iterp || !iterp->tab) {
-		stable_iter_free(iter);
+	if (!i->tab) {
+		stable_iter_free(i);
 		return NULL;
 	}
 
-	// loop over keys and vals
-	while (++iterp->v < iterp->tab->vals + iterp->tab->size &&
-			++iterp->k < iterp->tab->keys + iterp->tab->size) {
-		if (*iterp->v) {
-			iterp->key = *(iterp->k);
-			iterp->val = *(iterp->v);
-			return iter;
-		}
+	if (++i->position < i->tab->size) {
+		i->key = *(i->tab->keys + i->position);
+		i->val = *(i->tab->vals + i->position);
+		return i;
+	} else {
+		stable_iter_free(i);
+		return NULL;
 	}
+}
 
-	stable_iter_free(iter);
-	return NULL;
+const char *stable_iter_key(const struct STableIter* const iter) {
+	return iter ? iter->key : NULL;
+}
+
+const void *stable_iter_val(const struct STableIter* const iter) {
+	return iter ? iter->val : NULL;
 }
 
 const void *stable_put(const struct STable* const ctab, const char* const key, const void* const val) {
@@ -315,6 +300,39 @@ struct SList *stable_vals_slist(const struct STable* const tab) {
 	return list;
 }
 
+char *stable_str(const struct STable* const tab) {
+	if (!tab)
+		return NULL;
+
+	size_t len = 1;
+
+	// calculate length
+	// slower but simpler than realloc, which can set off scanners/checkers
+	const char **k;
+	const void **v;
+	for (k = tab->keys, v = tab->vals; k < tab->keys + tab->size; k++, v++) {
+		len +=
+			strlen(*k) +            // key is not null
+			3 +                     // " = "
+			(*v ? strlen(*v) : 6) + // value or "(null)"
+			1;                      // "\n"
+	}
+
+	// render
+	char *buf = (char*)calloc(len, sizeof(char));
+	char *bufp = buf;
+	for (k = tab->keys, v = tab->vals; k < tab->keys + tab->size; k++, v++) {
+		bufp += snprintf(bufp, len - (bufp - buf), "%s = %s\n", *k, *v ? (char*)*v : "(null)");
+	}
+
+	// strip trailing newline
+	if (bufp > buf) {
+		*(bufp - 1) = '\0';
+	}
+
+	return buf;
+}
+
 size_t stable_size(const struct STable* const tab) {
 	return tab ? tab->size : 0;
 }
@@ -322,4 +340,3 @@ size_t stable_size(const struct STable* const tab) {
 size_t stable_capacity(const struct STable* const tab) {
 	return tab ? tab->capacity : 0;
 }
-
