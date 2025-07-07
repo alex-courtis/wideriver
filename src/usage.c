@@ -67,7 +67,7 @@ void usage(const int status) {
 		log_threshold_name(DEBUG), log_threshold_name(INFO), log_threshold_name(WARNING), log_threshold_name(ERROR), log_threshold_name(FATAL), log_threshold_name(LOG_THRESHOLD_DEFAULT),
 
 		layout_name(MONOCLE), layout_name(LEFT), layout_name(RIGHT), layout_name(TOP), layout_name(BOTTOM), layout_name(WIDE),
-		stack_name(DIMINISH), stack_name(DWINDLE), stack_name(STACK_DEFAULT),
+		stack_name(EVEN), stack_name(DIMINISH), stack_name(DWINDLE),
 		COUNT_MIN,
 		RATIO_MIN, RATIO_MAX);
 
