@@ -400,7 +400,7 @@ Should install under `/usr/local`
       --layout                        monocle|left|right|top|bottom|wide
       --layout-toggle 
 
-      --stack                         diminish|dwindle|dwindle
+      --stack                         even|diminish|dwindle
 
       --count                         [+-]count                                         0 <= count
       --ratio                         [+-]ratio                                       0.1 <= ratio <= 0.9
