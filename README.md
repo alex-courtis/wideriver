@@ -105,9 +105,6 @@ wideriver \
     --border-width                 2           \
     --border-width-monocle         0           \
     --border-width-smart-gaps      0           \
-    --border-color-focused         "0x93a1a1"  \
-    --border-color-focused-monocle "0x586e75"  \
-    --border-color-unfocused       "0x586e75"  \
     --log-threshold                info        \
    > "/tmp/wideriver.${XDG_VTNR}.${USER}.log" 2>&1 &
 ```
@@ -387,9 +384,9 @@ Should install under `/usr/local`
       --border-width-monocle          pixels                                0           0 <= width
       --border-width-smart-gaps       pixels                                0           0 <= width
 
-      --border-color-focused          0xRRGGBB[AA]                          0x93a1a1
-      --border-color-focused-monocle  0xRRGGBB[AA]                          0x586e75
-      --border-color-unfocused        0xRRGGBB[AA]                          0x586e75
+      --border-color-focused          0xRRGGBB[AA]
+      --border-color-focused-monocle  0xRRGGBB[AA]
+      --border-color-unfocused        0xRRGGBB[AA]
 
       --help
       --log-threshold                 debug|info|warning|error|fatal        info
@@ -447,13 +444,13 @@ Border width for monocle layout, default `0`, minimum `0`.
 Border width for when smart gaps hides the gaps for all layouts except monocle, default `0`, minimum `0`. Has no effect if `--no-smart-gaps`.
 
 `--border-color-focused` `0x`*RRGGBB*\[*AA*\]  
-Border color for focused views in all layouts excluding monocle, default `0x93a1a1`.
+Border color for focused views in all layouts excluding monocle.
 
 `--border-color-focused-monocle` `0x`*RRGGBB*\[*AA*\]  
-Border color for focused view in monocle layout, default `0x586e75`. It is recommended to set this to the unfocused color or a darker colour as an always focused border can be distracting.
+Border color for focused view in monocle layout. It is recommended to set this to the unfocused color or a darker colour as an always focused border can be distracting.
 
 `--border-color-unfocused` `0x`*RRGGBB*\[*AA*\]  
-Border color for unfocused views in all layouts, default `0x586e75`. Does not apply for monocle layout.
+Border color for unfocused views in all layouts. Does not apply for monocle layout.
 
 `--log-threshold` `debug`\|`info`\|`warning`\|`error`\|`fatal`  
 Minimum log level, default `info`.
@@ -468,7 +465,7 @@ Set layout persistently for the tag, updating the alternate layout.
 `--layout-toggle`  
 Set layout to the alternate (previous) for the tag.
 
-`--stack` `diminish`\|`dwindle`\|`dwindle`  
+`--stack` `even`\|`diminish`\|`dwindle`  
 Set stacking method persistently for the tag. Applies to all layouts for the tag.
 
 `--count` \[`+-`\]*count*  
