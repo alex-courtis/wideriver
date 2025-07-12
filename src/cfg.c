@@ -33,7 +33,6 @@ bool valid_colour(const char *s) {
 	if (!s)
 		return false;
 
-	// If color is set to nothing, do not set color
 	if (s[0] == '\0') {
 		return true;
 	}
