@@ -31,9 +31,9 @@ void usage(const int status) {
 			"  --border-width-monocle          pixels                                %d           %d <= width\n"
 			"  --border-width-smart-gaps       pixels                                %d           %d <= width\n"
 			"\n"
-			"  --border-color-focused          0xRRGGBB[AA]                          %s\n"
-			"  --border-color-focused-monocle  0xRRGGBB[AA]                          %s\n"
-			"  --border-color-unfocused        0xRRGGBB[AA]                          %s\n"
+			"  --border-color-focused          0xRRGGBB[AA]\n"
+			"  --border-color-focused-monocle  0xRRGGBB[AA]\n"
+			"  --border-color-unfocused        0xRRGGBB[AA]\n"
 			"\n"
 			"  --help\n"
 			"  --log-threshold                 %s|%s|%s|%s|%s        %s\n"
@@ -61,9 +61,6 @@ void usage(const int status) {
 		BORDER_WIDTH_DEFAULT, BORDER_WIDTH_MIN,
 		BORDER_WIDTH_MONOCLE_DEFAULT, BORDER_WIDTH_MONOCLE_MIN,
 		BORDER_WIDTH_SMART_GAPS_DEFAULT, BORDER_WIDTH_SMART_GAPS_MIN,
-		BORDER_COLOR_FOCUSED_DEFAULT,
-		BORDER_COLOR_FOCUSED_MONOCLE_DEFAULT,
-		BORDER_COLOR_UNFOCUSED_DEFAULT,
 		log_threshold_name(DEBUG), log_threshold_name(INFO), log_threshold_name(WARNING), log_threshold_name(ERROR), log_threshold_name(FATAL), log_threshold_name(LOG_THRESHOLD_DEFAULT),
 
 		layout_name(MONOCLE), layout_name(LEFT), layout_name(RIGHT), layout_name(TOP), layout_name(BOTTOM), layout_name(WIDE),
@@ -90,9 +87,6 @@ void usage_defaults(void) {
 			"    --border-width                 %d           \\\n"
 			"    --border-width-monocle         %d           \\\n"
 			"    --border-width-smart-gaps      %d           \\\n"
-			"    --border-color-focused         \"%s\"  \\\n"
-			"    --border-color-focused-monocle \"%s\"  \\\n"
-			"    --border-color-unfocused       \"%s\"  \\\n"
 			"    --log-threshold                %s        \\\n"
 			"   > \"/tmp/wideriver.${XDG_VTNR}.${USER}.log\" 2>&1 &\n",
 		layout_name(LAYOUT_DEFAULT), layout_name(LAYOUT_ALT_DEFAULT), stack_name(STACK_DEFAULT),
@@ -101,7 +95,6 @@ void usage_defaults(void) {
 		INNER_GAPS_DEFAULT,
 		OUTER_GAPS_DEFAULT,
 		BORDER_WIDTH_DEFAULT, BORDER_WIDTH_MONOCLE_DEFAULT, BORDER_WIDTH_SMART_GAPS_DEFAULT,
-		BORDER_COLOR_FOCUSED_DEFAULT, BORDER_COLOR_FOCUSED_MONOCLE_DEFAULT, BORDER_COLOR_UNFOCUSED_DEFAULT,
 		log_threshold_name(LOG_THRESHOLD_DEFAULT)
 		);
 
