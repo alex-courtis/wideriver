@@ -13,6 +13,7 @@
   * [Uninstall](#uninstall)
   * [Lint](#lint)
   * [Check Includes](#check-includes)
+  * [Developing On The (CI) Arch Image](#developing-on-the-ci-arch-image)
 - [Documentation](#documentation)
 - [Style](#style)
 
