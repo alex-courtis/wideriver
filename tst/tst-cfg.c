@@ -39,7 +39,7 @@ void valid_colour__valid(void **state) {
 	assert_true(valid_colour("0x09afAF12"));
 }
 
-void valid_coulour__empty(void **state) {
+void valid_colour__empty(void **state) {
 	assert_true(valid_colour(""));
 }
 
