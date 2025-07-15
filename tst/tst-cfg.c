@@ -49,7 +49,7 @@ int main(void) {
 		TEST(valid_colour__prefix),
 		TEST(valid_colour__alpha),
 		TEST(valid_colour__valid),
-		TEST(valid_coulour__empty),
+		TEST(valid_colour__empty),
 	};
 
 	return RUN(tests);
