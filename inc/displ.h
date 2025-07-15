@@ -30,6 +30,9 @@ struct Displ {
 	// Outputs by wl_output
 	const struct PTable *outputs;
 
+	// Deactivated outputs by wl_output_description
+	const struct PTable *outputs_deactivated;
+
 	// state
 	const struct wl_output *wl_output_focused;
 	struct Style style_desired;

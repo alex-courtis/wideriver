@@ -85,8 +85,13 @@ static void global_remove(void *data,
 		output = ptable_iter_val(i);
 		if (output && output->name == name) {
 
-			output_destroy(output);
+			if (output->wl_output_description) {
+				output_deactivate(output);
 
+				ptable_put(displ->outputs_deactivated, output->wl_output_description, output);
+			} else {
+				output_destroy(output);
+			}
 			ptable_remove(displ->outputs, ptable_iter_key(i));
 
 			break;

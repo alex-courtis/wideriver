@@ -86,6 +86,7 @@ static void control_command_style(const struct Style desired, const struct Style
 
 bool displ_init(void) {
 	d.outputs = ptable_init(5, 5);
+	d.outputs_deactivated = ptable_init(5, 5);
 
 	// ensure that border width of 0 is set on first run
 	d.style_current.border_width = -1;
@@ -137,6 +138,7 @@ void displ_destroy(void) {
 	log_d("displ_destroy");
 
 	ptable_free_vals(d.outputs, output_destroy);
+	ptable_free_vals(d.outputs_deactivated, output_destroy);
 
 	if (d.river_layout_manager) {
 		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("river_layout_manager"); log_d_c_e("%p", (void*)d.river_layout_manager);
