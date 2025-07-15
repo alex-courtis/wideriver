@@ -1,15 +1,12 @@
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <wayland-client-protocol.h>
 
-#include "river-status-unstable-v1.h"
-
-#include "displ.h"
 #include "log.h"
 #include "output.h"
-#include "ptable.h"
 
-#include "listener_river_seat_status.h"
+#include "listener_wl_output.h"
 
 //
 // Output data
