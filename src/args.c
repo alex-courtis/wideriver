@@ -186,6 +186,7 @@ void args_cli(int argc, char **argv) {
 		}
 	}
 
+	log_i("wideriver version %s", VERSION);
 	log_i("--layout                       %s",  layout_name(cfg->layout));
 	log_i("--layout-alt                   %s",  layout_name(cfg->layout_alt));
 	log_i("--stack                        %s",  stack_name(cfg->stack));
