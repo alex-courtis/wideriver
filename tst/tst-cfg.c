@@ -39,12 +39,17 @@ void valid_colour__valid(void **state) {
 	assert_true(valid_colour("0x09afAF12"));
 }
 
+void valid_colour__empty(void **state) {
+	assert_true(valid_colour(""));
+}
+
 int main(void) {
 	const struct CMUnitTest tests[] = {
 		TEST(valid_colour__len),
 		TEST(valid_colour__prefix),
 		TEST(valid_colour__alpha),
 		TEST(valid_colour__valid),
+		TEST(valid_colour__empty),
 	};
 
 	return RUN(tests);

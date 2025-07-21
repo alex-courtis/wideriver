@@ -28,10 +28,14 @@ struct Cfg c = {
 
 const struct Cfg * const cfg = &c;
 
-// s is 0xRRGGBB or 0xRRGGBBAA
+// s is 0xRRGGBB or 0xRRGGBBAA or empty
 bool valid_colour(const char *s) {
 	if (!s)
 		return false;
+
+	if (s[0] == '\0') {
+		return true;
+	}
 
 	size_t len = strlen(s);
 
