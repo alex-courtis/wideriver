@@ -447,13 +447,13 @@ Border width for monocle layout, default `0`, minimum `0`.
 Border width for when smart gaps hides the gaps for all layouts except monocle, default `0`, minimum `0`. Has no effect if `--no-smart-gaps`.
 
 `--border-color-focused` `0x`*RRGGBB*\[*AA*\]  
-Border color for focused views in all layouts excluding monocle, default `0x93a1a1`.
+Border color for focused views in all layouts excluding monocle, default `0x93a1a1`. Set to an empty string leave border colors unchanged: `--border-color-focused ""`
 
 `--border-color-focused-monocle` `0x`*RRGGBB*\[*AA*\]  
-Border color for focused view in monocle layout, default `0x586e75`. It is recommended to set this to the unfocused color or a darker colour as an always focused border can be distracting.
+Border color for focused view in monocle layout, default `0x586e75`. It is recommended to set this to the unfocused color or a darker colour as an always focused border can be distracting. Set to an empty string leave border colors unchanged: `--border-color-focused-monocle ""`
 
 `--border-color-unfocused` `0x`*RRGGBB*\[*AA*\]  
-Border color for unfocused views in all layouts, default `0x586e75`. Does not apply for monocle layout.
+Border color for unfocused views in all layouts, default `0x586e75`. Does not apply for monocle layout. Set to an empty string leave border colors unchanged: `--border-color-unfocused ""`
 
 `--log-threshold` `debug`\|`info`\|`warning`\|`error`\|`fatal`  
 Minimum log level, default `info`.
@@ -468,7 +468,7 @@ Set layout persistently for the tag, updating the alternate layout.
 `--layout-toggle`  
 Set layout to the alternate (previous) for the tag.
 
-`--stack` `diminish`\|`dwindle`\|`dwindle`  
+`--stack` `even`\|`diminish`\|`dwindle`  
 Set stacking method persistently for the tag. Applies to all layouts for the tag.
 
 `--count` \[`+-`\]*count*  

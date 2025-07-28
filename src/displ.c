@@ -69,14 +69,15 @@ static void control_command_style(const struct Style desired, const struct Style
 		slist_free_vals(&args, NULL);
 	}
 
-	if (desired.border_color_focused != current.border_color_focused) {
+	// If color is empty, do not overwrite the current color
+	if (desired.border_color_focused != current.border_color_focused && desired.border_color_focused[0] != '\0') {
 		slist_append(&args, strdup("border-color-focused"));
 		slist_append(&args, strdup(desired.border_color_focused));
 		control_execute(args, complete_border_color_focused);
 		slist_free_vals(&args, NULL);
 	}
 
-	if (desired.border_color_unfocused != current.border_color_unfocused) {
+	if (desired.border_color_unfocused != current.border_color_unfocused && desired.border_color_unfocused[0] != '\0') {
 		slist_append(&args, strdup("border-color-unfocused"));
 		slist_append(&args, strdup(desired.border_color_unfocused));
 		control_execute(args, complete_border_color_unfocused);
