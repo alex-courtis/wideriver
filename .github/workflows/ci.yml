@@ -14,6 +14,7 @@ jobs:
 
     container:
       image: archlinux:multilib-devel
+      options: --cpus 4
 
     defaults:
       run:
