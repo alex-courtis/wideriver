@@ -15,6 +15,10 @@
   * [Check Includes](#check-includes)
   * [Developing On The (CI) Arch Image](#developing-on-the-ci-arch-image)
 - [Documentation](#documentation)
+  * [Tools](#tools)
+    + [pandoc](#pandoc)
+    + [markdown-toc](#markdown-toc)
+  * [Process](#process)
 - [Style](#style)
 
 <!-- tocstop -->
@@ -148,15 +152,25 @@ make docker-stop
 
 Please ensure that documentation is updated when adding new features or changing CLI arguments, including defaults.
 
+### Tools
+
+#### pandoc
+
 pandoc is used to generate readme and man page from templates in `doc/templ/*md`
 
-It's sometimes easier to use the pandoc docker image than to install it:
+It may be installed via the Arch package `pandoc` however it brings in 226 dependencies. It's easier to use the pandoc docker image than to install it:
 ```
 #!/bin/sh
 docker run --rm --volume "${PWD}:/data" --volume "/tmp:/tmp" --user "$(id -u):$(id -g)" pandoc/latex "$@"
 ```
 
+#### markdown-toc
+
 [markdown-toc](https://github.com/jonschlinkert/markdown-toc) is used to inject the table of contents into `README.md`
+
+It may be installed via `npm install -g markdown-toc` or the AUR package `nodejs-markdown-toc`
+
+### Process
 
 Update the templates and run `make doc`.
 

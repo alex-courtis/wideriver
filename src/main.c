@@ -104,14 +104,12 @@ static int loop(void) {
 int main(int argc, char **argv) {
 	int rc = EXIT_SUCCESS;
 
-	log_i("wideriver version %s", VERSION);
+	args_cli(argc, argv);
 
 	if (!getenv("WAYLAND_DISPLAY")) {
 		log_f("Environment variable WAYLAND_DISPLAY not set, exiting");
 		exit(EXIT_FAILURE);
 	}
-
-	args_cli(argc, argv);
 
 	if (!displ_init()) {
 		rc = EXIT_FAILURE;

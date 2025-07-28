@@ -73,6 +73,7 @@ void args_parse_cli__valid(void **state) {
 	assert_str_equal(cfg->border_color_unfocused, "0x001122");
 
 	assert_log(INFO,
+			"wideriver version "VERSION"\n"
 			"--layout                       left\n"
 			"--layout-alt                   right\n"
 			"--stack                        dwindle\n"
