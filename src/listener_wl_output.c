@@ -3,8 +3,10 @@
 #include <string.h>
 #include <wayland-client-protocol.h>
 
+#include "displ.h"
 #include "log.h"
 #include "output.h"
+#include "stable.h"
 
 #include "listener_wl_output.h"
 
@@ -21,22 +23,24 @@ static void name(void *data,
 
 	free(output->wl_output_name);
 	output->wl_output_name = strdup(name);
-}
 
-static void description(void *data,
-		struct wl_output *wl_output,
-		const char *description) {
-	struct Output *output = (struct Output*)data;
-
-	log_d_c_s("wl_output_description"); log_d_c("%d", output ? output->name : 0); log_d_c_e("%s", description);
-
-	free(output->wl_output_description);
-	output->wl_output_description = strdup(description);
+	// fetch and use detached state if present
+	struct OutputState *output_state = (struct OutputState*)stable_remove(displ->detached_output_states, output->wl_output_name);
+	if (output_state) {
+		log_d_c_s("wl_output_name"); log_d_c("%d", output ? output->name : 0); log_d_c_e("using detached state for %s", output->wl_output_name);
+		output_state_destroy(output->state);
+		output->state = output_state;
+	}
 }
 
 //
 // NOPs
 //
+
+static void description(void *data,
+		struct wl_output *wl_output,
+		const char *description) {
+}
 
 static void done(void *data,
 		struct wl_output *wl_output) {

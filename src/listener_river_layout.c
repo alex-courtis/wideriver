@@ -37,7 +37,7 @@ static void layout_handle_layout_demand(void *data,
 	};
 
 	// use lowest tag's layout
-	const struct Tag *tag = tag_first(output->tags, tags);
+	const struct Tag *tag = tag_first(output->state->tags, tags);
 
 	// position all views
 	struct SList *boxes = layout(&demand, tag);
@@ -75,7 +75,7 @@ static void layout_handle_user_command_tags(void *data,
 
 	log_d_c_s("layout_user_command_tags"); log_d_c("%d", output->name); log_d_c("tags"); log_d_c_e("0x%u", tags);
 
-	output->command_tags_mask = tags;
+	output->state->command_tags_mask = tags;
 }
 
 static void layout_handle_user_command(void *data,
@@ -91,7 +91,7 @@ static void layout_handle_user_command(void *data,
 	log_d_c_s("layout_user_command"); log_d_c("%d", output->name); log_d_c("command"); log_d_c_e("'%s'", command);
 
 	// version 2 guarantees tags will always be sent before command
-	if (!output->command_tags_mask) {
+	if (!output->state->command_tags_mask) {
 		log_e("layout_user_command '%s' not sent command tags", command);
 		return;
 	}

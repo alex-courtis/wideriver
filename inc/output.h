@@ -15,13 +15,16 @@ struct Output {
 	struct river_layout_v3 *river_layout;
 	struct zriver_output_status_v1 *river_output_status;
 
-	// state
-	struct SList *tags;
-	uint32_t command_tags_mask;
-
 	// identifying info for reuse
 	char *wl_output_name;
-	char *wl_output_description;
+
+	// state, reusable
+	struct OutputState *state;
+};
+
+struct OutputState {
+	struct SList *tags;
+	uint32_t command_tags_mask;
 };
 
 struct Output *output_init(struct wl_output *wl_output,
@@ -29,7 +32,9 @@ struct Output *output_init(struct wl_output *wl_output,
 		struct river_layout_manager_v3 *river_layout_manager,
 		struct zriver_status_manager_v1 *river_status_manager);
 
-void output_destroy(const void *o);
+void output_destroy(const void *output);
+
+void output_state_destroy(const void *output_state);
 
 // apply cmd to command_tags_mask
 void output_apply_cmd(const struct Output *output, const struct Cmd *cmd);
