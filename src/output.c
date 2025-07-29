@@ -9,11 +9,14 @@
 
 #include "cfg.h"
 #include "cmd.h"
+#include "displ.h"
 #include "enum.h"
 #include "listener_river_layout.h"
 #include "listener_river_output_status.h"
+#include "listener_wl_output.h"
 #include "log.h"
 #include "slist.h"
+#include "stable.h"
 #include "tag.h"
 
 #include "output.h"
@@ -57,11 +60,15 @@ struct Output *output_init(struct wl_output *wl_output,
 	output->name = name;
 	output->river_layout = river_layout;
 	output->river_output_status = river_output_status;
-	output->tags = tags_init();
+
+	output->state = calloc(1, sizeof(struct OutputState));
+	output->state->tags = tags_init();
 
 	river_layout_v3_add_listener(output->river_layout, river_layout_listener(), output);
 
 	zriver_output_status_v1_add_listener(output->river_output_status, river_output_status_listener(), output);
+
+	wl_output_add_listener(wl_output, wl_output_listener(), output);
 
 	return output;
 }
@@ -71,7 +78,7 @@ void output_destroy(const void *o) {
 		return;
 
 	const struct Output* const output = o;
-	log_d_c_s("output_destroy"); log_d_c_e("%d %s", output->name, "");
+	log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c_e("%s", output->wl_output_name ? output->wl_output_name : "no wl_output_name");
 
 	if (output->river_layout) {
 		river_layout_v3_destroy(output->river_layout);
@@ -85,9 +92,28 @@ void output_destroy(const void *o) {
 		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("wl_output"); log_d_c_e("%p", (void*)output->wl_output);
 		wl_output_destroy(output->wl_output);
 	}
-	tags_destroy(output->tags);
+
+	// retain the state if output is named, overwriting any existing
+	if (output->wl_output_name) {
+		output_state_destroy(stable_put(displ->detached_output_states, output->wl_output_name, output->state));
+	} else {
+		output_state_destroy(output->state);
+	}
+
+	free(output->wl_output_name);
 
 	free((void*)output);
+}
+
+void output_state_destroy(const void *os) {
+	if (!os)
+		return;
+
+	const struct OutputState* const output_state = os;
+
+	tags_destroy(output_state->tags);
+
+	free((void*)output_state);
 }
 
 static void apply_layout(const struct Cmd *cmd, struct Tag *tag) {
@@ -152,7 +178,7 @@ static void apply_count_ratio(const struct Cmd *cmd, struct Tag *tag) {
 }
 
 void output_apply_cmd(const struct Output *output, const struct Cmd *cmd) {
-	struct SList *all = tag_all(output->tags, output->command_tags_mask);
+	struct SList *all = tag_all(output->state->tags, output->state->command_tags_mask);
 	for (struct SList *i = all; i; i = i->nex) {
 		struct Tag *tag = i->val;
 

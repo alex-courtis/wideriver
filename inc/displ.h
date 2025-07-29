@@ -30,6 +30,9 @@ struct Displ {
 	// Outputs by wl_output
 	const struct PTable *outputs;
 
+	// detached OutputState by output name
+	const struct STable *detached_output_states;
+
 	// state
 	const struct wl_output *wl_output_focused;
 	struct Style style_desired;
