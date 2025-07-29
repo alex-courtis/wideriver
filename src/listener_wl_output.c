@@ -17,6 +17,9 @@
 static void name(void *data,
 		struct wl_output *wl_output,
 		const char *name) {
+	if (!data || !name)
+		return;
+
 	struct Output *output = (struct Output*)data;
 
 	log_d_c_s("wl_output_name"); log_d_c("%d", output ? output->name : 0); log_d_c_e("%s", name);
