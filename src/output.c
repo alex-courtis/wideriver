@@ -76,39 +76,24 @@ void output_destroy(const void *o) {
 	const struct Output* const output = o;
 	log_d_c_s("output_destroy"); log_d_c_e("%d %s", output->name, "");
 
-	output_deactivate(output);
-
+	if (output->river_layout) {
+		river_layout_v3_destroy(output->river_layout);
+		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("river_layout"); log_d_c_e("%p", (void*)output->river_layout);
+	}
+	if (output->river_output_status) {
+		zriver_output_status_v1_destroy(output->river_output_status);
+		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("river_output_status"); log_d_c_e("%p", (void*)output->river_output_status);
+	}
+	if (output->wl_output) {
+		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("wl_output"); log_d_c_e("%p", (void*)output->wl_output);
+		wl_output_destroy(output->wl_output);
+	}
 	tags_destroy(output->tags);
 
 	free(output->wl_output_name);
 	free(output->wl_output_description);
 
 	free((void*)output);
-}
-
-void output_deactivate(const struct Output *o) {
-	if (!o)
-		return;
-
-	struct Output *output = (struct Output*)o;
-	log_d_c_s("output_deactivate"); log_d_c_e("%d %s", output->name, "");
-
-	if (output->river_layout) {
-		river_layout_v3_destroy(output->river_layout);
-		log_d_c_s("output_deactivate"); log_d_c("%d", output->name); log_d_c("river_layout"); log_d_c_e("%p", (void*)output->river_layout);
-		output->river_layout = NULL;
-	}
-	if (output->river_output_status) {
-		zriver_output_status_v1_destroy(output->river_output_status);
-		log_d_c_s("output_deactivate"); log_d_c("%d", output->name); log_d_c("river_output_status"); log_d_c_e("%p", (void*)output->river_output_status);
-		output->river_output_status = NULL;
-	}
-	if (output->wl_output) {
-		log_d_c_s("output_deactivate"); log_d_c("%d", output->name); log_d_c("wl_output"); log_d_c_e("%p", (void*)output->wl_output);
-		wl_output_destroy(output->wl_output);
-		output->wl_output = NULL;
-	}
-	output->name = 0;
 }
 
 static void apply_layout(const struct Cmd *cmd, struct Tag *tag) {

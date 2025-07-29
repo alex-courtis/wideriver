@@ -29,11 +29,7 @@ struct Output *output_init(struct wl_output *wl_output,
 		struct river_layout_manager_v3 *river_layout_manager,
 		struct zriver_status_manager_v1 *river_status_manager);
 
-// calls output_deactivate first
 void output_destroy(const void *o);
-
-// clear all but state and identifying info
-void output_deactivate(const struct Output *output);
 
 // apply cmd to command_tags_mask
 void output_apply_cmd(const struct Output *output, const struct Cmd *cmd);
