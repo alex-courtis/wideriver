@@ -11,8 +11,8 @@
 char **argv_expected = NULL;
 
 struct Cmd *__wrap_args_cmd(int argc, char **argv) {
-	check_expected(argc);
-	check_expected(argv);
+	check_expected_int(argc);
+	check_expected_ptr(argv);
 
 	for (int i = 0; i < argc; i++) {
 		assert_str_equal(argv[i], argv_expected[i]);
@@ -30,7 +30,6 @@ int after_all(void **state) {
 }
 
 int before_each(void **state) {
-	assert_logs_empty();
 	return 0;
 }
 
@@ -54,13 +53,15 @@ void cmd_init__valid(void **state) {
 
 	struct Cmd mock_cmd = { 0 };
 
-	expect_value(__wrap_args_cmd, argc, 4);
+	expect_int_value(__wrap_args_cmd, argc, 4);
 	expect_any(__wrap_args_cmd, argv);
 	will_return(__wrap_args_cmd, &mock_cmd);
 
 	const struct Cmd *cmd = cmd_init(args);
 
 	assert_ptr_equal(cmd, &mock_cmd);
+
+	assert_logs_empty();
 }
 
 void cmd_init__invalid(void **state) {
@@ -69,7 +70,7 @@ void cmd_init__invalid(void **state) {
 	char *tokens[] = { "dummy", "foo", };
 	argv_expected = tokens;
 
-	expect_value(__wrap_args_cmd, argc, 2);
+	expect_int_value(__wrap_args_cmd, argc, 2);
 	expect_any(__wrap_args_cmd, argv);
 	will_return(__wrap_args_cmd, NULL);
 

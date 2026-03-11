@@ -17,7 +17,7 @@ void _assert_log(enum LogThreshold t, const char * s, const char * const file, c
 	if (bp[t]) {
 		bp[t] = NULL;
 		if (strcmp(b[t], s) != 0) {
-			cm_print_error("assert_log\nlog.actual:\n\"%s\"\nlog.expected:\n\"%s\"\n", b[t], s);
+			cmocka_print_error("assert_log\nlog.actual:\n\"%s\"\nlog.expected:\n\"%s\"\n", b[t], s);
 			write_file("log.actual", b[t]);
 			write_file("log.expected", s);
 			_fail(file, line);
@@ -32,7 +32,7 @@ void _assert_logs_empty(const char * const file, const int line) {
 	for (enum LogThreshold t = DEBUG; t <= ERROR; t++) {
 		if (bp[t]) {
 			bp[t] = NULL;
-			cm_print_error("\nunexpected log %s:\n\"%s\"\n", log_threshold_name(t), b[t]);
+			cmocka_print_error("\nunexpected log %s:\n\"%s\"\n", log_threshold_name(t), b[t]);
 			empty = false;
 		}
 	}
@@ -61,8 +61,8 @@ void _log(enum LogThreshold t, const char *__restrict __format, va_list __args) 
 
 
 void __wrap_log_set_threshold(enum LogThreshold threshold, bool cli) {
-	check_expected(threshold);
-	check_expected(cli);
+	check_expected_uint(threshold);
+	check_expected_uint(cli);
 }
 
 void __wrap_log_(enum LogThreshold t, const char *__restrict __format, ...) {

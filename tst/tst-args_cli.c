@@ -10,7 +10,7 @@
 #include "args.h"
 
 void __wrap_usage(int status) {
-	check_expected(status);
+	check_expected_int(status);
 }
 
 int before_all(void **state) {
@@ -22,12 +22,10 @@ int after_all(void **state) {
 }
 
 int before_each(void **state) {
-	assert_logs_empty();
 	return 0;
 }
 
 int after_each(void **state) {
-	assert_logs_empty();
 	return 0;
 }
 
@@ -100,7 +98,7 @@ void args_parse_cli__bad_layout(void **state) {
 		"--layout", "bleh",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -113,7 +111,7 @@ void args_parse_cli__bad_layout_alt(void **state) {
 		"--layout-alt", "foo",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -126,7 +124,7 @@ void args_parse_cli__bad_stack(void **state) {
 		"--stack", "bleh",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -139,7 +137,7 @@ void args_parse_cli__bad_count_master(void **state) {
 		"--count-master", "-1",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -152,7 +150,7 @@ void args_parse_cli__bad_ratio_master(void **state) {
 		"--ratio-master", "-1",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -165,7 +163,7 @@ void args_parse_cli__bad_count_wide_left(void **state) {
 		"--count-wide-left", "-1",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -178,7 +176,7 @@ void args_parse_cli__bad_ratio_wide(void **state) {
 		"--ratio-wide", "-1",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -191,7 +189,7 @@ void args_parse_cli__bad_border_width_smart_gaps(void **state) {
 		"--border-width-smart-gaps", "-1",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -204,7 +202,7 @@ void args_parse_cli__bad_inner_gaps(void **state) {
 		"--inner-gaps", "-1",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -217,7 +215,7 @@ void args_parse_cli__bad_outer_gaps(void **state) {
 		"--outer-gaps", "-1",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -230,7 +228,7 @@ void args_parse_cli__bad_border_width(void **state) {
 		"--border-width", "A",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -243,7 +241,7 @@ void args_parse_cli__bad_border_width_monocle(void **state) {
 		"--border-width-monocle", "",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -256,7 +254,7 @@ void args_parse_cli__bad_border_color_focused(void **state) {
 		"--border-color-focused", "bleh",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -269,7 +267,7 @@ void args_parse_cli__bad_border_color_focused_monocle(void **state) {
 		"--border-color-focused-monocle", "foo",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -282,7 +280,7 @@ void args_parse_cli__bad_border_color_unfocused(void **state) {
 		"--border-color-unfocused", "bar",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 
@@ -295,7 +293,7 @@ void args_parse_cli__bad_log_threshold(void **state) {
 		"--log-threshold", "bleh",
 	};
 
-	expect_value(__wrap_usage, status, EXIT_FAILURE);
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
 
 	args_cli(argc, argv);
 

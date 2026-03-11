@@ -38,8 +38,6 @@ int after_all(void **state) {
 }
 
 int before_each(void **state) {
-	assert_logs_empty();
-
 	tag = tag_init(0);
 
 	tag->layout_cur = LEFT;
@@ -54,8 +52,6 @@ int before_each(void **state) {
 }
 
 int after_each(void **state) {
-	assert_logs_empty();
-
 	tag_destroy(tag);
 	tag = NULL;
 
@@ -81,6 +77,8 @@ void output_apply_cmd__vals_top(void **state) {
 	assert_float_equal(tag->ratio_master, 0.9, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__vals_wide(void **state) {
@@ -99,6 +97,8 @@ void output_apply_cmd__vals_wide(void **state) {
 	assert_float_equal(tag->ratio_master, 0.5, 0.001);
 	assert_int_equal(tag->count_wide_left, 9);
 	assert_float_equal(tag->ratio_wide, 0.9, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__vals_monocle(void **state) {
@@ -117,6 +117,8 @@ void output_apply_cmd__vals_monocle(void **state) {
 	assert_float_equal(tag->ratio_master, 0.5, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__toggle_delta(void **state) {
@@ -135,6 +137,8 @@ void output_apply_cmd__toggle_delta(void **state) {
 	assert_float_equal(tag->ratio_master, 0.6, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__layout_nop(void **state) {
@@ -153,6 +157,8 @@ void output_apply_cmd__layout_nop(void **state) {
 	assert_float_equal(tag->ratio_master, 0.5, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__count_master_delta_min(void **state) {
@@ -171,6 +177,8 @@ void output_apply_cmd__count_master_delta_min(void **state) {
 	assert_float_equal(tag->ratio_master, 0.5, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__ratio_master_min(void **state) {
@@ -192,6 +200,8 @@ void output_apply_cmd__ratio_master_min(void **state) {
 	assert_float_equal(tag->ratio_master, RATIO_MIN, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__ratio_master_max(void **state) {
@@ -213,6 +223,8 @@ void output_apply_cmd__ratio_master_max(void **state) {
 	assert_float_equal(tag->ratio_master, RATIO_MAX, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__ratio_master_delta_min(void **state) {
@@ -231,6 +243,8 @@ void output_apply_cmd__ratio_master_delta_min(void **state) {
 	assert_float_equal(tag->ratio_master, RATIO_MIN, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__ratio_master_delta_max(void **state) {
@@ -249,6 +263,8 @@ void output_apply_cmd__ratio_master_delta_max(void **state) {
 	assert_float_equal(tag->ratio_master, RATIO_MAX, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 int main(void) {

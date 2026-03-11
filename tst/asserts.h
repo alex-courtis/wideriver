@@ -8,7 +8,7 @@
 
 void _assert_nul(const void *a, const char * const ae, const char * const file, const int line) {
 	if (a) {
-		cm_print_error("%s is not NULL\n", ae);
+		cmocka_print_error("%s is not NULL\n", ae);
 		_fail(file, line);
 	}
 }
@@ -16,7 +16,7 @@ void _assert_nul(const void *a, const char * const ae, const char * const file, 
 
 void _assert_non_nul(const void *a, const char * const ae, const char * const file, const int line) {
 	if (!a) {
-		cm_print_error("%s is NULL\n", ae);
+		cmocka_print_error("%s is NULL\n", ae);
 		_fail(file, line);
 	}
 }
@@ -37,7 +37,7 @@ void _assert_str_equal_n(const char * const a, const char * const ae, const char
 	_assert_non_nul(a, ae, file, line);
 	_assert_non_nul(b, be, file, line);
 	if (strncmp(a, b, n) != 0) {
-		cm_print_error("\"%.*s\" != \"%.*s\"\n", (int)n, a, (int)n, b);
+		cmocka_print_error("\"%.*s\" != \"%.*s\"\n", (int)n, a, (int)n, b);
 		_fail(file, line);
 	}
 }
