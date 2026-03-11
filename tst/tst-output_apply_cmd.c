@@ -2,7 +2,6 @@
 #include "asserts.h"
 
 #include <cmocka.h>
-#include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
 
