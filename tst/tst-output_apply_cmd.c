@@ -38,6 +38,8 @@ int after_all(void **state) {
 }
 
 int before_each(void **state) {
+	logs_clear();
+
 	tag = tag_init(0);
 
 	tag->layout_cur = LEFT;

@@ -18,7 +18,7 @@ struct Cmd *__wrap_args_cmd(int argc, char **argv) {
 		assert_str_equal(argv[i], argv_expected[i]);
 	}
 
-	return mock_type(struct Cmd*);
+	return mock_ptr_type_checked(struct Cmd*);
 }
 
 int before_all(void **state) {
@@ -30,6 +30,7 @@ int after_all(void **state) {
 }
 
 int before_each(void **state) {
+	logs_clear();
 	return 0;
 }
 
@@ -55,7 +56,7 @@ void cmd_init__valid(void **state) {
 
 	expect_int_value(__wrap_args_cmd, argc, 4);
 	expect_any(__wrap_args_cmd, argv);
-	will_return(__wrap_args_cmd, &mock_cmd);
+	will_return_ptr_type(__wrap_args_cmd, &mock_cmd, struct Cmd*);
 
 	const struct Cmd *cmd = cmd_init(args);
 
@@ -72,7 +73,7 @@ void cmd_init__invalid(void **state) {
 
 	expect_int_value(__wrap_args_cmd, argc, 2);
 	expect_any(__wrap_args_cmd, argv);
-	will_return(__wrap_args_cmd, NULL);
+	will_return_ptr_type(__wrap_args_cmd, NULL, struct Cmd*);
 
 	const struct Cmd *cmd = cmd_init(args);
 	assert_nul(cmd);

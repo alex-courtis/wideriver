@@ -9,9 +9,19 @@
 #include "enum.h"
 #include "util.h"
 
+// log space b is statically allocated and not cleared
+// bp is used to indicate presence of logs
+// logs are reset by clearing bp on assert_log and logs_clear
+
 // 0 unused, 1 DEBUG, 5 FATAL
 static char b[6][262144] = { 0 };
 static char *bp[6] = { 0 };
+
+void logs_clear(void) {
+	for (enum LogThreshold t = DEBUG; t <= FATAL; t++) {
+		bp[t] = NULL;
+	}
+}
 
 void _assert_log(enum LogThreshold t, const char * s, const char * const file, const int line) {
 	if (bp[t]) {
@@ -29,7 +39,7 @@ void _assert_log(enum LogThreshold t, const char * s, const char * const file, c
 
 void _assert_logs_empty(const char * const file, const int line) {
 	bool empty = true;
-	for (enum LogThreshold t = DEBUG; t <= ERROR; t++) {
+	for (enum LogThreshold t = DEBUG; t <= FATAL; t++) {
 		if (bp[t]) {
 			bp[t] = NULL;
 			cmocka_print_error("\nunexpected log %s:\n\"%s\"\n", log_threshold_name(t), b[t]);
@@ -57,12 +67,6 @@ void _log(enum LogThreshold t, const char *__restrict __format, va_list __args) 
 	}
 
 	bp[t] += snprintf(bp[t], sizeof(b[t]) - (bp[t] - b[t]), "\n");
-}
-
-
-void __wrap_log_set_threshold(enum LogThreshold threshold, bool cli) {
-	check_expected_uint(threshold);
-	check_expected_uint(cli);
 }
 
 void __wrap_log_(enum LogThreshold t, const char *__restrict __format, ...) {

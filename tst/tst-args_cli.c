@@ -22,6 +22,7 @@ int after_all(void **state) {
 }
 
 int before_each(void **state) {
+	logs_clear();
 	return 0;
 }
 

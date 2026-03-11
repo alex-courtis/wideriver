@@ -49,6 +49,8 @@ void _assert_log(enum LogThreshold t, const char* s, const char * const file, co
 void _assert_logs_empty(const char * const file, const int line);
 #define assert_logs_empty() _assert_logs_empty(__FILE__, __LINE__)
 
+void logs_clear(void);
+
 void _assert_boxes_equal(struct Box *a, struct Box *b,
 		const char * const file, const int line) {
 	if (!a) {
