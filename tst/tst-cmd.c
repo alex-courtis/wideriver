@@ -2,7 +2,8 @@
 #include "asserts.h"
 
 #include <cmocka.h>
-#include <stddef.h>
+#include <string.h>
+#include <stdbool.h>
 
 #include "enum.h"
 
