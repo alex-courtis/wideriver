@@ -8,7 +8,7 @@
 
 void _assert_nul(const void *a, const char * const ae, const char * const file, const int line) {
 	if (a) {
-		cm_print_error("%s is not NULL\n", ae);
+		cmocka_print_error("%s is not NULL\n", ae);
 		_fail(file, line);
 	}
 }
@@ -16,7 +16,7 @@ void _assert_nul(const void *a, const char * const ae, const char * const file, 
 
 void _assert_non_nul(const void *a, const char * const ae, const char * const file, const int line) {
 	if (!a) {
-		cm_print_error("%s is NULL\n", ae);
+		cmocka_print_error("%s is NULL\n", ae);
 		_fail(file, line);
 	}
 }
@@ -37,7 +37,7 @@ void _assert_str_equal_n(const char * const a, const char * const ae, const char
 	_assert_non_nul(a, ae, file, line);
 	_assert_non_nul(b, be, file, line);
 	if (strncmp(a, b, n) != 0) {
-		cm_print_error("\"%.*s\" != \"%.*s\"\n", (int)n, a, (int)n, b);
+		cmocka_print_error("\"%.*s\" != \"%.*s\"\n", (int)n, a, (int)n, b);
 		_fail(file, line);
 	}
 }
@@ -49,19 +49,21 @@ void _assert_log(enum LogThreshold t, const char* s, const char * const file, co
 void _assert_logs_empty(const char * const file, const int line);
 #define assert_logs_empty() _assert_logs_empty(__FILE__, __LINE__)
 
+void logs_clear(void);
+
 void _assert_boxes_equal(struct Box *a, struct Box *b,
 		const char * const file, const int line) {
 	if (!a) {
-		print_error("Box a is null\n");
+		print_error("Actual box is null\n");
 		_fail(file, line);
 	}
 	if (!b) {
-		print_error("Box b is null\n");
+		print_error("Expected box is NULL\n");
 		_fail(file, line);
 	}
 	if (memcmp(a, b, sizeof(struct Box)) != 0) {
-		print_error("struct Box a = { .x = %d, .y = %d .width = %d, .height = %d, };\n"
-				"struct Box b = { .x = %d, .y = %d .width = %d, .height = %d, };\n",
+		print_error("actual:   struct Box a = { .x = %d, .y = %d .width = %d, .height = %d, };\n"
+				"expected: struct Box b = { .x = %d, .y = %d .width = %d, .height = %d, };\n",
 				a->x, a->y, a->width, a->height, b->x, b->y, b->width, b->height);
 		_fail(file, line);
 	}
@@ -72,6 +74,15 @@ void _assert_boxes_equal(struct Box *a, struct Box *b,
 { \
 	struct Box expected = { x, y, width, height, }; \
 	_assert_boxes_equal(a, &expected, __FILE__, __LINE__); \
+}
+
+int check_ptr_equal(CMockaValueData value, CMockaValueData check_data) {
+	if (value.ptr != check_data.ptr) {
+		cmocka_print_error("%p != %p\n", value.ptr, check_data.ptr);
+		return false;
+	} else {
+		return true;
+	}
 }
 
 #endif // ASSERTS_H

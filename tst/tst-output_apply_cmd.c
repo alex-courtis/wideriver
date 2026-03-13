@@ -2,7 +2,6 @@
 #include "asserts.h"
 
 #include <cmocka.h>
-#include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -21,8 +20,8 @@ struct Tag *tag = NULL;
 const struct Cmd *cmd = NULL;
 
 struct SList *__wrap_tag_all(const struct SList *tags, const uint32_t mask) {
-	check_expected(tags);
-	check_expected(mask);
+	check_expected_ptr(tags);
+	check_expected_uint(mask);
 
 	struct SList *all = NULL;
 	slist_append(&all, tag);
@@ -38,7 +37,7 @@ int after_all(void **state) {
 }
 
 int before_each(void **state) {
-	assert_logs_empty();
+	logs_clear();
 
 	tag = tag_init(0);
 
@@ -54,8 +53,6 @@ int before_each(void **state) {
 }
 
 int after_each(void **state) {
-	assert_logs_empty();
-
 	tag_destroy(tag);
 	tag = NULL;
 
@@ -69,8 +66,8 @@ void output_apply_cmd__vals_top(void **state) {
 	cmd = cmd_init("--layout TOP --layout-toggle --stack EVEN --count 9 --ratio 0.9");
 	assert_non_nul(cmd);
 
-	expect_value(__wrap_tag_all, tags, output.state->tags);
-	expect_value(__wrap_tag_all, mask, output.state->command_tags_mask);
+	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
 
@@ -81,14 +78,16 @@ void output_apply_cmd__vals_top(void **state) {
 	assert_float_equal(tag->ratio_master, 0.9, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__vals_wide(void **state) {
 	cmd = cmd_init("--layout WIDE --layout-toggle --stack EVEN --count 9 --ratio 0.9");
 	assert_non_nul(cmd);
 
-	expect_value(__wrap_tag_all, tags, output.state->tags);
-	expect_value(__wrap_tag_all, mask, output.state->command_tags_mask);
+	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
 
@@ -99,14 +98,16 @@ void output_apply_cmd__vals_wide(void **state) {
 	assert_float_equal(tag->ratio_master, 0.5, 0.001);
 	assert_int_equal(tag->count_wide_left, 9);
 	assert_float_equal(tag->ratio_wide, 0.9, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__vals_monocle(void **state) {
 	cmd = cmd_init("--layout MONOCLE --layout-toggle --stack EVEN --count 9 --ratio 0.9");
 	assert_non_nul(cmd);
 
-	expect_value(__wrap_tag_all, tags, output.state->tags);
-	expect_value(__wrap_tag_all, mask, output.state->command_tags_mask);
+	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
 
@@ -117,14 +118,16 @@ void output_apply_cmd__vals_monocle(void **state) {
 	assert_float_equal(tag->ratio_master, 0.5, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__toggle_delta(void **state) {
 	cmd = cmd_init("--layout-toggle --count +10 --ratio +0.1");
 	assert_non_nul(cmd);
 
-	expect_value(__wrap_tag_all, tags, output.state->tags);
-	expect_value(__wrap_tag_all, mask, output.state->command_tags_mask);
+	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
 
@@ -135,14 +138,16 @@ void output_apply_cmd__toggle_delta(void **state) {
 	assert_float_equal(tag->ratio_master, 0.6, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__layout_nop(void **state) {
 	cmd = cmd_init("--layout LEFT --layout-toggle");
 	assert_non_nul(cmd);
 
-	expect_value(__wrap_tag_all, tags, output.state->tags);
-	expect_value(__wrap_tag_all, mask, output.state->command_tags_mask);
+	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
 
@@ -153,14 +158,16 @@ void output_apply_cmd__layout_nop(void **state) {
 	assert_float_equal(tag->ratio_master, 0.5, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__count_master_delta_min(void **state) {
 	cmd = cmd_init("--count -10");
 	assert_non_nul(cmd);
 
-	expect_value(__wrap_tag_all, tags, output.state->tags);
-	expect_value(__wrap_tag_all, mask, output.state->command_tags_mask);
+	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
 
@@ -171,6 +178,8 @@ void output_apply_cmd__count_master_delta_min(void **state) {
 	assert_float_equal(tag->ratio_master, 0.5, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__ratio_master_min(void **state) {
@@ -180,8 +189,8 @@ void output_apply_cmd__ratio_master_min(void **state) {
 	free(cmd->ratio);
 	((struct Cmd*)cmd)->ratio = doubledup(-5);
 
-	expect_value(__wrap_tag_all, tags, output.state->tags);
-	expect_value(__wrap_tag_all, mask, output.state->command_tags_mask);
+	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
 
@@ -192,6 +201,8 @@ void output_apply_cmd__ratio_master_min(void **state) {
 	assert_float_equal(tag->ratio_master, RATIO_MIN, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__ratio_master_max(void **state) {
@@ -201,8 +212,8 @@ void output_apply_cmd__ratio_master_max(void **state) {
 	free(cmd->ratio);
 	((struct Cmd*)cmd)->ratio = doubledup(5);
 
-	expect_value(__wrap_tag_all, tags, output.state->tags);
-	expect_value(__wrap_tag_all, mask, output.state->command_tags_mask);
+	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
 
@@ -213,14 +224,16 @@ void output_apply_cmd__ratio_master_max(void **state) {
 	assert_float_equal(tag->ratio_master, RATIO_MAX, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__ratio_master_delta_min(void **state) {
 	cmd = cmd_init("--ratio -10.0");
 	assert_non_nul(cmd);
 
-	expect_value(__wrap_tag_all, tags, output.state->tags);
-	expect_value(__wrap_tag_all, mask, output.state->command_tags_mask);
+	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
 
@@ -231,14 +244,16 @@ void output_apply_cmd__ratio_master_delta_min(void **state) {
 	assert_float_equal(tag->ratio_master, RATIO_MIN, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 void output_apply_cmd__ratio_master_delta_max(void **state) {
 	cmd = cmd_init("--ratio +10.0");
 	assert_non_nul(cmd);
 
-	expect_value(__wrap_tag_all, tags, output.state->tags);
-	expect_value(__wrap_tag_all, mask, output.state->command_tags_mask);
+	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
 
@@ -249,6 +264,8 @@ void output_apply_cmd__ratio_master_delta_max(void **state) {
 	assert_float_equal(tag->ratio_master, RATIO_MAX, 0.001);
 	assert_int_equal(tag->count_wide_left, 2);
 	assert_float_equal(tag->ratio_wide, 0.2, 0.001);
+
+	assert_logs_empty();
 }
 
 int main(void) {

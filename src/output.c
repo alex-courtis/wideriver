@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/param.h>
 #include <wayland-client-protocol.h>

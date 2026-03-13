@@ -9,7 +9,7 @@
 #include "args.h"
 
 void __wrap_usage(int status) {
-	check_expected(status);
+	check_expected_int(status);
 }
 
 int before_all(void **state) {
@@ -21,12 +21,11 @@ int after_all(void **state) {
 }
 
 int before_each(void **state) {
-	assert_logs_empty();
+	logs_clear();
 	return 0;
 }
 
 int after_each(void **state) {
-	assert_logs_empty();
 	return 0;
 }
 
@@ -56,6 +55,8 @@ void args_parse_cmd__valid(void **state) {
 	assert_int_equal(cmd->stack, DWINDLE);
 
 	cmd_destroy(cmd);
+
+	assert_logs_empty();
 }
 
 void args_parse_cmd__invalid(void **state) {
@@ -67,6 +68,8 @@ void args_parse_cmd__invalid(void **state) {
 	const struct Cmd *cmd = args_cmd(argc, argv);
 
 	assert_nul(cmd);
+
+	assert_logs_empty();
 }
 
 void args_parse_cmd__bad_layout(void **state) {
@@ -137,6 +140,8 @@ void args_parse_cmd__count_master_delta(void **state) {
 	assert_int_equal(*cmd->count_delta, -2);
 
 	cmd_destroy(cmd);
+
+	assert_logs_empty();
 }
 
 void args_parse_cmd__ratio_master_delta(void **state) {
@@ -153,6 +158,8 @@ void args_parse_cmd__ratio_master_delta(void **state) {
 	assert_float_equal(*cmd->ratio_delta, 0.05, 0.001);
 
 	cmd_destroy(cmd);
+
+	assert_logs_empty();
 }
 
 int main(void) {
