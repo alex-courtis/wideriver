@@ -1,5 +1,6 @@
 #include "tst.h"
 #include "asserts.h"
+#include "expects.h"
 
 #include <cmocka.h>
 #include <stdint.h>
@@ -66,7 +67,7 @@ void output_apply_cmd__vals_top(void **state) {
 	cmd = cmd_init("--layout TOP --layout-toggle --stack EVEN --count 9 --ratio 0.9");
 	assert_non_nul(cmd);
 
-	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
@@ -86,7 +87,7 @@ void output_apply_cmd__vals_wide(void **state) {
 	cmd = cmd_init("--layout WIDE --layout-toggle --stack EVEN --count 9 --ratio 0.9");
 	assert_non_nul(cmd);
 
-	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
@@ -106,7 +107,7 @@ void output_apply_cmd__vals_monocle(void **state) {
 	cmd = cmd_init("--layout MONOCLE --layout-toggle --stack EVEN --count 9 --ratio 0.9");
 	assert_non_nul(cmd);
 
-	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
@@ -126,7 +127,7 @@ void output_apply_cmd__toggle_delta(void **state) {
 	cmd = cmd_init("--layout-toggle --count +10 --ratio +0.1");
 	assert_non_nul(cmd);
 
-	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
@@ -146,7 +147,7 @@ void output_apply_cmd__layout_nop(void **state) {
 	cmd = cmd_init("--layout LEFT --layout-toggle");
 	assert_non_nul(cmd);
 
-	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
@@ -166,7 +167,7 @@ void output_apply_cmd__count_master_delta_min(void **state) {
 	cmd = cmd_init("--count -10");
 	assert_non_nul(cmd);
 
-	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
@@ -189,7 +190,7 @@ void output_apply_cmd__ratio_master_min(void **state) {
 	free(cmd->ratio);
 	((struct Cmd*)cmd)->ratio = doubledup(-5);
 
-	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
@@ -212,7 +213,7 @@ void output_apply_cmd__ratio_master_max(void **state) {
 	free(cmd->ratio);
 	((struct Cmd*)cmd)->ratio = doubledup(5);
 
-	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
@@ -232,7 +233,7 @@ void output_apply_cmd__ratio_master_delta_min(void **state) {
 	cmd = cmd_init("--ratio -10.0");
 	assert_non_nul(cmd);
 
-	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);
@@ -252,7 +253,7 @@ void output_apply_cmd__ratio_master_delta_max(void **state) {
 	cmd = cmd_init("--ratio +10.0");
 	assert_non_nul(cmd);
 
-	expect_check_data(__wrap_tag_all, tags, check_ptr_equal, cast_ptr_to_cmocka_value(output.state->tags));
+	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
 
 	output_apply_cmd(&output, cmd);

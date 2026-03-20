@@ -76,13 +76,4 @@ void _assert_boxes_equal(struct Box *a, struct Box *b,
 	_assert_boxes_equal(a, &expected, __FILE__, __LINE__); \
 }
 
-int check_ptr_equal(CMockaValueData value, CMockaValueData check_data) {
-	if (value.ptr != check_data.ptr) {
-		cmocka_print_error("%p != %p\n", value.ptr, check_data.ptr);
-		return false;
-	} else {
-		return true;
-	}
-}
-
 #endif // ASSERTS_H
