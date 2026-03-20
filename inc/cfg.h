@@ -52,6 +52,7 @@ struct Cfg {
 	double ratio_master;
 	uint32_t count_wide_left;
 	double ratio_wide;
+	enum WideFirst wide_first;
 	bool smart_gaps;
 	uint32_t border_width_smart_gaps;
 	uint32_t inner_gaps;
@@ -71,6 +72,7 @@ bool cfg_set_count_master(const char *s);
 bool cfg_set_ratio_master(const char *s);
 bool cfg_set_count_wide_left(const char *s);
 bool cfg_set_ratio_wide(const char *s);
+bool cfg_set_wide_first(const char *s);
 void cfg_set_smart_gaps(bool smart_gaps);
 bool cfg_set_border_width_smart_gaps(const char *s);
 bool cfg_set_inner_gaps(const char *s);
