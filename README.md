@@ -63,7 +63,9 @@ Tiling window manager for the [river](https://github.com/riverwm/river) wayland 
 <br/>
 
 <details>
+
 <summary>
+
 Set server side decorations.
 </summary>
 
@@ -78,7 +80,9 @@ riverctl rule-add ssd
 <br/>
 
 <details>
+
 <summary>
+
 Set the layout generator and start it.
 </summary>
 
@@ -109,6 +113,7 @@ wideriver \
     --border-color-focused-monocle "0x586e75"  \
     --border-color-unfocused       "0x586e75"  \
     --log-threshold                info        \
+    --wide-first                  left           \
    > "/tmp/wideriver.${XDG_VTNR}.${USER}.log" 2>&1 &
 ```
 
@@ -117,7 +122,9 @@ wideriver \
 <br/>
 
 <details>
+
 <summary>
+
 Create some command mappings e.g.
 </summary>
 
@@ -220,6 +227,25 @@ The left stack contains 3 views, the right stack the remainder.
 The left and right stacks each occupy 30% of the available width.
 
 5 may be moved into the master area with `riverctl send-layout-cmd wideriver "--count +1"`. 4 will be placed at the “top” of the stack, below 3.
+
+When started with `--wide-first mid`, the first window is placed in master area and subsequent windows fill the left stack:
+
+              Left Stack               Master                     Right Stack
+    ________________________________________________________________________________
+    |          6           |                               |                       |
+    |______________________|                               |                       |
+    |                      |                               |          2            |
+    |          7           |                               |                       |
+    |                      |                               |_______________________|
+    |______________________|                               |                       |
+    |                      |             1                 |          3            |
+    |                      |                               |                       |
+    |                      |                               |_______________________|
+    |          8           |                               |          4            |
+    |                      |                               |_______________________|
+    |______________________|_______________________________|__________5____________|
+
+Use `--wide-first` as a startup option; it cannot be changed at runtime.
 
 ### Monocle
 
@@ -378,6 +404,7 @@ Should install under `/usr/local`
 
       --count-wide-left               count                                 0           0 <= count
       --ratio-wide                    ratio                                 0.35      0.1 <= ratio <= 0.9
+      --wide-first                    left|mid                              left
 
       --(no-)smart-gaps
       --inner-gaps                    pixels                                0           0 <= gap size
@@ -427,6 +454,9 @@ Initial number of views in the wide layout’s left stack area, default `1`, min
 
 `--ratio-wide` *ratio*  
 Initial proportion of the width the wide layout’s master area occupies, default `0.35`, minimum `0.1`, maximum `0.9`. The default value is best suited to ultrawide monitors, a value of `0.5` may be more useful for 16:9 monitors.
+
+`--wide-first` `left`\|`mid`  
+Initial wide layout window positioning, default `left`. With `left` the first view is placed in the top of the left stack; with `mid` the first view is placed in master. This affects both new window placement and focus jumping (zoom) behavior.
 
 `--(no-)smart-gaps`  
 Automatically hides the gaps when there is only one view or monocle layout.
