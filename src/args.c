@@ -34,6 +34,7 @@ static struct option cli_long_options[] = {
 	{ "help-defaults",                no_argument,       0, 0, }, // 18
 	{ "log-threshold",                required_argument, 0, 0, }, // 19
 	{ "version",                      no_argument,       0, 0, }, // 20
+	{ "wide-first",                   required_argument, 0, 0, }, // 21
 	{ 0,                              0,                 0, 0, }
 };
 
@@ -179,6 +180,13 @@ void args_cli(int argc, char **argv) {
 				fprintf(stdout, "wideriver version %s\n", VERSION);
 				exit(EXIT_SUCCESS);
 				return;
+			case 21:
+				if (!cfg_set_wide_first(optarg)) {
+					log_f("invalid --wide-first '%s'\n", optarg);
+					usage(EXIT_FAILURE);
+					return;
+				}
+				break;
 			default:
 				fprintf(stderr, "\n");
 				usage(EXIT_FAILURE);
@@ -194,6 +202,7 @@ void args_cli(int argc, char **argv) {
 	log_i("--ratio-master                 %g",  cfg->ratio_master);
 	log_i("--count-wide-left              %u",  cfg->count_wide_left);
 	log_i("--ratio-wide                   %g",  cfg->ratio_wide);
+	log_i("--wide-first                   %s",  wide_first_name(cfg->wide_first));
 	log_i("--%ssmart-gaps",                     cfg->smart_gaps ? "" : "no-");
 	log_i("--inner-gaps                   %u",  cfg->inner_gaps);
 	log_i("--outer-gaps                   %u",  cfg->outer_gaps);

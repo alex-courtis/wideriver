@@ -34,6 +34,12 @@ static struct NameVal log_thresholds[] = {
 	{ .val = 0,			.name = NULL,		},
 };
 
+static struct NameVal wide_firsts[] = {
+	{ .val = WIDE_FIRST_LEFT,	.name = "left",	},
+	{ .val = WIDE_FIRST_MID,	.name = "mid",	},
+	{ .val = 0,					.name = NULL,	},
+};
+
 const char *name(const struct NameVal *name_vals, const unsigned int val) {
 	if (!name_vals) {
 		return NULL;
@@ -80,4 +86,12 @@ const char *log_threshold_name(const enum LogThreshold log_threshold) {
 
 enum LogThreshold log_threshold_val(const char *name) {
 	return val(log_thresholds, name);
+}
+
+const char *wide_first_name(const enum WideFirst wide_first) {
+	return name(wide_firsts, wide_first);
+}
+
+enum WideFirst wide_first_val(const char *name) {
+	return val(wide_firsts, name);
 }

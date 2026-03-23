@@ -22,6 +22,7 @@ void usage(const int status) {
 			"\n"
 			"  --count-wide-left               count                                 %d           %d <= count\n"
 			"  --ratio-wide                    ratio                                 %.02f      %.1g <= ratio <= %.1g\n"
+			"  --wide-first                    %s|%s                              %s\n"
 			"\n"
 			"  --(no-)smart-gaps\n"
 			"  --inner-gaps                    pixels                                %d           %d <= gap size\n"
@@ -56,6 +57,7 @@ void usage(const int status) {
 		RATIO_MASTER_DEFAULT, RATIO_MIN, RATIO_MAX,
 		COUNT_WIDE_LEFT_DEFAULT, COUNT_MIN,
 		RATIO_WIDE_DEFAULT, RATIO_MIN, RATIO_MAX,
+		wide_first_name(WIDE_FIRST_LEFT), wide_first_name(WIDE_FIRST_MID), wide_first_name(WIDE_FIRST_DEFAULT),
 		INNER_GAPS_DEFAULT, INNER_GAPS_MIN,
 		OUTER_GAPS_DEFAULT, OUTER_GAPS_MIN,
 		BORDER_WIDTH_DEFAULT, BORDER_WIDTH_MIN,
@@ -94,6 +96,7 @@ void usage_defaults(void) {
 			"    --border-color-focused-monocle \"%s\"  \\\n"
 			"    --border-color-unfocused       \"%s\"  \\\n"
 			"    --log-threshold                %s        \\\n"
+			"    --wide-first                  %s           \\\n"
 			"   > \"/tmp/wideriver.${XDG_VTNR}.${USER}.log\" 2>&1 &\n",
 		layout_name(LAYOUT_DEFAULT), layout_name(LAYOUT_ALT_DEFAULT), stack_name(STACK_DEFAULT),
 		COUNT_MASTER_DEFAULT, RATIO_MASTER_DEFAULT,
@@ -102,7 +105,8 @@ void usage_defaults(void) {
 		OUTER_GAPS_DEFAULT,
 		BORDER_WIDTH_DEFAULT, BORDER_WIDTH_MONOCLE_DEFAULT, BORDER_WIDTH_SMART_GAPS_DEFAULT,
 		BORDER_COLOR_FOCUSED_DEFAULT, BORDER_COLOR_FOCUSED_MONOCLE_DEFAULT, BORDER_COLOR_UNFOCUSED_DEFAULT,
-		log_threshold_name(LOG_THRESHOLD_DEFAULT)
+		log_threshold_name(LOG_THRESHOLD_DEFAULT),
+		wide_first_name(WIDE_FIRST_DEFAULT)
 		);
 
 	exit(EXIT_SUCCESS);
