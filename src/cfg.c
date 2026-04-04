@@ -15,6 +15,7 @@ struct Cfg c = {
 	.ratio_master = RATIO_MASTER_DEFAULT,
 	.count_wide_left = COUNT_WIDE_LEFT_DEFAULT,
 	.ratio_wide = RATIO_WIDE_DEFAULT,
+	.wide_first = WIDE_FIRST_DEFAULT,
 	.smart_gaps = SMART_GAPS_DEFAULT,
 	.border_width_smart_gaps = BORDER_WIDTH_SMART_GAPS_DEFAULT,
 	.inner_gaps = INNER_GAPS_DEFAULT,
@@ -128,6 +129,15 @@ bool cfg_set_ratio_wide(const char *s) {
 		c.ratio_wide = ratio_wide;
 		return true;
 	}
+}
+
+bool cfg_set_wide_first(const char *s) {
+	enum WideFirst wide_first = wide_first_val(s);
+	if (wide_first) {
+		c.wide_first = wide_first;
+		return true;
+	}
+	return false;
 }
 
 void cfg_set_smart_gaps(bool smart_gaps) {

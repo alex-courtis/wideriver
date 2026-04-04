@@ -31,7 +31,7 @@ int after_each(void **state) {
 }
 
 void args_parse_cli__valid(void **state) {
-	int argc = 34;
+	int argc = 36;
 	char *argv[] = { "dummy",
 		"--layout", "left",
 		"--layout-alt", "right",
@@ -40,6 +40,7 @@ void args_parse_cli__valid(void **state) {
 		"--ratio-master", "0.2",
 		"--count-wide-left", "8",
 		"--ratio-wide", "0.8",
+		"--wide-first", "mid",
 		"--smart-gaps",
 		"--border-width-smart-gaps", "8",
 		"--inner-gaps", "6",
@@ -61,6 +62,7 @@ void args_parse_cli__valid(void **state) {
 	assert_float_equal(cfg->ratio_master, 0.2, 0.001);
 	assert_int_equal(cfg->count_wide_left, 8);
 	assert_float_equal(cfg->ratio_wide, 0.8, 0.001);
+	assert_int_equal(cfg->wide_first, WIDE_FIRST_MID);
 	assert_true(cfg->smart_gaps);
 	assert_int_equal(cfg->border_width_smart_gaps, 8);
 	assert_int_equal(cfg->inner_gaps, 6);
@@ -80,6 +82,7 @@ void args_parse_cli__valid(void **state) {
 			"--ratio-master                 0.2\n"
 			"--count-wide-left              8\n"
 			"--ratio-wide                   0.8\n"
+			"--wide-first                   mid\n"
 			"--smart-gaps\n"
 			"--inner-gaps                   6\n"
 			"--outer-gaps                   6\n"
@@ -301,6 +304,19 @@ void args_parse_cli__bad_log_threshold(void **state) {
 	assert_log(FATAL, "invalid --log-threshold 'bleh'\n\n");
 }
 
+void args_parse_cli__bad_wide_first(void **state) {
+	int argc = 3;
+	char *argv[] = { "dummy",
+		"--wide-first", "bleh",
+	};
+
+	expect_int_value(__wrap_usage, status, EXIT_FAILURE);
+
+	args_cli(argc, argv);
+
+	assert_log(FATAL, "invalid --wide-first 'bleh'\n\n");
+}
+
 int main(void) {
 	const struct CMUnitTest tests[] = {
 		TEST(args_parse_cli__valid),
@@ -320,6 +336,7 @@ int main(void) {
 		TEST(args_parse_cli__bad_border_color_focused_monocle),
 		TEST(args_parse_cli__bad_border_color_unfocused),
 		TEST(args_parse_cli__bad_log_threshold),
+		TEST(args_parse_cli__bad_wide_first),
 	};
 
 	return RUN(tests);

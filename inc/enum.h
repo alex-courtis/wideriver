@@ -28,6 +28,12 @@ enum LogThreshold {
 	LOG_THRESHOLD_DEFAULT = INFO,
 };
 
+enum WideFirst {
+	WIDE_FIRST_LEFT = 1,
+	WIDE_FIRST_MID,
+	WIDE_FIRST_DEFAULT = WIDE_FIRST_LEFT,
+};
+
 const char *layout_name(const enum Layout layout);
 enum Layout layout_val(const char *name);
 
@@ -36,5 +42,8 @@ enum Stack stack_val(const char *name);
 
 const char *log_threshold_name(const enum LogThreshold log_threshold);
 enum LogThreshold log_threshold_val(const char *name);
+
+const char *wide_first_name(const enum WideFirst wide_first);
+enum WideFirst wide_first_val(const char *name);
 
 #endif // ENUM_H
