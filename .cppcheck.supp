@@ -3,6 +3,7 @@ unusedFunction:src/log.c
 unusedFunction:pro/*.h
 
 unusedFunction:tst/asserts.h
+unusedFunction:tst/expects.h
 unusedFunction:tst/util.c
 unusedFunction:tst/wrap-*.c
 
