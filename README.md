@@ -1,6 +1,6 @@
 # wideriver
 
-Tiling window manager for the [river](https://github.com/riverwm/river) wayland compositor, inspired by [dwm](https://dwm.suckless.org/) and [xmonad](https://xmonad.org/)
+Tiling window manager for the [river-classic](https://codeberg.org/river/river-classic) wayland compositor, inspired by [dwm](https://dwm.suckless.org/) and [xmonad](https://xmonad.org/)
 
 - Per-tag state
 - Master/stack(s) left, right and wide layouts
@@ -523,7 +523,7 @@ You can “shuffle” views through master, focusing the new master using:
 
 The layout name will not update when there are no views for the selected tags. This can occurs when setting a tag with no views or changing the layout for a tag with no views.
 
-This may be resolved with a river enhancement: [\#1004](https://github.com/riverwm/river/issues/1002)
+This may be resolved with a river enhancement: [\#1002](https://codeberg.org/river/river/issues/1002)
 
 ### Borders Are Not Shown
 

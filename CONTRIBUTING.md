@@ -33,7 +33,7 @@ Please raise an [issue](https://github.com/alex-courtis/wideriver/issues), fork 
 
 ## Dependencies
 
-Most will be available if you are running river.
+Most will be available if you are running river-classic.
 
 ### Build
 * GNU make
