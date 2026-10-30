@@ -6,7 +6,7 @@
 #include "cfg.h"
 #include "enum.h"
 #include "mem.h"
-#include "slist.h"
+#include "slist-old.h"
 #include "log.h"
 
 #include "cmd.h"
@@ -17,10 +17,10 @@ const struct Cmd *cmd_init(const char *args) {
 	int argc = 0;
 
 	// tokenise
-	struct SList *tokens = NULL;
+	struct SListOld *tokens = NULL;
 	char *str = strdup(args);
 	for (char *t = strtok(str, " "); t; t = strtok(NULL, " ")) {
-		slist_append(&tokens, strdup(t));
+		slist_old_append(&tokens, strdup(t));
 		argc++;
 	}
 	free(str);
@@ -34,7 +34,7 @@ const struct Cmd *cmd_init(const char *args) {
 	char *argv[++argc];
 	argv[0] = dummy;
 	int i = 1;
-	for (struct SList *token = tokens; token; token = token->nex) {
+	for (struct SListOld *token = tokens; token; token = token->nex) {
 		argv[i++] = token->val;
 	}
 
@@ -44,7 +44,7 @@ const struct Cmd *cmd_init(const char *args) {
 		log_e("command invalid '%s'", args);
 	}
 
-	slist_free_vals(&tokens, NULL);
+	slist_old_free_vals(&tokens, NULL);
 
 	return cmd;
 }

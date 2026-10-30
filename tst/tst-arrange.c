@@ -7,7 +7,7 @@
 
 #include "enum.h"
 #include "layout.h"
-#include "slist.h"
+#include "slist-old.h"
 #include "tag.h"
 
 #include "arrange.h"
@@ -29,22 +29,22 @@ int after_each(void **state) {
 }
 
 void arrange_monocle__many(void **state) {
-	struct SList *stack = NULL;
+	struct SListOld *stack = NULL;
 	struct Demand demand = { .view_count = 2, .usable_width = 5, .usable_height = 3 };
 	struct Tag tag = { .layout_cur = MONOCLE, };
 
 	arrange_monocle(&demand, &tag, &stack);
 
-	assert_int_equal(slist_length(stack), 2);
+	assert_int_equal(slist_old_length(stack), 2);
 
-	assert_box_equal(slist_at(stack, 0), 0, 0, 5, 3);
-	assert_box_equal(slist_at(stack, 1), 0, 0, 5, 3);
+	assert_box_equal(slist_old_at(stack, 0), 0, 0, 5, 3);
+	assert_box_equal(slist_old_at(stack, 1), 0, 0, 5, 3);
 
-	slist_free_vals(&stack, NULL);
+	slist_old_free_vals(&stack, NULL);
 }
 
 void arrange_monocle__many_with_gaps(void **state) {
-	struct SList *stack = NULL;
+	struct SListOld *stack = NULL;
 	struct Demand demand = { .view_count = 2, .usable_width = 5, .usable_height = 3 };
 	struct Tag tag = { .layout_cur = MONOCLE, .smart_gaps = false,
 		.inner_gaps = 0, .outer_gaps = 1, };
@@ -52,16 +52,16 @@ void arrange_monocle__many_with_gaps(void **state) {
 		.inner_gaps = 0, .outer_gaps = 1, };
 
 	arrange_monocle(&demand, &tag, &stack);
-	assert_int_equal(slist_length(stack), 2);
-	assert_box_equal(slist_at(stack, 1), 1, 1, 3, 1);
-	assert_box_equal(slist_at(stack, 0), 1, 1, 3, 1);
-	slist_free_vals(&stack, NULL);
+	assert_int_equal(slist_old_length(stack), 2);
+	assert_box_equal(slist_old_at(stack, 1), 1, 1, 3, 1);
+	assert_box_equal(slist_old_at(stack, 0), 1, 1, 3, 1);
+	slist_old_free_vals(&stack, NULL);
 
 	arrange_monocle(&demand, &smart_tag, &stack);
-	assert_int_equal(slist_length(stack), 2);
-	assert_box_equal(slist_at(stack, 0), 0, 0, 5, 3);
-	assert_box_equal(slist_at(stack, 1), 0, 0, 5, 3);
-	slist_free_vals(&stack, NULL);
+	assert_int_equal(slist_old_length(stack), 2);
+	assert_box_equal(slist_old_at(stack, 0), 0, 0, 5, 3);
+	assert_box_equal(slist_old_at(stack, 1), 0, 0, 5, 3);
+	slist_old_free_vals(&stack, NULL);
 }
 
 int main(void) {

@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "river-layout-v3.h"
 
-#include "slist.h"
+#include "slist-old.h"
 
 #include "tag.h"
 
@@ -25,10 +25,10 @@ struct Box {
 const char *layout_description(const struct Demand *demand, const struct Tag *tag);
 
 // populate views with Box for river layout push dimensions, caller frees
-struct SList *layout(const struct Demand *demand, const struct Tag *tag);
+struct SListOld *layout(const struct Demand *demand, const struct Tag *tag);
 
 // push Box views
-void push(const struct SList *views, struct river_layout_v3 *river_layout_v3, const uint32_t serial);
+void push(const struct SListOld *views, struct river_layout_v3 *river_layout_v3, const uint32_t serial);
 
 #endif // LAYOUT_H
 

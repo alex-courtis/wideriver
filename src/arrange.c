@@ -4,7 +4,7 @@
 
 #include "enum.h"
 #include "layout.h"
-#include "slist.h"
+#include "slist-old.h"
 #include "tag.h"
 
 #include "arrange.h"
@@ -287,7 +287,7 @@ void arrange_wide(const struct Demand *demand,
 
 void arrange_monocle(const struct Demand *demand,
 		const struct Tag* const tag,
-		struct SList **views) {
+		struct SListOld **views) {
 
 	if (!demand || !views)
 		return;
@@ -303,7 +303,7 @@ void arrange_monocle(const struct Demand *demand,
 		struct Box *this = calloc(1, sizeof(struct Box));
 		memcpy(this, &usable, sizeof(struct Box));
 
-		slist_append(views, this);
+		slist_old_append(views, this);
 	}
 }
 
@@ -316,7 +316,7 @@ void arrange_views(const struct Demand *demand,
 		const uint32_t inner_gap,
 		const struct Box box_total,
 		const struct Box box_remaining,
-		struct SList **views) {
+		struct SListOld **views) {
 
 	if (!demand || !views)
 		return;
@@ -328,7 +328,7 @@ void arrange_views(const struct Demand *demand,
 	memcpy(this, &box_remaining, sizeof(struct Box));
 
 	if (num_remaining == 1) {
-		slist_append(views, this);
+		slist_old_append(views, this);
 		return;
 	}
 
@@ -384,7 +384,7 @@ void arrange_views(const struct Demand *demand,
 			break;
 	}
 
-	slist_append(views, this);
+	slist_old_append(views, this);
 
 	// num_remaining >= 1
 	arrange_views(demand, stack,

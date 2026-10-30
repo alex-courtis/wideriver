@@ -6,13 +6,13 @@
 #include "displ.h"
 #include "listener_river_command_callback.h"
 #include "log.h"
-#include "slist.h"
+#include "slist-old.h"
 
 #include "control.h"
 
 static char buf[1024];
 
-void control_execute(const struct SList *args, control_complete_fn complete) {
+void control_execute(const struct SListOld *args, control_complete_fn complete) {
 	if (!args)
 		return;
 
@@ -20,7 +20,7 @@ void control_execute(const struct SList *args, control_complete_fn complete) {
 	char *b = buf;
 
 	// args create the control
-	for (const struct SList *i = args; i; i = i->nex) {
+	for (const struct SListOld *i = args; i; i = i->nex) {
 
 		arg = (char*)i->val;
 		if (b + strlen(arg) < buf + sizeof(buf)) {

@@ -7,7 +7,7 @@
 #include "cfg.h"
 #include "enum.h"
 #include "log.h"
-#include "slist.h"
+#include "slist-old.h"
 #include "tag.h"
 
 #include "layout.h"
@@ -100,11 +100,11 @@ const char *layout_description(const struct Demand* const demand, const struct T
 	return description;
 }
 
-struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
+struct SListOld *layout(const struct Demand *demand, const struct Tag *tag) {
 	if (!demand || !tag)
 		return NULL;
 
-	struct SList *views = NULL;
+	struct SListOld *views = NULL;
 
 	struct Box box_before = { 0 };
 	struct Box box_master = { 0 };
@@ -167,10 +167,10 @@ struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
 				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, &views);
 
 				// reverse to push first view farthest away
-				struct SList *views_reversed = NULL;
-				for (int i = slist_length(views) - 1; i >= 0; i--)
-					slist_append(&views_reversed, slist_at(views, i));
-				slist_free(&views);
+				struct SListOld *views_reversed = NULL;
+				for (int i = slist_old_length(views) - 1; i >= 0; i--)
+					slist_old_append(&views_reversed, slist_old_at(views, i));
+				slist_old_free(&views);
 				views = views_reversed;
 
 				// only one master
@@ -189,13 +189,13 @@ struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
 				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, &views);
 
 				// reverse num_before elements at the end of the list to push first view of left stack farthest away
-				struct SList *views_reversed = NULL;
-				uint32_t views_length = slist_length(views);
+				struct SListOld *views_reversed = NULL;
+				uint32_t views_length = slist_old_length(views);
 				for (uint32_t i = 0; i < views_length - num_before; i++)
-					slist_append(&views_reversed, slist_at(views, i));
+					slist_old_append(&views_reversed, slist_old_at(views, i));
 				for (uint32_t i = views_length - 1; i >= views_length - num_before; i--)
-					slist_append(&views_reversed, slist_at(views, i));
-				slist_free(&views);
+					slist_old_append(&views_reversed, slist_old_at(views, i));
+				slist_old_free(&views);
 				views = views_reversed;
 			}
 
@@ -205,9 +205,9 @@ struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
 	return views;
 }
 
-void push(const struct SList *views, struct river_layout_v3 *river_layout_v3, const uint32_t serial) {
+void push(const struct SListOld *views, struct river_layout_v3 *river_layout_v3, const uint32_t serial) {
 	uint32_t n = 0;
-	for (const struct SList *i = views; i; i = i->nex) {
+	for (const struct SListOld *i = views; i; i = i->nex) {
 		struct Box *box = i->val;
 		log_d_c_s("  push"); log_d_c("view"); log_d_c("%02u", n++); log_d_c("%u,%u", box->x, box->x); log_d_c_e("%ux%u", box->width, box->height);
 		river_layout_v3_push_view_dimensions(river_layout_v3, box->x, box->y, box->width, box->height, serial);

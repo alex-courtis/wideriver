@@ -6,7 +6,7 @@
 #include "cfg.h"
 #include "enum.h"
 #include "layout.h"
-#include "slist.h"
+#include "slist-old.h"
 #include "tag.h"
 
 extern struct Cfg c;
@@ -39,15 +39,15 @@ void layout_wide__first_view_in_master(void **state) {
 		.count_master = 1,
 	};
 
-	struct SList *views = layout(&demand, &tag);
+	struct SListOld *views = layout(&demand, &tag);
 
-	assert_int_equal(slist_length(views), 3);
+	assert_int_equal(slist_old_length(views), 3);
 
-	struct Box *first = slist_at(views, 0);
+	struct Box *first = slist_old_at(views, 0);
 	assert_int_equal(first->width, 7);
 	assert_int_equal(first->height, 5);
 
-	slist_free_vals(&views, NULL);
+	slist_old_free_vals(&views, NULL);
 }
 
 void layout_wide__first_view_in_left_stack(void **state) {
@@ -62,15 +62,15 @@ void layout_wide__first_view_in_left_stack(void **state) {
 		.count_master = 1,
 	};
 
-	struct SList *views = layout(&demand, &tag);
+	struct SListOld *views = layout(&demand, &tag);
 
-	assert_int_equal(slist_length(views), 3);
+	assert_int_equal(slist_old_length(views), 3);
 
-	struct Box *first = slist_at(views, 0);
+	struct Box *first = slist_old_at(views, 0);
 	assert_int_equal(first->width, 3);
 	assert_int_equal(first->height, 5);
 
-	slist_free_vals(&views, NULL);
+	slist_old_free_vals(&views, NULL);
 }
 
 int main(void) {

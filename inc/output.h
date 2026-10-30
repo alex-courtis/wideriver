@@ -23,7 +23,7 @@ struct Output {
 };
 
 struct OutputState {
-	struct SList *tags;
+	struct SListOld *tags;
 	uint32_t command_tags_mask;
 };
 

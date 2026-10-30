@@ -10,7 +10,7 @@
 #include "cmd.h"
 #include "enum.h"
 #include "mem.h"
-#include "slist.h"
+#include "slist-old.h"
 #include "tag.h"
 
 #include "output.h"
@@ -20,10 +20,10 @@ struct Output output = { .state = &output_state };
 struct Tag *tag = NULL;
 const struct Cmd *cmd = NULL;
 
-struct SList *__wrap_tag_all(const struct SList *tags, const uint32_t mask) {
+struct SListOld *__wrap_tag_all(const struct SListOld *tags, const uint32_t mask) {
 	check_expected_ptr(tags);
 	check_expected_uint(mask);
-	return mock_ptr_type_checked(struct SList*);
+	return mock_ptr_type_checked(struct SListOld*);
 }
 
 int before_all(void **state) {
@@ -60,9 +60,9 @@ int after_each(void **state) {
 	return 0;
 }
 
-struct SList *slist_of_tag(void) {
-	struct SList *tags = NULL;
-	slist_append(&tags, tag);
+struct SListOld *slist_of_tag(void) {
+	struct SListOld *tags = NULL;
+	slist_old_append(&tags, tag);
 	return tags;
 }
 
@@ -72,7 +72,7 @@ void output_apply_cmd__vals_top(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SListOld*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -93,7 +93,7 @@ void output_apply_cmd__vals_wide(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SListOld*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -114,7 +114,7 @@ void output_apply_cmd__vals_monocle(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SListOld*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -135,7 +135,7 @@ void output_apply_cmd__toggle_delta(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SListOld*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -156,7 +156,7 @@ void output_apply_cmd__layout_nop(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SListOld*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -177,7 +177,7 @@ void output_apply_cmd__count_master_delta_min(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SListOld*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -201,7 +201,7 @@ void output_apply_cmd__ratio_master_min(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SListOld*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -225,7 +225,7 @@ void output_apply_cmd__ratio_master_max(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SListOld*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -246,7 +246,7 @@ void output_apply_cmd__ratio_master_delta_min(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SListOld*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -267,7 +267,7 @@ void output_apply_cmd__ratio_master_delta_max(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SListOld*);
 
 	output_apply_cmd(&output, cmd);
 

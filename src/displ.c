@@ -17,7 +17,7 @@
 #include "log.h"
 #include "output.h"
 #include "ppmap.h"
-#include "slist.h"
+#include "slist-old.h"
 #include "spmap.h"
 #include "tag.h"
 
@@ -61,29 +61,29 @@ static void desire_style(const struct Tag *tag, const uint32_t view_count) {
 static void control_command_style(const struct Style desired, const struct Style current) {
 	static char buf[8];
 
-	struct SList *args = NULL;
+	struct SListOld *args = NULL;
 
 	if (desired.border_width != current.border_width) {
-		slist_append(&args, strdup("border-width"));
+		slist_old_append(&args, strdup("border-width"));
 		snprintf(buf, sizeof(buf), "%zu", desired.border_width);
-		slist_append(&args, strdup(buf));
+		slist_old_append(&args, strdup(buf));
 		control_execute(args, complete_border_width);
-		slist_free_vals(&args, NULL);
+		slist_old_free_vals(&args, NULL);
 	}
 
 	// If color is empty, do not overwrite the current color
 	if (desired.border_color_focused != current.border_color_focused && desired.border_color_focused[0] != '\0') {
-		slist_append(&args, strdup("border-color-focused"));
-		slist_append(&args, strdup(desired.border_color_focused));
+		slist_old_append(&args, strdup("border-color-focused"));
+		slist_old_append(&args, strdup(desired.border_color_focused));
 		control_execute(args, complete_border_color_focused);
-		slist_free_vals(&args, NULL);
+		slist_old_free_vals(&args, NULL);
 	}
 
 	if (desired.border_color_unfocused != current.border_color_unfocused && desired.border_color_unfocused[0] != '\0') {
-		slist_append(&args, strdup("border-color-unfocused"));
-		slist_append(&args, strdup(desired.border_color_unfocused));
+		slist_old_append(&args, strdup("border-color-unfocused"));
+		slist_old_append(&args, strdup(desired.border_color_unfocused));
 		control_execute(args, complete_border_color_unfocused);
-		slist_free_vals(&args, NULL);
+		slist_old_free_vals(&args, NULL);
 	}
 }
 

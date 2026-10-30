@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "cfg.h"
-#include "slist.h"
+#include "slist-old.h"
 
 #include "tag.h"
 
@@ -28,12 +28,12 @@ struct Tag *tag_init(const uint32_t mask) {
 	return tag;
 }
 
-struct SList *tags_init(void) {
-	struct SList *tags = NULL;
+struct SListOld *tags_init(void) {
+	struct SListOld *tags = NULL;
 
 	// tag for all 32 bits of the uint32_t masks
 	for (int i = 0; i < 32; i++) {
-		slist_append(&tags, tag_init(1LL << i));
+		slist_old_append(&tags, tag_init(1LL << i));
 	}
 
 	return tags;
@@ -46,19 +46,19 @@ void tag_destroy(const void *t) {
 	free((struct Tag*)t);
 }
 
-void tags_destroy(const struct SList *tags) {
+void tags_destroy(const struct SListOld *tags) {
 	if (!tags)
 		return;
 
-	slist_free_vals((struct SList**)&tags, tag_destroy);
+	slist_old_free_vals((struct SListOld**)&tags, tag_destroy);
 }
 
-struct Tag *tag_first(const struct SList *tags, const uint32_t mask) {
+struct Tag *tag_first(const struct SListOld *tags, const uint32_t mask) {
 	if (!tags) {
 		return NULL;
 	}
 
-	for (const struct SList *i = tags; i; i = i->nex) {
+	for (const struct SListOld *i = tags; i; i = i->nex) {
 		const struct Tag *tag = i->val;
 		if (mask & tag->mask) {
 			return i->val;
@@ -69,17 +69,17 @@ struct Tag *tag_first(const struct SList *tags, const uint32_t mask) {
 	return tags->val;
 }
 
-struct SList *tag_all(const struct SList *tags, const uint32_t mask) {
+struct SListOld *tag_all(const struct SListOld *tags, const uint32_t mask) {
 	if (!tags) {
 		return NULL;
 	}
 
-	struct SList *all = NULL;
+	struct SListOld *all = NULL;
 
-	for (const struct SList *i = tags; i; i = i->nex) {
+	for (const struct SListOld *i = tags; i; i = i->nex) {
 		const struct Tag *tag = i->val;
 		if (mask & tag->mask) {
-			slist_append(&all, i->val);
+			slist_old_append(&all, i->val);
 		}
 	}
 
