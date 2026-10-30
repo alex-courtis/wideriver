@@ -12,8 +12,9 @@ PRO_H = $(PRO_X:.xml=.h)
 PRO_C = $(PRO_X:.xml=.c)
 PRO_O = $(PRO_X:.xml=.o)
 
-LIB_H = $(wildcard lib/col/inc/*.h)
-LIB_C = $(wildcard lib/col/src/*.c)
+# TODO alex-c-lib simplify
+LIB_H = $(wildcard lib/*/inc/*.h)
+LIB_C = $(wildcard lib/*/src/*.c)
 LIB_O = $(LIB_C:.c=.o)
 
 TST_H = $(wildcard tst/*.h)

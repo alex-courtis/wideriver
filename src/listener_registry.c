@@ -11,7 +11,7 @@
 #include "listener_river_seat_status.h"
 #include "log.h"
 #include "output.h"
-#include "ptable.h"
+#include "ppmap.h"
 
 #include "listener_registry.h"
 
@@ -64,10 +64,7 @@ static void global(void *data,
 		struct wl_output *wl_output = wl_registry_bind(wl_registry, name, &wl_output_interface, version);
 		log_d_c_s("bind"); log_d_c("%d", name); log_d_c("wl_output"); log_d_c_e("%p", (void*)wl_output);
 
-		struct Output *output = output_init(wl_output, name, displ->river_layout_manager, displ->river_status_manager);
-		if (output) {
-			ptable_put(displ->outputs, wl_output, output);
-		}
+		ppmap_put(displ->outputs, wl_output, output_init(wl_output, name, displ->river_layout_manager, displ->river_status_manager));
 	}
 }
 
@@ -78,22 +75,21 @@ static void global_remove(void *data,
 
 	log_d_c_s("global_remove"); log_d_c_e("%d", name);
 
-	const struct PTableIter *i;
 	const struct Output *output = NULL;
 
-	for (i = ptable_iter(displ->outputs); i; i = ptable_iter_next(i)) {
-		output = ptable_iter_val(i);
+	// TODO alex-c-lib simplify to a find
+	for (const struct PPmapIt *it = ppmap_it(displ->outputs); it; it = ppmap_it_next(it)) {
+		output = it->val;
 		if (output && output->name == name) {
 
 			output_destroy(output);
 
-			ptable_remove(displ->outputs, ptable_iter_key(i));
+			ppmap_remove(displ->outputs, it->key);
 
+			ppmap_it_free(it);
 			break;
 		}
 	}
-
-	ptable_iter_free(i);
 }
 
 static const struct wl_registry_listener listener = {

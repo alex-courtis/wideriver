@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include "fn.h"
+#include "fn-old.h"
 
 struct SList {
 	void *val;

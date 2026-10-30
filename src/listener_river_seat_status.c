@@ -5,7 +5,7 @@
 #include "displ.h"
 #include "log.h"
 #include "output.h"
-#include "ptable.h"
+#include "ppmap.h"
 
 #include "listener_river_seat_status.h"
 
@@ -21,7 +21,7 @@ static void handle_focused_output(void *data,
 
 	struct Displ *displ = data;
 
-	struct Output *output = (struct Output*)ptable_get(displ->outputs, wl_output);
+	struct Output *output = (struct Output*)ppmap_get(displ->outputs, wl_output);
 
 	log_d_c_s("seat_focused_output"); log_d_c_e("%d", output ? output->name : 0);
 
@@ -34,7 +34,7 @@ static void handle_unfocused_output(void *data,
 
 	struct Displ *displ = data;
 
-	struct Output *output = (struct Output*)ptable_get(displ->outputs, wl_output);
+	struct Output *output = (struct Output*)ppmap_get(displ->outputs, wl_output);
 
 	log_d_c_s("seat_unfocused_output"); log_d_c_e("%d", output ? output->name : 0);
 }

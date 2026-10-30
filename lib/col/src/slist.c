@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "fn.h"
+#include "fn-old.h"
 
 #include "slist.h"
 

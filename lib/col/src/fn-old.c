@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "fn.h"
+#include "fn-old.h"
 
 bool fn_comp_equals_strcmp(const void* const a, const void* const b) {
 	if (a == b)

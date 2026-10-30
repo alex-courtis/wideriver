@@ -12,12 +12,13 @@
 #include "cfg.h"
 #include "control.h"
 #include "enum.h"
+#include "fn.h"
 #include "listener_registry.h"
 #include "log.h"
 #include "output.h"
-#include "ptable.h"
+#include "ppmap.h"
 #include "slist.h"
-#include "stable.h"
+#include "spmap.h"
 #include "tag.h"
 
 #include "displ.h"
@@ -87,8 +88,15 @@ static void control_command_style(const struct Style desired, const struct Style
 }
 
 bool displ_init(void) {
-	d.outputs = ptable_init(5, 5);
-	d.detached_output_states = stable_init(5, 5, false);
+	d.outputs = ppmap_init_with((const struct PPmapParams){
+			.free_val = (fn_free)output_destroy,
+			.allow_null_val = false,
+			});
+
+	d.detached_output_states = spmap_init_with((const struct SPmapParams){
+			.free_val = (fn_free)output_state_destroy,
+			.allow_null_val = false,
+			});
 
 	// ensure that border width of 0 is set on first run
 	d.style_current.border_width = -1;
@@ -139,8 +147,8 @@ err:
 void displ_destroy(void) {
 	log_d("displ_destroy");
 
-	ptable_free_vals(d.outputs, output_destroy);
-	stable_free_vals(d.detached_output_states, output_state_destroy);
+	ppmap_free_vals(d.outputs);
+	spmap_free_vals(d.detached_output_states);
 
 	if (d.river_layout_manager) {
 		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("river_layout_manager"); log_d_c_e("%p", (void*)d.river_layout_manager);
@@ -178,7 +186,7 @@ void displ_request_style(const struct Output *output, const struct Tag *tag, con
 	if (!output || !tag)
 		return;
 
-	const struct Output * const output_focused = (struct Output*)ptable_get(displ->outputs, d.wl_output_focused);
+	const struct Output * const output_focused = (struct Output*)ppmap_get(displ->outputs, d.wl_output_focused);
 
 	log_d_c_s("  displ_request_style"); log_d_c("output");         log_d_c("%d", output ? output->name : 0); log_d_c_e("%p", (void*)output->wl_output);
 	log_d_c_s("  displ_request_style"); log_d_c("output_focused"); log_d_c("%d", output_focused ? output_focused->name : 0); log_d_c_e("%p", (void*)d.wl_output_focused);

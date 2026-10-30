@@ -15,7 +15,7 @@
 #include "listener_wl_output.h"
 #include "log.h"
 #include "slist.h"
-#include "stable.h"
+#include "spmap.h"
 #include "tag.h"
 
 #include "output.h"
@@ -94,7 +94,7 @@ void output_destroy(const void *o) {
 
 	// retain the state if output is named, overwriting any existing
 	if (output->wl_output_name) {
-		output_state_destroy(stable_put(displ->detached_output_states, output->wl_output_name, output->state));
+		spmap_put_free(displ->detached_output_states, output->wl_output_name, output->state);
 	} else {
 		output_state_destroy(output->state);
 	}

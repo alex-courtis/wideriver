@@ -1,5 +1,5 @@
-#ifndef FN_H
-#define FN_H
+#ifndef FN_OLD_H
+#define FN_OLD_H
 
 #include <stdbool.h>
 
@@ -37,4 +37,4 @@ typedef void (*fn_free_val)(const void* const val);
 //
 typedef void* (*fn_clone_val)(const void* const val);
 
-#endif // FN_H
+#endif // FN_OLD_H
