@@ -145,31 +145,31 @@ void displ_destroy(void) {
 	spmap_free_vals(d.detached_output_states);
 
 	if (d.river_layout_manager) {
-		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("river_layout_manager"); log_d_c_e("%p", (void*)d.river_layout_manager);
+		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("river_layout_manager"); log_d_c_e("%p", (void*)d.river_layout_manager);
 		river_layout_manager_v3_destroy(d.river_layout_manager);
 	}
 	if (d.river_status_manager) {
-		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("river_status_manager"); log_d_c_e("%p", (void*)d.river_status_manager);
+		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("river_status_manager"); log_d_c_e("%p", (void*)d.river_status_manager);
 		zriver_status_manager_v1_destroy(d.river_status_manager);
 	}
 	if (d.river_seat_status) {
-		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("river_seat_status"); log_d_c_e("%p", (void*)d.river_seat_status);
+		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("river_seat_status"); log_d_c_e("%p", (void*)d.river_seat_status);
 		zriver_seat_status_v1_destroy(d.river_seat_status);
 	}
 	if (d.river_control) {
-		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("river_control"); log_d_c_e("%p", (void*)d.river_control);
+		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("river_control"); log_d_c_e("%p", (void*)d.river_control);
 		zriver_control_v1_destroy(d.river_control);
 	}
 	if (d.wl_seat) {
-		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("wl_seat"); log_d_c_e("%p", (void*)d.wl_seat);
+		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("wl_seat"); log_d_c_e("%p", (void*)d.wl_seat);
 		wl_seat_destroy(d.wl_seat);
 	}
 	if (d.wl_registry) {
-		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("wl_registry"); log_d_c_e("%p", (void*)d.wl_registry);
+		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("wl_registry"); log_d_c_e("%p", (void*)d.wl_registry);
 		wl_registry_destroy(d.wl_registry);
 	}
 	if (d.wl_display) {
-		log_d_c_s("displ_destroy"); log_d_c(""); log_d_c("wl_display"); log_d_c_e("%p", (void*)d.wl_display);
+		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("wl_display"); log_d_c_e("%p", (void*)d.wl_display);
 		wl_display_disconnect(d.wl_display);
 	}
 
