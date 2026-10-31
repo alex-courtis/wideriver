@@ -47,10 +47,10 @@ static void layout_handle_layout_demand(void *data,
 	plist_free_vals(boxes);
 
 	// river layout name
-	const char *layout_name = layout_description(&demand, tag);
+	const char *name = layout_description(&demand, tag);
 
 	// commit
-	river_layout_v3_commit(output->river_layout, layout_name, serial);
+	river_layout_v3_commit(output->river_layout, name, serial);
 
 	// maybe style
 	displ_request_style(output, tag, view_count);

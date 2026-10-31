@@ -44,7 +44,7 @@ static int before_each(void **state) {
 }
 
 static void cmd_init__empty(void **state) {
-	char args[] = "";
+	const char args[] = "";
 
 	assert_nul(cmd_init(args));
 
@@ -52,7 +52,7 @@ static void cmd_init__empty(void **state) {
 }
 
 static void cmd_init__valid(void **state) {
-	char args[] = "    --foo    bar   baz   ";
+	const char args[] = "    --foo    bar   baz   ";
 
 	char *argv[] = { "dummy", "--foo", "bar", "baz"};
 	struct argcv cv = { .argc = 4, .argv = argv, };
@@ -71,7 +71,7 @@ static void cmd_init__valid(void **state) {
 }
 
 static void cmd_init__invalid(void **state) {
-	char args[] = "foo";
+	const char args[] = "foo";
 
 	char *argv[] = { "dummy", "foo", };
 	struct argcv cv = { .argc = 2, .argv = argv, };

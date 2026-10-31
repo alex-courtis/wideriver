@@ -9,7 +9,7 @@
 #include "tag.h"
 
 // never null
-extern const struct Displ * const displ;
+extern const struct Displ * const g_displ;
 
 struct Style {
 	size_t border_width;

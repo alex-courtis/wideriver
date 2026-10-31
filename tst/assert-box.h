@@ -11,12 +11,10 @@ void _assert_boxes_equal(const struct Box *a, const struct Box *b,
 	if (!a) {
 		print_error("Actual box is null\n");
 		_fail(file, line);
-	}
-	if (!b) {
+	} else if (!b) {
 		print_error("Expected box is NULL\n");
 		_fail(file, line);
-	}
-	if (memcmp(a, b, sizeof(struct Box)) != 0) {
+	} else if (memcmp(a, b, sizeof(struct Box)) != 0) {
 		print_error("actual:   struct Box a = { .x = %d, .y = %d .width = %d, .height = %d, };\n"
 				"expected: struct Box b = { .x = %d, .y = %d .width = %d, .height = %d, };\n",
 				a->x, a->y, a->width, a->height, b->x, b->y, b->width, b->height);

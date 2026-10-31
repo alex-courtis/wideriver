@@ -32,7 +32,7 @@ static void handle_unfocused_output(void *data,
 		struct zriver_seat_status_v1 *zriver_seat_status_v1,
 		struct wl_output *wl_output) {
 
-	struct Displ *displ = data;
+	const struct Displ *displ = data;
 
 	struct Output *output = (struct Output*)ppmap_get(displ->outputs, wl_output);
 

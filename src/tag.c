@@ -10,19 +10,19 @@
 struct Tag *tag_init(const uint32_t mask) {
 	struct Tag *tag = calloc(1, sizeof(struct Tag));
 
-	tag->layout_cur = cfg->layout;
-	tag->layout_prev = cfg->layout_alt;
+	tag->layout_cur = g_cfg->layout;
+	tag->layout_prev = g_cfg->layout_alt;
 
-	tag->stack = cfg->stack;
+	tag->stack = g_cfg->stack;
 
-	tag->count_master = cfg->count_master;
-	tag->ratio_master = cfg->ratio_master;
-	tag->count_wide_left = cfg->count_wide_left;
-	tag->ratio_wide = cfg->ratio_wide;
+	tag->count_master = g_cfg->count_master;
+	tag->ratio_master = g_cfg->ratio_master;
+	tag->count_wide_left = g_cfg->count_wide_left;
+	tag->ratio_wide = g_cfg->ratio_wide;
 
-	tag->smart_gaps = cfg->smart_gaps;
-	tag->inner_gaps = cfg->inner_gaps;
-	tag->outer_gaps = cfg->outer_gaps;
+	tag->smart_gaps = g_cfg->smart_gaps;
+	tag->inner_gaps = g_cfg->inner_gaps;
+	tag->outer_gaps = g_cfg->outer_gaps;
 
 	tag->mask = mask;
 

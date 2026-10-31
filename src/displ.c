@@ -25,7 +25,7 @@
 
 struct Displ d = { 0 };
 
-const struct Displ * const displ = &d;
+const struct Displ * const g_displ = &d;
 
 static void complete_border_width(void) {
 	log_d_c_s("  complete"); log_d_c("border_width"); log_d_c_e("%zu->%zu", d.style_current.border_width, d.style_desired.border_width);
@@ -45,16 +45,16 @@ static void complete_border_color_unfocused(void) {
 static void desire_style(const struct Tag *tag, const uint32_t view_count) {
 	if (tag) {
 		if (tag->layout_cur == MONOCLE) {
-			d.style_desired.border_width = cfg->border_width_monocle;
-			d.style_desired.border_color_focused = cfg->border_color_focused_monocle;
+			d.style_desired.border_width = g_cfg->border_width_monocle;
+			d.style_desired.border_color_focused = g_cfg->border_color_focused_monocle;
 		} else if (view_count == 1 && tag->smart_gaps) {
-			d.style_desired.border_width = cfg->border_width_smart_gaps;
-			d.style_desired.border_color_focused = cfg->border_color_focused;
+			d.style_desired.border_width = g_cfg->border_width_smart_gaps;
+			d.style_desired.border_color_focused = g_cfg->border_color_focused;
 		} else {
-			d.style_desired.border_width = cfg->border_width;
-			d.style_desired.border_color_focused = cfg->border_color_focused;
+			d.style_desired.border_width = g_cfg->border_width;
+			d.style_desired.border_color_focused = g_cfg->border_color_focused;
 		}
-		d.style_desired.border_color_unfocused = cfg->border_color_unfocused;
+		d.style_desired.border_color_unfocused = g_cfg->border_color_unfocused;
 	}
 }
 
@@ -180,9 +180,9 @@ void displ_request_style(const struct Output *output, const struct Tag *tag, con
 	if (!output || !tag)
 		return;
 
-	const struct Output * const output_focused = (struct Output*)ppmap_get(displ->outputs, d.wl_output_focused);
+	const struct Output * const output_focused = (struct Output*)ppmap_get(g_displ->outputs, d.wl_output_focused);
 
-	log_d_c_s("  displ_request_style"); log_d_c("output");         log_d_c("%d", output ? output->name : 0); log_d_c_e("%p", (void*)output->wl_output);
+	log_d_c_s("  displ_request_style"); log_d_c("output");         log_d_c("%d", output->name); log_d_c_e("%p", (void*)output->wl_output);
 	log_d_c_s("  displ_request_style"); log_d_c("output_focused"); log_d_c("%d", output_focused ? output_focused->name : 0); log_d_c_e("%p", (void*)d.wl_output_focused);
 
 	// output must be focused or no focus reported

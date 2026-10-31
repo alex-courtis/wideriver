@@ -162,7 +162,7 @@ const struct Plist *layout(const struct Demand *demand, const struct Tag *tag) {
 			arrange_monocle(demand, tag, views);
 			break;
 		case WIDE:
-			if (cfg->wide_first == WIDE_FIRST_LEFT) {
+			if (g_cfg->wide_first == WIDE_FIRST_LEFT) {
 				// left stack dwindle left up
 				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, views);
 

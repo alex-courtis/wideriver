@@ -92,9 +92,10 @@ iwyu: clean $(SRC_O) $(LIB_O) $(TST_O)
 #
 cppcheck: INCS += -Ilib/alex-c/tst
 cppcheck: $(SRC_C) $(LIB_C) $(INC_H) $(PRO_H) $(TST_H) $(TST_C)
-	# TODO alex-c-lib enable all
 	cppcheck $(^)\
-		--enable=warning,unusedFunction,performance,portability \
+		--enable=all \
+		--disable=information \
+		--inconclusive \
 		--check-level=exhaustive \
 		--inline-suppr \
 		--suppressions-list=.cppcheck.supp \

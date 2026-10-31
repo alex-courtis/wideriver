@@ -3,7 +3,6 @@ clang
 -Iinc
 -Ipro
 -Itst
--Ilib/col/inc
 -Ilib/alex-c/inc
 -Ilib/alex-c/tst
 

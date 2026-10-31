@@ -21,7 +21,7 @@ static void init_pfds(void) {
 
 	// wayland FD
 	if (!pfd_wayland) {
-		pfds[0].fd = wl_display_get_fd(displ->wl_display);
+		pfds[0].fd = wl_display_get_fd(g_displ->wl_display);
 		pfds[0].events = POLLIN;
 		pfds[0].revents = 0;
 		pfd_wayland = &pfds[0];
@@ -61,14 +61,14 @@ static int loop(void) {
 		init_pfds();
 
 		// dispatch and prepare for next wayland event
-		while (wl_display_prepare_read(displ->wl_display) != 0) {
-			if (wl_display_dispatch_pending(displ->wl_display) == -1) {
+		while (wl_display_prepare_read(g_displ->wl_display) != 0) {
+			if (wl_display_dispatch_pending(g_displ->wl_display) == -1) {
 				return rc_errno_pipe_ok("wl_display_dispatch_pending");
 			}
 		}
 
 		// send dispatched
-		if (wl_display_flush(displ->wl_display) == -1) {
+		if (wl_display_flush(g_displ->wl_display) == -1) {
 			return rc_errno_pipe_ok("wl_display_read_events");
 		}
 
@@ -89,7 +89,7 @@ static int loop(void) {
 		} else if (pfd_wayland->revents & pfd_wayland->events) {
 
 			// wayland events
-			if (wl_display_read_events(displ->wl_display) == -1) {
+			if (wl_display_read_events(g_displ->wl_display) == -1) {
 				return rc_errno_pipe_ok("wl_display_read_events");
 			}
 		} else {

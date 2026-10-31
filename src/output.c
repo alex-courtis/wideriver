@@ -95,11 +95,10 @@ bool output_matches_name(const struct Output* const output, const uint32_t *name
 	return output && name && output->name == *name;
 }
 
-void output_destroy(const void *o) {
-	if (!o)
+void output_destroy(const struct Output* const output) {
+	if (!output)
 		return;
 
-	const struct Output* const output = o;
 	log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c_e("%s", output->wl_output_name ? output->wl_output_name : "no wl_output_name");
 
 	if (output->river_layout) {
@@ -117,7 +116,7 @@ void output_destroy(const void *o) {
 
 	// retain the state if output is named, overwriting any existing
 	if (output->wl_output_name) {
-		spmap_put_free(displ->detached_output_states, output->wl_output_name, output->state);
+		spmap_put_free(g_displ->detached_output_states, output->wl_output_name, output->state);
 	} else {
 		output_state_destroy(output->state);
 	}
@@ -127,11 +126,9 @@ void output_destroy(const void *o) {
 	free((void*)output);
 }
 
-void output_state_destroy(const void *os) {
-	if (!os)
+void output_state_destroy(const struct OutputState* const output_state) {
+	if (!output_state)
 		return;
-
-	const struct OutputState* const output_state = os;
 
 	plist_free_vals(output_state->tags);
 

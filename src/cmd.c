@@ -19,7 +19,7 @@ const struct Cmd *cmd_init(const char *args) {
 	// tokenise
 	const struct Slist *tokens = slist_init();
 	char *str = strdup(args);
-	for (char *t = strtok(str, " "); t; t = strtok(NULL, " ")) {
+	for (const char *t = strtok(str, " "); t; t = strtok(NULL, " ")) {
 		slist_append(tokens, t);
 		argc++;
 	}

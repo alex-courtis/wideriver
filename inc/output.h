@@ -39,9 +39,9 @@ const struct SPmap *output_state_spmap_init(void);
 
 bool output_matches_name(const struct Output* const output, const uint32_t *name);
 
-void output_destroy(const void *output);
+void output_destroy(const struct Output* const output);
 
-void output_state_destroy(const void *output_state);
+void output_state_destroy(const struct OutputState* const output_state);
 
 // apply cmd to command_tags_mask
 void output_apply_cmd(const struct Output *output, const struct Cmd *cmd);

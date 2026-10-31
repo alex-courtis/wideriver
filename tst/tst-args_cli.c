@@ -39,23 +39,23 @@ static void args_parse_cli__valid(void **state) {
 
 	args_cli(argc, argv);
 
-	assert_int_equal(cfg->layout, LEFT);
-	assert_int_equal(cfg->layout_alt, RIGHT);
-	assert_int_equal(cfg->stack, DWINDLE);
-	assert_int_equal(cfg->count_master, 2);
-	assert_float_equal(cfg->ratio_master, 0.2, 0.001);
-	assert_int_equal(cfg->count_wide_left, 8);
-	assert_float_equal(cfg->ratio_wide, 0.8, 0.001);
-	assert_int_equal(cfg->wide_first, WIDE_FIRST_MID);
-	assert_true(cfg->smart_gaps);
-	assert_int_equal(cfg->border_width_smart_gaps, 8);
-	assert_int_equal(cfg->inner_gaps, 6);
-	assert_int_equal(cfg->outer_gaps, 6);
-	assert_int_equal(cfg->border_width, 5);
-	assert_int_equal(cfg->border_width_monocle, 10);
-	assert_str_equal(cfg->border_color_focused, "0xAABBCC");
-	assert_str_equal(cfg->border_color_focused_monocle, "0xDDEEFFA9");
-	assert_str_equal(cfg->border_color_unfocused, "0x001122");
+	assert_int_equal(g_cfg->layout, LEFT);
+	assert_int_equal(g_cfg->layout_alt, RIGHT);
+	assert_int_equal(g_cfg->stack, DWINDLE);
+	assert_int_equal(g_cfg->count_master, 2);
+	assert_float_equal(g_cfg->ratio_master, 0.2, 0.001);
+	assert_int_equal(g_cfg->count_wide_left, 8);
+	assert_float_equal(g_cfg->ratio_wide, 0.8, 0.001);
+	assert_int_equal(g_cfg->wide_first, WIDE_FIRST_MID);
+	assert_true(g_cfg->smart_gaps);
+	assert_int_equal(g_cfg->border_width_smart_gaps, 8);
+	assert_int_equal(g_cfg->inner_gaps, 6);
+	assert_int_equal(g_cfg->outer_gaps, 6);
+	assert_int_equal(g_cfg->border_width, 5);
+	assert_int_equal(g_cfg->border_width_monocle, 10);
+	assert_str_equal(g_cfg->border_color_focused, "0xAABBCC");
+	assert_str_equal(g_cfg->border_color_focused_monocle, "0xDDEEFFA9");
+	assert_str_equal(g_cfg->border_color_unfocused, "0x001122");
 
 	assert_log(INFO,
 			"wideriver version "VERSION"\n"

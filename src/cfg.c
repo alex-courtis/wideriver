@@ -27,7 +27,7 @@ struct Cfg c = {
 	.border_color_unfocused = BORDER_COLOR_UNFOCUSED_DEFAULT,
 };
 
-const struct Cfg * const cfg = &c;
+const struct Cfg * const g_cfg = &c;
 
 // s is 0xRRGGBB or 0xRRGGBBAA or empty
 bool valid_colour(const char *s) {
@@ -47,12 +47,12 @@ bool valid_colour(const char *s) {
 		return false;
 	}
 
-	for (const char *c = s + 2; c < s + len; c++) {
-		if (*c >= 'A' && *c <= 'F')
+	for (const char *h = s + 2; h < s + len; h++) {
+		if (*h >= 'A' && *h <= 'F')
 			continue;
-		if (*c >= 'a' && *c <= 'f')
+		if (*h >= 'a' && *h <= 'f')
 			continue;
-		if (*c >= '0' && *c <= '9')
+		if (*h >= '0' && *h <= '9')
 			continue;
 		return false;
 	}

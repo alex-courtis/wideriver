@@ -32,12 +32,12 @@ static void valid_colour__empty(void **state) {
 
 static void cfg_set_wide_first__valid_left(void **state) {
 	assert_true(cfg_set_wide_first("left"));
-	assert_int_equal(cfg->wide_first, WIDE_FIRST_LEFT);
+	assert_int_equal(g_cfg->wide_first, WIDE_FIRST_LEFT);
 }
 
 static void cfg_set_wide_first__valid_mid(void **state) {
 	assert_true(cfg_set_wide_first("mid"));
-	assert_int_equal(cfg->wide_first, WIDE_FIRST_MID);
+	assert_int_equal(g_cfg->wide_first, WIDE_FIRST_MID);
 }
 
 static void cfg_set_wide_first__invalid(void **state) {
@@ -45,8 +45,8 @@ static void cfg_set_wide_first__invalid(void **state) {
 }
 
 static void cfg_wide_first__default_is_left(void **state) {
-	assert_int_equal(cfg->wide_first, WIDE_FIRST_LEFT);
-	assert_int_equal(cfg->wide_first, WIDE_FIRST_DEFAULT);
+	assert_int_equal(g_cfg->wide_first, WIDE_FIRST_LEFT);
+	assert_int_equal(g_cfg->wide_first, WIDE_FIRST_DEFAULT);
 }
 
 int main(void) {
