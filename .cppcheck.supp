@@ -4,15 +4,18 @@
 # unused are implemented for completeness
 unusedFunction:src/log.c
 
-# TODO these are false flagging
-staticFunction:tst/*c
-unusedFunction:tst/*c
-
 # many library functions are not used
 unusedFunction:lib/alex-c
 staticFunction:lib/alex-c
 unusedFunction:lib/col
 staticFunction:lib/col
+
+# wraps are dynamically invoked at runtime only
+unusedFunction:tst/wrap*.c
+
+# TODO these are false flagging
+staticFunction:tst/*c
+# unusedFunction:tst/*c
 
 # this is just not practical
 nullPointerOutOfMemory

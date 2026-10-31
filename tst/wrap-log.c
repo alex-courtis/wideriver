@@ -7,7 +7,7 @@
 #include <string.h>
 
 #include "enum.h"
-#include "util.h"
+#include "fs.h"
 
 // log space b is statically allocated and not cleared
 // bp is used to indicate presence of logs
@@ -28,8 +28,8 @@ void _assert_log(enum LogThreshold t, const char * s, const char * const file, c
 		bp[t] = NULL;
 		if (strcmp(b[t], s) != 0) {
 			cmocka_print_error("assert_log\nlog.actual:\n\"%s\"\nlog.expected:\n\"%s\"\n", b[t], s);
-			write_file("log.actual", b[t]);
-			write_file("log.expected", s);
+			fs_file_write("log.actual", b[t], "w");
+			fs_file_write("log.expected", s, "w");
 			_fail(file, line);
 		}
 	} else {
