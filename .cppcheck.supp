@@ -13,9 +13,6 @@ staticFunction:lib/col
 # wraps are dynamically invoked at runtime only
 unusedFunction:tst/wrap*.c
 
-# TODO these are false flagging
-unusedFunction:tst/*c
-
 # this is just not practical
 nullPointerOutOfMemory
 nullPointerArithmeticOutOfMemory

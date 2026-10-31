@@ -4,8 +4,8 @@ RIVER_LAYOUT_V3_VERSION = 2
 
 PREFIX ?= /usr/local
 
-# TODO alex-c-lib simplify
-INCS = -Iinc -Ipro -Ilib/col/inc -Ilib/alex-c/inc
+# TODO alex-c-lib use a test.mk and put this in there
+INCS = -Iinc -Ipro -Ilib/col/inc -Ilib/alex-c/inc -Ilib/alex-c/tst
 
 CPPFLAGS += $(INCS) -D_GNU_SOURCE -DVERSION=\"$(VERSION)\" -DRIVER_LAYOUT_V3_VERSION=$(RIVER_LAYOUT_V3_VERSION)
 
