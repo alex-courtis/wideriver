@@ -8,6 +8,7 @@
 #include "river-status-unstable-v1.h"
 
 #include "displ.h"
+#include "fn.h"
 #include "listener_river_seat_status.h"
 #include "log.h"
 #include "output.h"

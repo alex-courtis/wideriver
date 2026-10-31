@@ -1,6 +1,7 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <wayland-client-protocol.h>
 
