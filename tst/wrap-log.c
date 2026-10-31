@@ -51,7 +51,7 @@ void _assert_logs_empty(const char * const file, const int line) {
 	}
 }
 
-void _log(enum LogThreshold t, const char *__restrict __format, va_list __args) {
+static void _log(enum LogThreshold t, const char *__restrict __format, va_list __args) {
 	static char *printed;
 
 	if (!bp[t]) {

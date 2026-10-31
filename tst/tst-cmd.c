@@ -15,7 +15,7 @@ struct argcv {
 	char **argv;
 };
 
-int check_argv(CMockaValueData value, CMockaValueData check_data) {
+static int check_argv(CMockaValueData value, CMockaValueData check_data) {
 	char **actual = value.ptr;
 
 	struct argcv *cv = check_data.ptr;
@@ -31,7 +31,7 @@ int check_argv(CMockaValueData value, CMockaValueData check_data) {
 	return success;
 }
 
-struct Cmd *__wrap_args_cmd(int argc, char **argv) {
+struct Cmd *__wrap_args_cmd(int argc, char **argv) { // cppcheck-suppress staticFunction
 	check_expected_int(argc);
 	check_expected_ptr(argv);
 

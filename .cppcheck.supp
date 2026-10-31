@@ -14,8 +14,7 @@ staticFunction:lib/col
 unusedFunction:tst/wrap*.c
 
 # TODO these are false flagging
-staticFunction:tst/*c
-# unusedFunction:tst/*c
+unusedFunction:tst/*c
 
 # this is just not practical
 nullPointerOutOfMemory
