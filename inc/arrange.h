@@ -5,6 +5,7 @@
 
 #include "enum.h"
 #include "layout.h"
+#include "plist.h"
 #include "slist-old.h"
 #include "tag.h"
 
@@ -50,7 +51,7 @@ void arrange_wide(const struct Demand *demand,
 // append many new Box to views with full usable area
 void arrange_monocle(const struct Demand *demand,
 		const struct Tag* const tag,
-		struct SListOld **views);
+		const struct Plist *views);
 
 // recursively append new Box to views as per stack
 void arrange_views(const struct Demand *demand,

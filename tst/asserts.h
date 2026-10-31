@@ -51,7 +51,7 @@ void _assert_logs_empty(const char * const file, const int line);
 
 void logs_clear(void);
 
-void _assert_boxes_equal(struct Box *a, struct Box *b,
+void _assert_boxes_equal(const struct Box *a, const struct Box *b,
 		const char * const file, const int line) {
 	if (!a) {
 		print_error("Actual box is null\n");

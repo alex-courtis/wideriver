@@ -4,6 +4,7 @@
 
 #include "enum.h"
 #include "layout.h"
+#include "plist.h"
 #include "slist-old.h"
 #include "tag.h"
 
@@ -287,7 +288,7 @@ void arrange_wide(const struct Demand *demand,
 
 void arrange_monocle(const struct Demand *demand,
 		const struct Tag* const tag,
-		struct SListOld **views) {
+		const struct Plist *views) {
 
 	if (!demand || !views)
 		return;
@@ -303,7 +304,7 @@ void arrange_monocle(const struct Demand *demand,
 		struct Box *this = calloc(1, sizeof(struct Box));
 		memcpy(this, &usable, sizeof(struct Box));
 
-		slist_old_append(views, this);
+		plist_append(views, this);
 	}
 }
 
