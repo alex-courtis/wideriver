@@ -166,12 +166,12 @@ const struct Plist *layout(const struct Demand *demand, const struct Tag *tag) {
 				// left stack dwindle left up
 				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, views);
 
-				// // reverse to push first view farthest away
-				// struct SListOld *views_reversed = NULL;
-				// for (int i = slist_old_length(views_old) - 1; i >= 0; i--)
-				// 	slist_old_append(&views_reversed, slist_old_at(views_old, i));
-				// slist_old_free(&views_old);
-				// views_old = views_reversed;
+				// reverse to push first view farthest away
+				const struct Plist *views_reversed = plist_init();
+				for (const struct PlistIt *it = plist_it_end(views); it; it = plist_it_prev(it))
+					plist_append(views_reversed, it->val);
+				plist_free(views);
+				views = views_reversed;
 
 				// only one master
 				arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
@@ -188,15 +188,15 @@ const struct Plist *layout(const struct Demand *demand, const struct Tag *tag) {
 				// left stack dwindle left up
 				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, views);
 
-				// // reverse num_before elements at the end of the list to push first view of left stack farthest away
-				// struct SListOld *views_reversed = NULL;
-				// uint32_t views_length = slist_old_length(views_old);
-				// for (uint32_t i = 0; i < views_length - num_before; i++)
-				// 	slist_old_append(&views_reversed, slist_old_at(views_old, i));
-				// for (uint32_t i = views_length - 1; i >= views_length - num_before; i--)
-				// 	slist_old_append(&views_reversed, slist_old_at(views_old, i));
-				// slist_old_free(&views_old);
-				// views_old = views_reversed;
+				// reverse num_before elements at the end of the list to push first view of left stack farthest away
+				const struct Plist *views_reversed = plist_init();
+				uint32_t views_length = plist_size(views);
+				for (uint32_t i = 0; i < views_length - num_before; i++)
+					plist_append(views_reversed, plist_at(views, i));
+				for (uint32_t i = views_length - 1; i >= views_length - num_before; i--)
+					plist_append(views_reversed, plist_at(views, i));
+				plist_free(views);
+				views = views_reversed;
 			}
 
 			break;
