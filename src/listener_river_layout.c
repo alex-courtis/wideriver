@@ -7,7 +7,7 @@
 #include "layout.h"
 #include "log.h"
 #include "output.h"
-#include "slist-old.h"
+#include "plist.h"
 #include "tag.h"
 
 #include "listener_river_layout.h"
@@ -40,11 +40,11 @@ static void layout_handle_layout_demand(void *data,
 	const struct Tag *tag = tag_first(output->state->tags, tags);
 
 	// position all views
-	struct SListOld *boxes = layout(&demand, tag);
+	const struct Plist *boxes = layout(&demand, tag);
 
 	// push all views
 	push(boxes, river_layout_v3, serial);
-	slist_old_free_vals(&boxes, NULL);
+	plist_free_vals(boxes);
 
 	// river layout name
 	const char *layout_name = layout_description(&demand, tag);

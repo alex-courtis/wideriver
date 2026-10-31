@@ -7,7 +7,6 @@
 #include "cfg.h"
 #include "enum.h"
 #include "log.h"
-#include "slist-old.h"
 #include "plist.h"
 #include "tag.h"
 
@@ -101,7 +100,7 @@ const char *layout_description(const struct Demand* const demand, const struct T
 	return description;
 }
 
-struct SListOld *layout(const struct Demand *demand, const struct Tag *tag) {
+const struct Plist *layout(const struct Demand *demand, const struct Tag *tag) {
 	if (!demand || !tag)
 		return NULL;
 
@@ -203,15 +202,13 @@ struct SListOld *layout(const struct Demand *demand, const struct Tag *tag) {
 			break;
 	}
 
-	plist_free(views);
-	// TODO alex-c-lib views
-	return NULL;
+	return views;
 }
 
-void push(const struct SListOld *views, struct river_layout_v3 *river_layout_v3, const uint32_t serial) {
+void push(const struct Plist *views, struct river_layout_v3 *river_layout_v3, const uint32_t serial) {
 	uint32_t n = 0;
-	for (const struct SListOld *i = views; i; i = i->nex) {
-		struct Box *box = i->val;
+	for (const struct PlistIt *it = plist_it(views); it; it = plist_it_next(it)) {
+		const struct Box *box = it->val;
 		log_d_c_s("  push"); log_d_c("view"); log_d_c("%02u", n++); log_d_c("%u,%u", box->x, box->x); log_d_c_e("%ux%u", box->width, box->height);
 		river_layout_v3_push_view_dimensions(river_layout_v3, box->x, box->y, box->width, box->height, serial);
 	}

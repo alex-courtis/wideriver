@@ -1,12 +1,11 @@
 #include "tst.h"
 
 #include <cmocka.h>
-#include <stddef.h>
 
 #include "cfg.h"
 #include "enum.h"
 #include "layout.h"
-#include "slist-old.h"
+#include "plist.h"
 #include "tag.h"
 
 extern struct Cfg c;
@@ -23,15 +22,15 @@ static void layout_wide__first_view_in_master(void **state) {
 		.count_master = 1,
 	};
 
-	struct SListOld *views = layout(&demand, &tag);
+	const struct Plist *views = layout(&demand, &tag);
 
-	assert_int_equal(slist_old_length(views), 3);
+	assert_int_equal(plist_size(views), 3);
 
-	struct Box *first = slist_old_at(views, 0);
+	const struct Box *first = plist_at(views, 0);
 	assert_int_equal(first->width, 7);
 	assert_int_equal(first->height, 5);
 
-	slist_old_free_vals(&views, NULL);
+	plist_free_vals(views);
 }
 
 static void layout_wide__first_view_in_left_stack(void **state) {
@@ -46,20 +45,18 @@ static void layout_wide__first_view_in_left_stack(void **state) {
 		.count_master = 1,
 	};
 
-	struct SListOld *views = layout(&demand, &tag);
+	const struct Plist *views = layout(&demand, &tag);
 
-	assert_int_equal(slist_old_length(views), 3);
+	assert_int_equal(plist_size(views), 3);
 
-	struct Box *first = slist_old_at(views, 0);
+	const struct Box *first = plist_at(views, 0);
 	assert_int_equal(first->width, 3);
 	assert_int_equal(first->height, 5);
 
-	slist_old_free_vals(&views, NULL);
+	plist_free_vals(views);
 }
 
 int main(void) {
-	return 0;
-	// TODO alex-c-lib complete
 	const struct CMUnitTest tests[] = {
 		TEST(layout_wide__first_view_in_master),
 		TEST(layout_wide__first_view_in_left_stack),
