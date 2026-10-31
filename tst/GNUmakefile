@@ -9,6 +9,8 @@ OBJS =  tst/util.o \
 		$(filter-out src/main.o,$(SRC_O)) \
 		$(PRO_O) $(LIB_O)
 
+INCS += -Ilib/alex-c/tst
+
 WRAPS_COMMON = -Wl,$\
 	--wrap=log_f,--wrap=log_e,--wrap=log_w,--wrap=log_i,--wrap=log_d
 

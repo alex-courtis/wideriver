@@ -4,7 +4,8 @@ clang
 -Ipro
 -Itst
 -Ilib/col/inc
--Ilib/alex-c/inc/
+-Ilib/alex-c/inc
+-Ilib/alex-c/tst
 
 -D_GNU_SOURCE
 -DVERSION="0.0.1-SNAPSHOT"

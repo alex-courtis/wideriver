@@ -101,6 +101,7 @@ $(TST_T): $(SRC_O) $(PRO_O) $(LIB_O)
 	$(MAKE) -f tst/GNUmakefile $(EXE)
 	$(VALGRIND) ./$(EXE)
 
+# TODO alex-c-lib use a test.mk and put this in there
 ifneq (,$(or $(findstring test,$(MAKECMDGOALS)), $(findstring tst/tst,$(MAKECMDGOALS))))
 CFLAGS += -Wno-unused-function
 endif
