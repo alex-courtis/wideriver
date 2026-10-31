@@ -69,9 +69,17 @@ doc: wideriver
 #
 # iwyu
 #
-iwyu: override CC = $(IWYU) -Xiwyu --check_also="inc/*h"
-iwyu: clean $(SRC_O) $(TST_O)
-IWYU = include-what-you-use -Xiwyu --no_fwd_decls -Xiwyu --error=1 -Xiwyu --verbose=3 -Xiwyu --mapping_file=.iwyu.imp
+iwyu: override CC = include-what-you-use \
+	-Xiwyu --no_fwd_decls \
+	-Xiwyu --error=1 \
+	-Xiwyu --verbose=3 \
+	-Xiwyu --mapping_file=.iwyu.imp \
+	-Xiwyu --check_also="inc/*h" \
+	-Xiwyu --check_also="lib/alex-c/inc/*h" \
+	-Xiwyu --check_also="tst/*h" \
+	-Xiwyu --check_also="lib/alex-c/tst/*h"
+iwyu: INCS += -Ilib/alex-c/tst
+iwyu: clean $(SRC_O) $(LIB_O) $(TST_O)
 
 #
 # cppcheck

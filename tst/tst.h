@@ -1,14 +1,9 @@
 #ifndef TST_H
 #define TST_H
 
-#include <setjmp.h>
-#include <stdarg.h>
-#include <stddef.h>
+// TODO alex-c-lib use lib
 
 #include <cmocka.h>
-
-// print log messages, useful when debugging tests
-#define LOG_PRINT false
 
 //
 // test definition

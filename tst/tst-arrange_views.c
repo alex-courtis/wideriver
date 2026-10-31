@@ -1,5 +1,5 @@
 #include "tst.h"
-#include "asserts.h"
+#include "assert-box.h"
 
 #include <cmocka.h>
 #include <stddef.h>

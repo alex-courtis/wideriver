@@ -1,4 +1,4 @@
-#include "tst.h"
+#include "assert-log.h"
 
 #include <cmocka.h>
 #include <stdarg.h>

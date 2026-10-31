@@ -1,5 +1,6 @@
 #include "tst.h"
 #include "asserts.h"
+#include "assert-log.h"
 
 #include <cmocka.h>
 
