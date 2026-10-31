@@ -6,7 +6,6 @@
 #include "enum.h"
 #include "layout.h"
 #include "plist.h"
-#include "slist-old.h"
 #include "tag.h"
 
 enum Cardinal {
@@ -63,7 +62,7 @@ void arrange_views(const struct Demand *demand,
 		const uint32_t inner_gap,
 		const struct Box box_total,
 		const struct Box box_remaining,
-		struct SListOld **views);
+		const struct Plist *views);
 
 #endif // ARRANGE_H
 

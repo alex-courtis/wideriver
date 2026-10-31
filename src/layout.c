@@ -105,7 +105,6 @@ struct SListOld *layout(const struct Demand *demand, const struct Tag *tag) {
 	if (!demand || !tag)
 		return NULL;
 
-	struct SListOld *views_old = NULL;
 	const struct Plist *views = plist_init();
 
 	struct Box box_before = { 0 };
@@ -142,23 +141,23 @@ struct SListOld *layout(const struct Demand *demand, const struct Tag *tag) {
 	switch(tag->layout_cur) {
 		case LEFT:
 			// top to bottom, dwindle right down
-			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views_old);
-			arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, &views_old);
+			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
+			arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 			break;
 		case RIGHT:
 			// top to bottom, dwindle left down
-			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views_old);
-			arrange_views(demand, tag->stack, S, W, num_after, num_after, tag->inner_gaps, box_after, box_after, &views_old);
+			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
+			arrange_views(demand, tag->stack, S, W, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 			break;
 		case TOP:
 			// left to right, dwindle down right
-			arrange_views(demand, EVEN, E, E, num_master, num_master, tag->inner_gaps, box_master, box_master, &views_old);
-			arrange_views(demand, tag->stack, E, S, num_after, num_after, tag->inner_gaps, box_after, box_after, &views_old);
+			arrange_views(demand, EVEN, E, E, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
+			arrange_views(demand, tag->stack, E, S, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 			break;
 		case BOTTOM:
 			// left to right, dwindle up right
-			arrange_views(demand, EVEN, E, E, num_master, num_master, tag->inner_gaps, box_master, box_master, &views_old);
-			arrange_views(demand, tag->stack, E, N, num_after, num_after, tag->inner_gaps, box_after, box_after, &views_old);
+			arrange_views(demand, EVEN, E, E, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
+			arrange_views(demand, tag->stack, E, N, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 			break;
 		case MONOCLE:
 			arrange_monocle(demand, tag, views);
@@ -166,46 +165,47 @@ struct SListOld *layout(const struct Demand *demand, const struct Tag *tag) {
 		case WIDE:
 			if (cfg->wide_first == WIDE_FIRST_LEFT) {
 				// left stack dwindle left up
-				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, &views_old);
+				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, views);
 
-				// reverse to push first view farthest away
-				struct SListOld *views_reversed = NULL;
-				for (int i = slist_old_length(views_old) - 1; i >= 0; i--)
-					slist_old_append(&views_reversed, slist_old_at(views_old, i));
-				slist_old_free(&views_old);
-				views_old = views_reversed;
+				// // reverse to push first view farthest away
+				// struct SListOld *views_reversed = NULL;
+				// for (int i = slist_old_length(views_old) - 1; i >= 0; i--)
+				// 	slist_old_append(&views_reversed, slist_old_at(views_old, i));
+				// slist_old_free(&views_old);
+				// views_old = views_reversed;
 
 				// only one master
-				arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views_old);
+				arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
 
 				// right stack dwindle right down
-				arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, &views_old);
+				arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 			} else {
 				// only one master
-				arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views_old);
+				arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
 
 				// right stack dwindle right down
-				arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, &views_old);
+				arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 
 				// left stack dwindle left up
-				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, &views_old);
+				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, views);
 
-				// reverse num_before elements at the end of the list to push first view of left stack farthest away
-				struct SListOld *views_reversed = NULL;
-				uint32_t views_length = slist_old_length(views_old);
-				for (uint32_t i = 0; i < views_length - num_before; i++)
-					slist_old_append(&views_reversed, slist_old_at(views_old, i));
-				for (uint32_t i = views_length - 1; i >= views_length - num_before; i--)
-					slist_old_append(&views_reversed, slist_old_at(views_old, i));
-				slist_old_free(&views_old);
-				views_old = views_reversed;
+				// // reverse num_before elements at the end of the list to push first view of left stack farthest away
+				// struct SListOld *views_reversed = NULL;
+				// uint32_t views_length = slist_old_length(views_old);
+				// for (uint32_t i = 0; i < views_length - num_before; i++)
+				// 	slist_old_append(&views_reversed, slist_old_at(views_old, i));
+				// for (uint32_t i = views_length - 1; i >= views_length - num_before; i--)
+				// 	slist_old_append(&views_reversed, slist_old_at(views_old, i));
+				// slist_old_free(&views_old);
+				// views_old = views_reversed;
 			}
 
 			break;
 	}
 
 	plist_free(views);
-	return views_old;
+	// TODO alex-c-lib views
+	return NULL;
 }
 
 void push(const struct SListOld *views, struct river_layout_v3 *river_layout_v3, const uint32_t serial) {

@@ -7,6 +7,7 @@ RIVER_LAYOUT_V3_VERSION = 2
 
 PREFIX ?= /usr/local
 
+# TODO alex-c-lib cleanup
 INCS = -Iinc -Ipro -Ilib/alex-c/inc -Ilib/col/inc
 
 # TODO add COMMIT

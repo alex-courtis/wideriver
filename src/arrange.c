@@ -5,7 +5,6 @@
 #include "enum.h"
 #include "layout.h"
 #include "plist.h"
-#include "slist-old.h"
 #include "tag.h"
 
 #include "arrange.h"
@@ -317,7 +316,7 @@ void arrange_views(const struct Demand *demand,
 		const uint32_t inner_gap,
 		const struct Box box_total,
 		const struct Box box_remaining,
-		struct SListOld **views) {
+		const struct Plist *views) {
 
 	if (!demand || !views)
 		return;
@@ -329,7 +328,7 @@ void arrange_views(const struct Demand *demand,
 	memcpy(this, &box_remaining, sizeof(struct Box));
 
 	if (num_remaining == 1) {
-		slist_old_append(views, this);
+		plist_append(views, this);
 		return;
 	}
 
@@ -385,7 +384,7 @@ void arrange_views(const struct Demand *demand,
 			break;
 	}
 
-	slist_old_append(views, this);
+	plist_append(views, this);
 
 	// num_remaining >= 1
 	arrange_views(demand, stack,
