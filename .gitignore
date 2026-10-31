@@ -1,12 +1,20 @@
 **/*.o
+**/*.o.tmp
 
 pro/*.h
 pro/*.c
 
 /wideriver
 
-/tst-*
+tst/tst-*
+!tst/tst-*.h
+!tst/tst-*.c
+
+/tst/tmp/
+
+**/*.gcda
+**/*.gcno
 
 /.ccls-cache
-
-/log.*
+/.cache
+compile_commands.json

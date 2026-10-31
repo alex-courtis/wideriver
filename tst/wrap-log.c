@@ -4,10 +4,12 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "enum.h"
 #include "fs.h"
+#include "str.h"
 
 // log space b is statically allocated and not cleared
 // bp is used to indicate presence of logs
@@ -27,10 +29,11 @@ void _assert_log(enum LogThreshold t, const char * s, const char * const file, c
 	if (bp[t]) {
 		bp[t] = NULL;
 		if (strcmp(b[t], s) != 0) {
-			cmocka_print_error("assert_log\nlog.actual:\n\"%s\"\nlog.expected:\n\"%s\"\n", b[t], s);
-			fs_file_write("log.actual", b[t], "w");
-			fs_file_write("log.expected", s, "w");
-			_fail(file, line);
+			const char *err = sprintf_alloc("assert_log\nactual.log:\n\"%s\"\nexpected.log:\n\"%s\"\n", b[t], s);
+			fprintf(stderr, "%s:%d: %s", file, line, err);
+			fs_file_write("actual.log", b[t], "w");
+			fs_file_write("expected.log", s, "w");
+			exit(1);
 		}
 	} else {
 		_assert_string_equal("", s, file, line);
@@ -42,12 +45,16 @@ void _assert_logs_empty(const char * const file, const int line) {
 	for (enum LogThreshold t = DEBUG; t <= FATAL; t++) {
 		if (bp[t]) {
 			bp[t] = NULL;
-			cmocka_print_error("\nunexpected log %s:\n\"%s\"\n", log_threshold_name(t), b[t]);
+			char *file_name = sprintf_alloc("unexpected.%s.log", log_threshold_name(t));
+			const char *err = sprintf_alloc("%s:\n\"%s\"\n", file_name, b[t]);
+			fprintf(stderr, "%s:%d: %s", file, line, err);
+			fs_file_write(file_name, b[t], "w");
+			free(file_name);
 			empty = false;
 		}
 	}
 	if (!empty) {
-		_fail(file, line);
+		exit(1);
 	}
 }
 
