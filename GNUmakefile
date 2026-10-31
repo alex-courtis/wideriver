@@ -3,8 +3,7 @@ include config.mk
 #
 # dependencies
 #
-# TODO alex-c-lib cleanup
-INC_H = $(wildcard inc/*.h) $(wildcard lib/alex-c/inc/*.h) $(wildcard lib/col/inc/*.h)
+INC_H = $(wildcard inc/*.h) $(wildcard lib/alex-c/inc/*.h)
 
 SRC_C = $(wildcard src/*.c)
 SRC_O = $(SRC_C:.c=.o)

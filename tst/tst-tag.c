@@ -3,19 +3,18 @@
 
 #include <cmocka.h>
 
-#include "slist-old.h"
 #include "plist.h"
 
 #include "tag.h"
 
 static int before_all(void **state) {
-	*state = tags_init();
+	*state = (void*)tags_plist_init();
 	assert_non_nul(*state);
 	return 0;
 }
 
 static int after_all(void **state) {
-	tags_destroy(*state);
+	plist_free_vals(*state);
 	return 0;
 }
 
@@ -55,7 +54,7 @@ static void tag_all__one(void **state) {
 
 	assert_int_equal(plist_size(one), 1);
 
-	assert_ptr_equal(plist_at(one, 0), slist_old_at(*state, 1));
+	assert_ptr_equal(plist_at(one, 0), plist_at(*state, 1));
 
 	plist_free(one);
 }
@@ -66,8 +65,8 @@ static void tag_all__many(void **state) {
 
 	assert_int_equal(plist_size(all), 2);
 
-	assert_ptr_equal(plist_at(all, 0), slist_old_at(*state, 2));
-	assert_ptr_equal(plist_at(all, 1), slist_old_at(*state, 3));
+	assert_ptr_equal(plist_at(all, 0), plist_at(*state, 2));
+	assert_ptr_equal(plist_at(all, 1), plist_at(*state, 3));
 
 	plist_free(all);
 }

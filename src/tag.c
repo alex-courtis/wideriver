@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "cfg.h"
-#include "slist-old.h"
+#include "fn.h"
 #include "plist.h"
 
 #include "tag.h"
@@ -29,12 +29,15 @@ struct Tag *tag_init(const uint32_t mask) {
 	return tag;
 }
 
-struct SListOld *tags_init(void) {
-	struct SListOld *tags = NULL;
+const struct Plist *tags_plist_init(void) {
+	const struct PlistParams params = {
+		.free_val = (fn_free)tag_destroy,
+	};
+	const struct Plist *tags = plist_init_with(params);
 
 	// tag for all 32 bits of the uint32_t masks
 	for (int i = 0; i < 32; i++) {
-		slist_old_append(&tags, tag_init(1LL << i));
+		plist_append(tags, tag_init(1LL << i));
 	}
 
 	return tags;
@@ -47,38 +50,32 @@ void tag_destroy(const void *t) {
 	free((struct Tag*)t);
 }
 
-void tags_destroy(const struct SListOld *tags) {
-	if (!tags)
-		return;
-
-	slist_old_free_vals((struct SListOld**)&tags, tag_destroy);
-}
-
-struct Tag *tag_first(const struct SListOld *tags, const uint32_t mask) {
+const struct Tag *tag_first(const struct Plist *tags, const uint32_t mask) {
 	if (!tags) {
 		return NULL;
 	}
 
-	for (const struct SListOld *i = tags; i; i = i->nex) {
-		const struct Tag *tag = i->val;
+	for (const struct PlistIt *it = plist_it(tags); it; it = plist_it_next(it)) {
+		const struct Tag *tag = it->val;
 		if (mask & tag->mask) {
-			return i->val;
+			plist_it_free(it);
+			return tag;
 		}
 	}
 
 	// default to first
-	return tags->val;
+	return plist_at(tags, 0);
 }
 
-const struct Plist *tag_all(const struct SListOld *tags, const uint32_t mask) {
+const struct Plist *tag_all(const struct Plist *tags, const uint32_t mask) {
 	if (!tags) {
 		return NULL;
 	}
 
 	const struct Plist *all = plist_init();
 
-	for (const struct SListOld *i = tags; i; i = i->nex) {
-		const struct Tag *tag = i->val;
+	for (const struct PlistIt *it = plist_it(tags); it; it = plist_it_next(it)) {
+		const struct Tag *tag = it->val;
 		if (mask & tag->mask) {
 			plist_append(all, tag);
 		}

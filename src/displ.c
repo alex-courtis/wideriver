@@ -12,7 +12,6 @@
 #include "cfg.h"
 #include "control.h"
 #include "enum.h"
-#include "fn.h"
 #include "listener_registry.h"
 #include "log.h"
 #include "output.h"
@@ -90,15 +89,8 @@ static void control_command_style(const struct Style desired, const struct Style
 }
 
 bool displ_init(void) {
-	d.outputs = ppmap_init_with((const struct PPmapParams){
-			.free_val = (fn_free)output_destroy,
-			.allow_null_val = false,
-			});
-
-	d.detached_output_states = spmap_init_with((const struct SPmapParams){
-			.free_val = (fn_free)output_state_destroy,
-			.allow_null_val = false,
-			});
+	d.outputs = output_ppmap_init();
+	d.detached_output_states = output_state_spmap_init();
 
 	// ensure that border width of 0 is set on first run
 	d.style_current.border_width = -1;

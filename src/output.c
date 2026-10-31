@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/param.h>
@@ -10,11 +11,13 @@
 #include "cmd.h"
 #include "displ.h"
 #include "enum.h"
+#include "fn.h"
 #include "listener_river_layout.h"
 #include "listener_river_output_status.h"
 #include "listener_wl_output.h"
 #include "log.h"
 #include "plist.h"
+#include "ppmap.h"
 #include "spmap.h"
 #include "tag.h"
 
@@ -61,7 +64,7 @@ struct Output *output_init(struct wl_output *wl_output,
 	output->river_output_status = river_output_status;
 
 	output->state = calloc(1, sizeof(struct OutputState));
-	output->state->tags = tags_init();
+	output->state->tags = tags_plist_init();
 
 	river_layout_v3_add_listener(output->river_layout, river_layout_listener(), output);
 
@@ -70,6 +73,22 @@ struct Output *output_init(struct wl_output *wl_output,
 	wl_output_add_listener(wl_output, wl_output_listener(), output);
 
 	return output;
+}
+
+const struct PPmap *output_ppmap_init(void) {
+	const struct PPmapParams params = {
+		.free_val = (fn_free)output_destroy,
+		.allow_null_val = false,
+	};
+	return ppmap_init_with(params);
+}
+
+const struct SPmap *output_state_spmap_init(void) {
+	const struct SPmapParams params = {
+		.free_val = (fn_free)output_state_destroy,
+		.allow_null_val = false,
+	};
+	return spmap_init_with(params);
 }
 
 void output_destroy(const void *o) {
@@ -110,7 +129,7 @@ void output_state_destroy(const void *os) {
 
 	const struct OutputState* const output_state = os;
 
-	tags_destroy(output_state->tags);
+	plist_free_vals(output_state->tags);
 
 	free((void*)output_state);
 }

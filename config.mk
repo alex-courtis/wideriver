@@ -7,8 +7,7 @@ RIVER_LAYOUT_V3_VERSION = 2
 
 PREFIX ?= /usr/local
 
-# TODO alex-c-lib cleanup
-INCS = -Iinc -Ipro -Ilib/alex-c/inc -Ilib/col/inc
+INCS = -Iinc -Ipro -Ilib/alex-c/inc
 
 # TODO add COMMIT
 CPPFLAGS += $(INCS) -D_GNU_SOURCE -DVERSION=\"$(VERSION)\" -DCOMMIT=\"$(COMMIT)\" -DRIVER_LAYOUT_V3_VERSION=$(RIVER_LAYOUT_V3_VERSION)

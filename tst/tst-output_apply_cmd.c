@@ -11,7 +11,6 @@
 #include "cmd.h"
 #include "enum.h"
 #include "mem.h"
-#include "slist-old.h"
 #include "plist.h"
 #include "tag.h"
 
@@ -22,7 +21,7 @@ struct Output output = { .state = &output_state };
 struct Tag *tag = NULL;
 const struct Cmd *cmd = NULL;
 
-const struct Plist *__wrap_tag_all(const struct SListOld *tags, const uint32_t mask) { // cppcheck-suppress staticFunction
+const struct Plist *__wrap_tag_all(const struct Plist *tags, const uint32_t mask) { // cppcheck-suppress staticFunction
 	check_expected_ptr(tags);
 	check_expected_uint(mask);
 	return mock_ptr_type_checked(const struct Plist*);

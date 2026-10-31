@@ -23,7 +23,7 @@ struct Output {
 };
 
 struct OutputState {
-	struct SListOld *tags;
+	const struct Plist *tags;
 	uint32_t command_tags_mask;
 };
 
@@ -31,6 +31,10 @@ struct Output *output_init(struct wl_output *wl_output,
 		const uint32_t name,
 		struct river_layout_manager_v3 *river_layout_manager,
 		struct zriver_status_manager_v1 *river_status_manager);
+
+const struct PPmap *output_ppmap_init(void);
+
+const struct SPmap *output_state_spmap_init(void);
 
 void output_destroy(const void *output);
 
