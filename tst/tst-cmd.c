@@ -38,24 +38,12 @@ struct Cmd *__wrap_args_cmd(int argc, char **argv) {
 	return mock_ptr_type_checked(struct Cmd*);
 }
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
+static int before_each(void **state) {
 	logs_clear();
 	return 0;
 }
 
-int after_each(void **state) {
-	return 0;
-}
-
-void cmd_init__empty(void **state) {
+static void cmd_init__empty(void **state) {
 	char args[] = "";
 
 	assert_nul(cmd_init(args));
@@ -63,7 +51,7 @@ void cmd_init__empty(void **state) {
 	assert_log(ERROR, "command empty ''\n");
 }
 
-void cmd_init__valid(void **state) {
+static void cmd_init__valid(void **state) {
 	char args[] = "    --foo    bar   baz   ";
 
 	char *argv[] = { "dummy", "--foo", "bar", "baz"};
@@ -82,7 +70,7 @@ void cmd_init__valid(void **state) {
 	assert_logs_empty();
 }
 
-void cmd_init__invalid(void **state) {
+static void cmd_init__invalid(void **state) {
 	char args[] = "foo";
 
 	char *argv[] = { "dummy", "foo", };
@@ -100,9 +88,9 @@ void cmd_init__invalid(void **state) {
 
 int main(void) {
 	const struct CMUnitTest tests[] = {
-		TEST(cmd_init__empty),
-		TEST(cmd_init__valid),
-		TEST(cmd_init__invalid),
+		TEST_B(cmd_init__empty),
+		TEST_B(cmd_init__valid),
+		TEST_B(cmd_init__invalid),
 	};
 
 	return RUN(tests);

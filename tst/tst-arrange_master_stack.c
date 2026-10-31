@@ -10,23 +10,7 @@
 
 #include "arrange.h"
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
-	return 0;
-}
-
-int after_each(void **state) {
-	return 0;
-}
-
-void arrange_master_stack__zero(void **state) {
+static void arrange_master_stack__zero(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };
@@ -39,7 +23,7 @@ void arrange_master_stack__zero(void **state) {
 	assert_box_equal(&stack, 0, 0, 0, 0);
 }
 
-void arrange_master_stack__zero_master(void **state) {
+static void arrange_master_stack__zero_master(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };
@@ -52,7 +36,7 @@ void arrange_master_stack__zero_master(void **state) {
 	assert_box_equal(&stack, 0, 0, 9, 5);
 }
 
-void arrange_master_stack__zero_stack(void **state) {
+static void arrange_master_stack__zero_stack(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };
@@ -65,7 +49,7 @@ void arrange_master_stack__zero_stack(void **state) {
 	assert_box_equal(&stack, 0, 0, 0, 0);
 }
 
-void arrange_master_stack__zero_master_with_gaps(void **state) {
+static void arrange_master_stack__zero_master_with_gaps(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .view_count = 1, .usable_width = 9, .usable_height = 5, };
@@ -83,7 +67,7 @@ void arrange_master_stack__zero_master_with_gaps(void **state) {
 	assert_box_equal(&stack, 0, 0, 9, 5);
 }
 
-void arrange_master_stack__zero_stack_with_gaps(void **state) {
+static void arrange_master_stack__zero_stack_with_gaps(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .view_count = 1, .usable_width = 9, .usable_height = 5, };
@@ -101,7 +85,7 @@ void arrange_master_stack__zero_stack_with_gaps(void **state) {
 	assert_box_equal(&stack, 0, 0, 0, 0);
 }
 
-void arrange_master_stack__left(void **state) {
+static void arrange_master_stack__left(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };
@@ -114,7 +98,7 @@ void arrange_master_stack__left(void **state) {
 	assert_box_equal(&stack, 4, 0, 5, 5);
 }
 
-void arrange_master_stack__left_with_gaps(void **state) {
+static void arrange_master_stack__left_with_gaps(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };
@@ -126,7 +110,7 @@ void arrange_master_stack__left_with_gaps(void **state) {
 	assert_box_equal(&stack, 4, 1, 4, 3);
 }
 
-void arrange_master_stack__right(void **state) {
+static void arrange_master_stack__right(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };
@@ -139,7 +123,7 @@ void arrange_master_stack__right(void **state) {
 	assert_box_equal(&stack, 0, 0, 5, 5);
 }
 
-void arrange_master_stack__right_with_gaps(void **state) {
+static void arrange_master_stack__right_with_gaps(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };
@@ -151,7 +135,7 @@ void arrange_master_stack__right_with_gaps(void **state) {
 	assert_box_equal(&stack, 1, 1, 4, 3);
 }
 
-void arrange_master_stack__top(void **state) {
+static void arrange_master_stack__top(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };
@@ -164,7 +148,7 @@ void arrange_master_stack__top(void **state) {
 	assert_box_equal(&stack, 0, 2, 9, 3);
 }
 
-void arrange_master_stack__top_with_gaps(void **state) {
+static void arrange_master_stack__top_with_gaps(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };
@@ -176,7 +160,7 @@ void arrange_master_stack__top_with_gaps(void **state) {
 	assert_box_equal(&stack, 1, 3, 7, 1);
 }
 
-void arrange_master_stack__bottom(void **state) {
+static void arrange_master_stack__bottom(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };
@@ -189,7 +173,7 @@ void arrange_master_stack__bottom(void **state) {
 	assert_box_equal(&stack, 0, 0, 9, 3);
 }
 
-void arrange_master_stack__bottom_with_gaps(void **state) {
+static void arrange_master_stack__bottom_with_gaps(void **state) {
 	struct Box master, stack;
 
 	struct Demand demand = { .usable_width = 9, .usable_height = 5, };

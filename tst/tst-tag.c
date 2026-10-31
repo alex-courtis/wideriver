@@ -8,48 +8,40 @@
 
 #include "tag.h"
 
-int before_all(void **state) {
+static int before_all(void **state) {
 	*state = tags_init();
 	assert_non_nul(*state);
 	return 0;
 }
 
-int after_all(void **state) {
+static int after_all(void **state) {
 	tags_destroy(*state);
 	return 0;
 }
 
-int before_each(void **state) {
-	return 0;
-}
-
-int after_each(void **state) {
-	return 0;
-}
-
 // no mask match
-void tag_first__none(void **state) {
+static void tag_first__none(void **state) {
 	const struct Tag *tag = tag_first(*state, 0x0);
 	assert_non_nul(tag);
 	assert_int_equal(tag->mask, 0x1);
 }
 
 // exact mask match
-void tag_first__equal(void **state) {
+static void tag_first__equal(void **state) {
 	const struct Tag *tag = tag_first(*state, 0x2);
 	assert_non_nul(tag);
 	assert_int_equal(tag->mask, 0x2);
 }
 
 // first mask match
-void tag_first__first(void **state) {
+static void tag_first__first(void **state) {
 	const struct Tag *tag = tag_first(*state, 0x4 | 0x8);
 	assert_non_nul(tag);
 	assert_int_equal(tag->mask, 0x4);
 }
 
 // no mask match
-void tag_all__none(void **state) {
+static void tag_all__none(void **state) {
 	const struct Plist *all = tag_all(*state, 0x0);
 
 	assert_int_equal(plist_size(all), 0);
@@ -58,7 +50,7 @@ void tag_all__none(void **state) {
 }
 
 // one mask match
-void tag_all__one(void **state) {
+static void tag_all__one(void **state) {
 	const struct Plist *one = tag_all(*state, 0x2);
 
 	assert_int_equal(plist_size(one), 1);
@@ -69,7 +61,7 @@ void tag_all__one(void **state) {
 }
 
 // many mask match
-void tag_all__many(void **state) {
+static void tag_all__many(void **state) {
 	const struct Plist *all = tag_all(*state, 0x4 | 0x8);
 
 	assert_int_equal(plist_size(all), 2);
@@ -91,6 +83,6 @@ int main(void) {
 		TEST(tag_all__many),
 	};
 
-	return RUN(tests);
+	return RUN_BA(tests);
 }
 

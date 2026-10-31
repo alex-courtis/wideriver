@@ -11,23 +11,7 @@
 
 extern struct Cfg c;
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
-	return 0;
-}
-
-int after_each(void **state) {
-	return 0;
-}
-
-void layout_wide__first_view_in_master(void **state) {
+static void layout_wide__first_view_in_master(void **state) {
 	c.wide_first = WIDE_FIRST_MID;
 
 	struct Demand demand = { .view_count = 3, .usable_width = 13, .usable_height = 5 };
@@ -50,7 +34,7 @@ void layout_wide__first_view_in_master(void **state) {
 	slist_old_free_vals(&views, NULL);
 }
 
-void layout_wide__first_view_in_left_stack(void **state) {
+static void layout_wide__first_view_in_left_stack(void **state) {
 	c.wide_first = WIDE_FIRST_LEFT;
 
 	struct Demand demand = { .view_count = 3, .usable_width = 13, .usable_height = 5 };

@@ -11,23 +11,7 @@
 
 #include "arrange.h"
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
-	return 0;
-}
-
-int after_each(void **state) {
-	return 0;
-}
-
-void arrange_monocle__many(void **state) {
+static void arrange_monocle__many(void **state) {
 	const struct Plist *stack = plist_init();
 	struct Demand demand = { .view_count = 2, .usable_width = 5, .usable_height = 3 };
 	struct Tag tag = { .layout_cur = MONOCLE, };
@@ -42,7 +26,7 @@ void arrange_monocle__many(void **state) {
 	plist_free_vals(stack);
 }
 
-void arrange_monocle__many_with_gaps(void **state) {
+static void arrange_monocle__many_with_gaps(void **state) {
 	struct Demand demand = { .view_count = 2, .usable_width = 5, .usable_height = 3 };
 	struct Tag tag = { .layout_cur = MONOCLE, .smart_gaps = false,
 		.inner_gaps = 0, .outer_gaps = 1, };

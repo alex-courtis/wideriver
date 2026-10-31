@@ -10,23 +10,7 @@
 
 #include "arrange.h"
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
-	return 0;
-}
-
-int after_each(void **state) {
-	return 0;
-}
-
-void arrange_views__one(void **state) {
+static void arrange_views__one(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -40,7 +24,7 @@ void arrange_views__one(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__n(void **state) {
+static void arrange_views__n(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -55,7 +39,7 @@ void arrange_views__n(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__n_with_gaps(void **state) {
+static void arrange_views__n_with_gaps(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -73,7 +57,7 @@ void arrange_views__n_with_gaps(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__s(void **state) {
+static void arrange_views__s(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -88,7 +72,7 @@ void arrange_views__s(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__s_with_gaps(void **state) {
+static void arrange_views__s_with_gaps(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -106,7 +90,7 @@ void arrange_views__s_with_gaps(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__e(void **state) {
+static void arrange_views__e(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -121,7 +105,7 @@ void arrange_views__e(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__e_with_gaps(void **state) {
+static void arrange_views__e_with_gaps(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -139,7 +123,7 @@ void arrange_views__e_with_gaps(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__w(void **state) {
+static void arrange_views__w(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -154,7 +138,7 @@ void arrange_views__w(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__w_with_gaps(void **state) {
+static void arrange_views__w_with_gaps(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -172,7 +156,7 @@ void arrange_views__w_with_gaps(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__even(void **state) {
+static void arrange_views__even(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -188,7 +172,7 @@ void arrange_views__even(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__even_with_gaps(void **state) {
+static void arrange_views__even_with_gaps(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 1, 2, 5, 11, };
@@ -208,7 +192,7 @@ void arrange_views__even_with_gaps(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__diminish(void **state) {
+static void arrange_views__diminish(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 0, 0, 97, 1, };
@@ -228,7 +212,7 @@ void arrange_views__diminish(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__diminish_with_gaps(void **state) {
+static void arrange_views__diminish_with_gaps(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 0, 0, 97, 1, };
@@ -256,7 +240,7 @@ void arrange_views__diminish_with_gaps(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__dwindle(void **state) {
+static void arrange_views__dwindle(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 100, 100, 37, 71, };
@@ -277,7 +261,7 @@ void arrange_views__dwindle(void **state) {
 	slist_old_free_vals(&stack, NULL);
 }
 
-void arrange_views__dwindle_with_gaps(void **state) {
+static void arrange_views__dwindle_with_gaps(void **state) {
 	struct SListOld *stack = NULL;
 	struct Demand demand = { 0 };
 	struct Box usable = { 100, 100, 37, 71, };

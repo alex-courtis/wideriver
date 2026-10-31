@@ -9,23 +9,7 @@
 
 #include "arrange.h"
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
-	return 0;
-}
-
-int after_each(void **state) {
-	return 0;
-}
-
-void arrange_wide__000(void **state) {
+static void arrange_wide__000(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -38,7 +22,7 @@ void arrange_wide__000(void **state) {
 	assert_box_equal(&after, 0, 0, 0, 0);
 }
 
-void arrange_wide__010(void **state) {
+static void arrange_wide__010(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -51,7 +35,7 @@ void arrange_wide__010(void **state) {
 	assert_box_equal(&after, 0, 0, 0, 0);
 }
 
-void arrange_wide__010_with_gaps(void **state) {
+static void arrange_wide__010_with_gaps(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .view_count = 1, .usable_width = 13, .usable_height = 5, };
@@ -71,7 +55,7 @@ void arrange_wide__010_with_gaps(void **state) {
 	assert_box_equal(&after, 0, 0, 0, 0);
 }
 
-void arrange_wide__001(void **state) {
+static void arrange_wide__001(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -84,7 +68,7 @@ void arrange_wide__001(void **state) {
 	assert_box_equal(&after, 0, 0, 13, 5);
 }
 
-void arrange_wide__001_with_gaps(void **state) {
+static void arrange_wide__001_with_gaps(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .view_count = 1, .usable_width = 13, .usable_height = 5, };
@@ -104,7 +88,7 @@ void arrange_wide__001_with_gaps(void **state) {
 	assert_box_equal(&after, 0, 0, 13, 5);
 }
 
-void arrange_wide__100(void **state) {
+static void arrange_wide__100(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -117,7 +101,7 @@ void arrange_wide__100(void **state) {
 	assert_box_equal(&after, 0, 0, 0, 0);
 }
 
-void arrange_wide__100_with_gaps(void **state) {
+static void arrange_wide__100_with_gaps(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .view_count = 1, .usable_width = 13, .usable_height = 5, };
@@ -137,7 +121,7 @@ void arrange_wide__100_with_gaps(void **state) {
 	assert_box_equal(&after, 0, 0, 0, 0);
 }
 
-void arrange_wide__101(void **state) {
+static void arrange_wide__101(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -150,7 +134,7 @@ void arrange_wide__101(void **state) {
 	assert_box_equal(&after, 7, 0, 6, 5);
 }
 
-void arrange_wide__101_with_gaps(void **state) {
+static void arrange_wide__101_with_gaps(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -162,7 +146,7 @@ void arrange_wide__101_with_gaps(void **state) {
 	assert_box_equal(&after, 7, 1, 5, 3);
 }
 
-void arrange_wide__011(void **state) {
+static void arrange_wide__011(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -175,7 +159,7 @@ void arrange_wide__011(void **state) {
 	assert_box_equal(&after, 8, 0, 5, 5);
 }
 
-void arrange_wide__011_with_gaps(void **state) {
+static void arrange_wide__011_with_gaps(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -187,7 +171,7 @@ void arrange_wide__011_with_gaps(void **state) {
 	assert_box_equal(&after, 8, 1, 4, 3);
 }
 
-void arrange_wide__110(void **state) {
+static void arrange_wide__110(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -200,7 +184,7 @@ void arrange_wide__110(void **state) {
 	assert_box_equal(&after, 0, 0, 0, 0);
 }
 
-void arrange_wide__110_with_gaps(void **state) {
+static void arrange_wide__110_with_gaps(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -212,7 +196,7 @@ void arrange_wide__110_with_gaps(void **state) {
 	assert_box_equal(&after, 0, 0, 0, 0);
 }
 
-void arrange_wide__111(void **state) {
+static void arrange_wide__111(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };
@@ -225,7 +209,7 @@ void arrange_wide__111(void **state) {
 	assert_box_equal(&after, 10, 0, 3, 5);
 }
 
-void arrange_wide__111_with_gaps(void **state) {
+static void arrange_wide__111_with_gaps(void **state) {
 	struct Box master, before, after;
 
 	struct Demand demand = { .usable_width = 13, .usable_height = 5, };

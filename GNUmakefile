@@ -84,10 +84,11 @@ iwyu: clean $(SRC_O) $(LIB_O) $(TST_O)
 #
 # cppcheck
 #
-cppcheck: $(SRC_H) $(SRC_C) $(TST_H) $(TST_C)
+cppcheck: $(SRC_H) $(SRC_C) $(LIB_H) $(LIB_C) $(TST_H) $(TST_C)
 	cppcheck $(^)\
 		--enable=warning,unusedFunction,performance,portability \
 		--check-level=exhaustive \
+		--inline-suppr \
 		--suppressions-list=.cppcheck.supp \
 		--error-exitcode=1 \
 		$(CPPFLAGS)

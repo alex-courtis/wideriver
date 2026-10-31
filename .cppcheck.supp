@@ -1,13 +1,19 @@
+# do not check generated code
+*:pro
+
+# unused are implemented for completeness
 unusedFunction:src/log.c
 
-unusedFunction:pro/*.h
-
-unusedFunction:tst/asserts.h
-unusedFunction:tst/expects.h
-unusedFunction:tst/util.c
-unusedFunction:tst/wrap-*.c
-
+# TODO these are false flagging
 staticFunction:tst/*c
+unusedFunction:tst/*c
+
+# many library functions are not used
+unusedFunction:lib/alex-c
+staticFunction:lib/alex-c
+unusedFunction:lib/col
+staticFunction:lib/col
 
 # this is just not practical
 nullPointerOutOfMemory
+nullPointerArithmeticOutOfMemory
