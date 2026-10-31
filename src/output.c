@@ -14,7 +14,7 @@
 #include "listener_river_output_status.h"
 #include "listener_wl_output.h"
 #include "log.h"
-#include "slist-old.h"
+#include "plist.h"
 #include "spmap.h"
 #include "tag.h"
 
@@ -177,14 +177,15 @@ static void apply_count_ratio(const struct Cmd *cmd, struct Tag *tag) {
 }
 
 void output_apply_cmd(const struct Output *output, const struct Cmd *cmd) {
-	struct SListOld *all = tag_all(output->state->tags, output->state->command_tags_mask);
-	for (struct SListOld *i = all; i; i = i->nex) {
-		struct Tag *tag = i->val;
+	const struct Plist *all = tag_all(output->state->tags, output->state->command_tags_mask);
 
+	for (const struct PlistIt *it = plist_it(all); it; it = plist_it_next(it)) {
+		struct Tag *tag = (struct Tag*)it->val;
 		apply_layout(cmd, tag);
 		apply_stack(cmd, tag);
 		apply_count_ratio(cmd, tag);
 	}
-	slist_old_free(&all);
+
+	plist_free(all);
 }
 

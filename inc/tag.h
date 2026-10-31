@@ -33,7 +33,7 @@ void tags_destroy(const struct SListOld *tags);
 struct Tag *tag_first(const struct SListOld *tags, const uint32_t mask);
 
 // return all tags matching mask
-struct SListOld *tag_all(const struct SListOld *tags, const uint32_t mask);
+const struct Plist *tag_all(const struct SListOld *tags, const uint32_t mask);
 
 #endif // TAG_H
 

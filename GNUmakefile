@@ -101,6 +101,10 @@ $(TST_T): $(SRC_O) $(PRO_O) $(LIB_O)
 	$(MAKE) -f tst/GNUmakefile $(EXE)
 	$(VALGRIND) ./$(EXE)
 
+ifneq (,$(or $(findstring test,$(MAKECMDGOALS)), $(findstring tst/tst,$(MAKECMDGOALS))))
+CFLAGS += -Wno-unused-function
+endif
+
 #
 # local docker dev
 #

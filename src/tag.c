@@ -3,6 +3,7 @@
 
 #include "cfg.h"
 #include "slist-old.h"
+#include "plist.h"
 
 #include "tag.h"
 
@@ -69,17 +70,17 @@ struct Tag *tag_first(const struct SListOld *tags, const uint32_t mask) {
 	return tags->val;
 }
 
-struct SListOld *tag_all(const struct SListOld *tags, const uint32_t mask) {
+const struct Plist *tag_all(const struct SListOld *tags, const uint32_t mask) {
 	if (!tags) {
 		return NULL;
 	}
 
-	struct SListOld *all = NULL;
+	const struct Plist *all = plist_init();
 
 	for (const struct SListOld *i = tags; i; i = i->nex) {
 		const struct Tag *tag = i->val;
 		if (mask & tag->mask) {
-			slist_old_append(&all, i->val);
+			plist_append(all, tag);
 		}
 	}
 
