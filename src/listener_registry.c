@@ -75,20 +75,11 @@ static void global_remove(void *data,
 
 	log_d_c_s("global_remove"); log_d_c_e("%d", name);
 
-	const struct Output *output = NULL;
-
-	// TODO alex-c-lib simplify to a find
-	for (const struct PPmapIt *it = ppmap_it(displ->outputs); it; it = ppmap_it_next(it)) {
-		output = it->val;
-		if (output && output->name == name) {
-
-			output_destroy(output);
-
-			ppmap_remove(displ->outputs, it->key);
-
-			ppmap_it_free(it);
-			break;
-		}
+	const struct PPmapFilter f = { .val_data = (fn_pred_pp)output_matches_name, .data = &name, };
+	const struct PPmapPair p = ppmap_find(displ->outputs, f);
+	if (p.val) {
+		output_destroy(p.val);
+		ppmap_remove(displ->outputs, p.key);
 	}
 }
 

@@ -22,7 +22,6 @@ void control_execute(const struct Slist *args, control_complete_fn complete) {
 		zriver_control_v1_add_argument(displ->river_control, it->val);
 	}
 
-	// TODO alex-c-lib use slist_str
 	log_d_c_s("  control"); log_d_c_e("%s", cmd);
 	free(cmd);
 

@@ -91,6 +91,10 @@ const struct SPmap *output_state_spmap_init(void) {
 	return spmap_init_with(params);
 }
 
+bool output_matches_name(const struct Output* const output, const uint32_t *name) {
+	return output && name && output->name == *name;
+}
+
 void output_destroy(const void *o) {
 	if (!o)
 		return;

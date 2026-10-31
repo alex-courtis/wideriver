@@ -27,7 +27,6 @@ static void name(void *data,
 	free(output->wl_output_name);
 	output->wl_output_name = strdup(name);
 
-	// TODO alex-c-lib simplify
 	// fetch and use detached state if present
 	struct OutputState *output_state = (struct OutputState*)spmap_remove(displ->detached_output_states, output->wl_output_name);
 	if (output_state) {

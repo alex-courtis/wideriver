@@ -36,6 +36,8 @@ const struct PPmap *output_ppmap_init(void);
 
 const struct SPmap *output_state_spmap_init(void);
 
+bool output_matches_name(const struct Output* const output, const uint32_t *name);
+
 void output_destroy(const void *output);
 
 void output_state_destroy(const void *output_state);
