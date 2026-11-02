@@ -11,6 +11,8 @@
 #include "fs.h"
 #include "str.h"
 
+// TODO unify with way-displays
+
 // log space b is statically allocated and not cleared
 // bp is used to indicate presence of logs
 // logs are reset by clearing bp on assert_log and logs_clear

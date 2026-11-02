@@ -12,7 +12,18 @@
 #define COL_WIDTH 24
 static char col_buf[COL_WIDTH];
 
-char THRESHOLD_CHAR[] = {
+// TODO unify with way-displays
+// TODO remove cols
+
+struct LogActive {
+	enum LogThreshold threshold;
+};
+static struct LogActive active = {
+	.threshold = LOG_THRESHOLD_DEFAULT,
+};
+
+// all thresholds, start of line
+static const char threshold_char[] = {
 	'?',
 	'D',
 	'I',
@@ -21,7 +32,16 @@ char THRESHOLD_CHAR[] = {
 	'F',
 };
 
-enum LogThreshold log_threshold = LOG_THRESHOLD_DEFAULT;
+// all but info
+// static const char *threshold_colours[] = {
+// 	NULL,
+// 	"\x1B[1;36m", // cyan    debug
+// 	NULL,         //         info
+// 	"\x1B[1;35m", // magenta warning
+// 	"\x1B[1;31m", // red     error
+// 	"\x1B[1;33m", // yellow  fatal
+// };
+// static const char reset_colour[] = "\x1B[0m";
 
 enum LogMode {
 	NORMAL = 0,
@@ -38,11 +58,11 @@ static void print_prefix(const enum LogThreshold threshold, FILE *__restrict __s
 
 	strftime(buf, sizeof(buf), "%H:%M:%S", localtime(&t));
 
-	fprintf(__stream, "%c [%s] ", THRESHOLD_CHAR[threshold], buf);
+	fprintf(__stream, "%c [%s] ", threshold_char[threshold], buf);
 }
 
 static void log_(const enum LogThreshold threshold, const enum LogMode mode, const int eno, const char *__restrict __format, va_list __args) {
-	if (threshold < log_threshold) {
+	if (threshold < active.threshold) {
 		return;
 	}
 
@@ -146,13 +166,13 @@ void log_f_errno(const char *__restrict __format, ...) {
 }
 
 enum LogThreshold log_get_threshold(void) {
-	return log_threshold;
+	return active.threshold;
 }
 
 bool log_set_threshold(const char *s) {
 	enum LogThreshold t = log_threshold_val(s);
 	if (t) {
-		log_threshold = t;
+		active.threshold = t;
 		return true;
 	}
 	return false;
