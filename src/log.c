@@ -15,6 +15,7 @@ enum LogThreshold g_threshold;
 // all thresholds, start of line
 static const char threshold_char[] = {
 	'?',
+	'T',
 	'D',
 	'I',
 	'W',
@@ -25,6 +26,7 @@ static const char threshold_char[] = {
 // all but info
 static const char *threshold_colour[] = {
 	NULL,
+	"\x1B[1;32m", // green   trace
 	"\x1B[1;36m", // cyan    debug
 	NULL,         //         info
 	"\x1B[1;35m", // magenta warning
@@ -66,6 +68,13 @@ static void log_(const enum LogThreshold threshold, const int eno, const char *_
 
 	// reset and newline
 	fprintf(stream, "%s\n", colour ? reset_colour : "");
+}
+
+void log_t(const char *__restrict __format, ...) {
+	va_list args;
+	va_start(args, __format);
+	log_(TRACE, 0, __format, args);
+	va_end(args);
 }
 
 void log_d(const char *__restrict __format, ...) {

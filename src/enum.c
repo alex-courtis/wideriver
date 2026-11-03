@@ -26,6 +26,7 @@ static struct NameVal stacks[] = {
 };
 
 static struct NameVal log_thresholds[] = {
+	{ .val = TRACE,		.name = "trace",	},
 	{ .val = DEBUG,		.name = "debug",	},
 	{ .val = INFO,		.name = "info",		},
 	{ .val = WARNING,	.name = "warning",	},

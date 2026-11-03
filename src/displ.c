@@ -28,17 +28,17 @@ struct Displ d = { 0 };
 const struct Displ * const g_displ = &d;
 
 static void complete_border_width(void) {
-	log_d("complete_border_width %zu->%zu", d.style_current.border_width, d.style_desired.border_width);
+	log_t("complete_border_width %zu->%zu", d.style_current.border_width, d.style_desired.border_width);
 	d.style_current.border_width = d.style_desired.border_width;
 }
 
 static void complete_border_color_focused(void) {
-	log_d("complete_border_color_focused %s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
+	log_t("complete_border_color_focused %s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
 	d.style_current.border_color_focused = d.style_desired.border_color_focused;
 }
 
 static void complete_border_color_unfocused(void) {
-	log_d("complete_border_color_unfocused %s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
+	log_t("complete_border_color_unfocused %s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
 	d.style_current.border_color_unfocused = d.style_desired.border_color_unfocused;
 }
 
@@ -182,12 +182,12 @@ void displ_request_style(const struct Output *output, const struct Tag *tag, con
 
 	const struct Output * const output_focused = (struct Output*)ppmap_get(g_displ->outputs, d.wl_output_focused);
 
-	log_d("displ_request_style output         %d %p", output->name,(void*)output->wl_output);
-	log_d("displ_request_style output_focused %d %p", output_focused ? output_focused->name : 0, (void*)d.wl_output_focused);
+	log_t("displ_request_style output         %d %p", output->name,(void*)output->wl_output);
+	log_t("displ_request_style output_focused %d %p", output_focused ? output_focused->name : 0, (void*)d.wl_output_focused);
 
 	// output must be focused or no focus reported
 	if (d.wl_output_focused != output->wl_output && d.wl_output_focused) {
-		log_d("displ_request_style not focused or no focus");
+		log_t("displ_request_style not focused or no focus");
 		return;
 	}
 

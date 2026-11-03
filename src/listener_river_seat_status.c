@@ -23,7 +23,7 @@ static void handle_focused_output(void *data,
 
 	struct Output *output = (struct Output*)ppmap_get(displ->outputs, wl_output);
 
-	log_d("seat_focused_output %d", output ? output->name : 0);
+	log_d("focused_output %d", output ? output->name : 0);
 
 	displ->wl_output_focused = wl_output;
 }
@@ -36,7 +36,7 @@ static void handle_unfocused_output(void *data,
 
 	struct Output *output = (struct Output*)ppmap_get(displ->outputs, wl_output);
 
-	log_d("seat_unfocused_output %d", output ? output->name : 0);
+	log_d("unfocused_output %d", output ? output->name : 0);
 }
 
 static void handle_focused_view(void *data,

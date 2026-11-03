@@ -26,7 +26,7 @@ static void layout_handle_layout_demand(void *data,
 
 	struct Output *output = (struct Output*)data;
 
-	log_d("layout_layout_demand %d view count=%02u usable=%ux%u tags=0x%u", output ? output->name : 0, view_count, usable_width, usable_height, tags);
+	log_d("layout_demand %d tags=0x%u view count=%02u usable=%ux%u", output ? output->name : 0, tags, view_count, usable_width, usable_height);
 
 	const struct Demand demand = {
 		.view_count = view_count,
@@ -46,6 +46,7 @@ static void layout_handle_layout_demand(void *data,
 
 	// river layout name
 	const char *name = layout_description(&demand, tag);
+	log_d("set name='%s'", name);
 
 	// commit
 	river_layout_v3_commit(output->river_layout, name, serial);
@@ -71,7 +72,7 @@ static void layout_handle_user_command_tags(void *data,
 		return;
 	}
 
-	log_d("layout_user_command_tags %d tags=0x%u", output->name, tags);
+	log_d("user_command_tags %d tags=0x%u", output->name, tags);
 
 	output->state->command_tags_mask = tags;
 }
@@ -82,15 +83,15 @@ static void layout_handle_user_command(void *data,
 
 	struct Output *output = (struct Output*)data;
 	if (!output) {
-		log_e("layout_user_command '%s' missing output", command);
+		log_e("user_command '%s' missing output", command);
 		return;
 	}
 
-	log_d("layout_user_command %d command='%s'", output->name, command);
+	log_d("user_command %d command='%s'", output->name, command);
 
 	// version 2 guarantees tags will always be sent before command
 	if (!output->state->command_tags_mask) {
-		log_e("layout_user_command '%s' not sent command tags", command);
+		log_e("user_command '%s' not sent command tags", command);
 		return;
 	}
 

@@ -22,7 +22,7 @@ static void name(void *data,
 
 	struct Output *output = (struct Output*)data;
 
-	log_d("wl_output_name %d wl_output_name=%s", output->name, _name);
+	log_d("wl_output_name %d %s", output->name, _name);
 
 	free(output->wl_output_name);
 	output->wl_output_name = strdup(_name);
