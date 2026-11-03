@@ -130,7 +130,6 @@ const struct Plist *layout(const struct Demand *demand, const struct Tag *tag) {
 
 	log_t("layout %s", layout_name(tag->layout_cur));
 
-	// TODO maybe a log box or box to string
 	log_t("layout before %u %u,%u %ux%u", num_before, box_before.x, box_before.y, box_before.width, box_before.height);
 	log_t("layout master %u %u,%u %ux%u", num_master, box_master.x, box_master.y, box_master.width, box_master.height);
 	log_t("layout after  %u %u,%u %ux%u", num_after,  box_after.x,  box_after.y,  box_after.width, box_after.height);

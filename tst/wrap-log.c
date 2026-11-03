@@ -11,18 +11,16 @@
 #include "fs.h"
 #include "str.h"
 
-// TODO unify with way-displays
-
 // log space b is statically allocated and not cleared
 // bp is used to indicate presence of logs
 // logs are reset by clearing bp on assert_log and logs_clear
 
-// 0 unused, 1 DEBUG, 5 FATAL
-static char b[6][262144] = { 0 };
-static char *bp[6] = { 0 };
+// 0 unused, 1 TRACE, 6 FATAL
+static char b[7][262144] = { 0 };
+static char *bp[7] = { 0 };
 
 void logs_clear(void) {
-	for (enum LogThreshold t = DEBUG; t <= FATAL; t++) {
+	for (enum LogThreshold t = TRACE; t <= FATAL; t++) {
 		bp[t] = NULL;
 	}
 }
@@ -44,7 +42,7 @@ void _assert_log(enum LogThreshold t, const char * s, const char * const file, c
 
 void _assert_logs_empty(const char * const file, const int line) {
 	bool empty = true;
-	for (enum LogThreshold t = DEBUG; t <= FATAL; t++) {
+	for (enum LogThreshold t = TRACE; t <= FATAL; t++) {
 		if (bp[t]) {
 			bp[t] = NULL;
 			char *file_name = sprintf_alloc("unexpected.%s.log", log_threshold_name(t));
@@ -61,27 +59,23 @@ void _assert_logs_empty(const char * const file, const int line) {
 }
 
 static void _log(enum LogThreshold t, const char *__restrict __format, va_list __args) {
-	static const char *printed;
-
 	if (!bp[t]) {
 		bp[t] = b[t];
 	}
 
-	printed = bp[t];
-
-	bp[t] += vsnprintf(bp[t], sizeof(b[t]) - (bp[t] - b[t]), __format, __args);
-
-	if (LOG_PRINT) {
-		fprintf(stderr, "%s\n", printed);
+	if (__format) {
+		bp[t] += vsnprintf(bp[t], sizeof(b[t]) - (bp[t] - b[t]), __format, __args);
+	} else {
+		bp[t] += snprintf(bp[t], sizeof(b[t]) - (bp[t] - b[t]), "%s", "");
 	}
 
 	bp[t] += snprintf(bp[t], sizeof(b[t]) - (bp[t] - b[t]), "\n");
 }
 
-void __wrap_log_(enum LogThreshold t, const char *__restrict __format, ...) {
+void __wrap_log_t(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
-	_log(t, __format, args);
+	_log(DEBUG, __format, args);
 	va_end(args);
 }
 

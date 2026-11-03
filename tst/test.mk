@@ -32,7 +32,7 @@ test-%-vg: tst/tst-%
 
 # log
 LDFLAGS = -Wl,$\
-		  --wrap=log_f,--wrap=log_e,--wrap=log_w,--wrap=log_i,--wrap=log_d
+		  --wrap=log_f,--wrap=log_e,--wrap=log_w,--wrap=log_i,--wrap=log_d,--wrap=log_t
 
 #
 # test specific mocks

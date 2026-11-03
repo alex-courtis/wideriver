@@ -5,9 +5,6 @@
 
 #include "enum.h"
 
-// print log messages, useful when debugging tests
-#define LOG_PRINT false
-
 void _assert_log(enum LogThreshold t, const char* s, const char * const file, const int line);
 #define assert_log(t, s) _assert_log(t, s, __FILE__, __LINE__)
 
