@@ -1,22 +1,16 @@
 #include <errno.h>
-#include <stdbool.h>
 #include <stdarg.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "enum.h"
 
 #include "log.h"
 
-// TODO unify with way-displays
-
-struct LogActive {
-	enum LogThreshold threshold;
-};
-static struct LogActive active = {
-	.threshold = LOG_THRESHOLD_DEFAULT,
-};
+enum LogThreshold g_threshold;
 
 // all thresholds, start of line
 static const char threshold_char[] = {
@@ -29,47 +23,49 @@ static const char threshold_char[] = {
 };
 
 // all but info
-// static const char *threshold_colours[] = {
-// 	NULL,
-// 	"\x1B[1;36m", // cyan    debug
-// 	NULL,         //         info
-// 	"\x1B[1;35m", // magenta warning
-// 	"\x1B[1;31m", // red     error
-// 	"\x1B[1;33m", // yellow  fatal
-// };
-// static const char reset_colour[] = "\x1B[0m";
-
-static void print_prefix(const enum LogThreshold threshold, FILE *__restrict __stream) {
-	static char buf[16];
-	static time_t t;
-
-	t = time(NULL);
-
-	strftime(buf, sizeof(buf), "%H:%M:%S", localtime(&t));
-
-	fprintf(__stream, "%c [%s] ", threshold_char[threshold], buf);
-}
+static const char *threshold_colour[] = {
+	NULL,
+	"\x1B[1;36m", // cyan    debug
+	NULL,         //         info
+	"\x1B[1;35m", // magenta warning
+	"\x1B[1;31m", // red     error
+	"\x1B[1;33m", // yellow  fatal
+};
+static const char reset_colour[] = "\x1B[0m";
 
 static void log_(const enum LogThreshold threshold, const int eno, const char *__restrict __format, va_list __args) {
-	if (threshold < active.threshold) {
+	static char tbuf[16];
+	static time_t t;
+	static const char *colour;
+
+	if (threshold < g_threshold)
 		return;
-	}
 
-	static FILE *stream;
+	t = time(NULL);
+	strftime(tbuf, sizeof(tbuf), "%H:%M:%S", localtime(&t));
 
-	stream = threshold >= ERROR ? stderr : stdout;
+	FILE *stream = threshold >= ERROR ? stderr : stdout;
+	const int fd = threshold >= ERROR ? STDERR_FILENO : STDOUT_FILENO;
 
-	print_prefix(threshold, stream);
+	// colour only for terminal output
+	colour = isatty(fd) ? threshold_colour[threshold] : NULL;
 
-	vfprintf(stream, __format, __args);
+	// prefix
+	fprintf(stream, "%s%c [%s] ",
+			colour ? colour : "",
+			threshold_char[threshold],
+			tbuf);
 
-	if (eno) {
-		fprintf(stream, " %d: %s", eno, strerror(eno));
-	}
+	// maybe contents
+	if (__format && __args)
+		vfprintf(stream, __format, __args);
 
-	fprintf(stream, "\n");
+	// maybe errno
+	if (eno)
+		fprintf(stream, ": %d %s", eno, strerror(eno));
 
-	fflush(stream);
+	// reset and newline
+	fprintf(stream, "%s\n", colour ? reset_colour : "");
 }
 
 void log_d(const char *__restrict __format, ...) {
@@ -122,13 +118,13 @@ void log_f_errno(const char *__restrict __format, ...) {
 }
 
 enum LogThreshold log_get_threshold(void) {
-	return active.threshold;
+	return g_threshold;
 }
 
 bool log_set_threshold(const char *s) {
 	enum LogThreshold t = log_threshold_val(s);
 	if (t) {
-		active.threshold = t;
+		g_threshold = t;
 		return true;
 	}
 	return false;
