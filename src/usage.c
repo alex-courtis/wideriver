@@ -37,7 +37,7 @@ void usage(const int status) {
 			"  --border-color-unfocused        0xRRGGBB[AA]                          %s\n"
 			"\n"
 			"  --help\n"
-			"  --log-threshold                 %s|%s|%s|%s|%s        %s\n"
+			"  --log-threshold                 %s|%s|%s|%s|%s|%s  %s\n"
 			"  --version\n"
 			"\n"
 			"COMMANDS, sent via riverctl(1):\n"
@@ -66,7 +66,7 @@ void usage(const int status) {
 		BORDER_COLOR_FOCUSED_DEFAULT,
 		BORDER_COLOR_FOCUSED_MONOCLE_DEFAULT,
 		BORDER_COLOR_UNFOCUSED_DEFAULT,
-		log_threshold_name(DEBUG), log_threshold_name(INFO), log_threshold_name(WARNING), log_threshold_name(ERROR), log_threshold_name(FATAL), log_threshold_name(LOG_THRESHOLD_DEFAULT),
+		log_threshold_name(TRACE), log_threshold_name(DEBUG), log_threshold_name(INFO), log_threshold_name(WARNING), log_threshold_name(ERROR), log_threshold_name(FATAL), log_threshold_name(LOG_THRESHOLD_DEFAULT),
 
 		layout_name(MONOCLE), layout_name(LEFT), layout_name(RIGHT), layout_name(TOP), layout_name(BOTTOM), layout_name(WIDE),
 		stack_name(EVEN), stack_name(DIMINISH), stack_name(DWINDLE),
@@ -96,7 +96,7 @@ void usage_defaults(void) {
 			"    --border-color-focused-monocle \"%s\"  \\\n"
 			"    --border-color-unfocused       \"%s\"  \\\n"
 			"    --log-threshold                %s        \\\n"
-			"    --wide-first                  %s           \\\n"
+			"    --wide-first                   %s        \\\n"
 			"   > \"/tmp/wideriver.${XDG_VTNR}.${USER}.log\" 2>&1 &\n",
 		layout_name(LAYOUT_DEFAULT), layout_name(LAYOUT_ALT_DEFAULT), stack_name(STACK_DEFAULT),
 		COUNT_MASTER_DEFAULT, RATIO_MASTER_DEFAULT,
