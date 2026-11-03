@@ -1,8 +1,6 @@
 #ifndef ASSERT_LOG_H
 #define ASSERT_LOG_H
 
-#include <stdbool.h>
-
 #include "enum.h"
 
 void _assert_log(enum LogThreshold t, const char* s, const char * const file, const int line);
