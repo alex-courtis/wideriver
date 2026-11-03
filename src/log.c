@@ -68,6 +68,8 @@ static void log_(const enum LogThreshold threshold, const int eno, const char *_
 
 	// reset and newline
 	fprintf(stream, "%s\n", colour ? reset_colour : "");
+
+	fflush(stream);
 }
 
 void log_t(const char *__restrict __format, ...) {
