@@ -38,11 +38,6 @@ struct Cmd *__wrap_args_cmd(int argc, char **argv) { // cppcheck-suppress static
 	return mock_ptr_type_checked(struct Cmd*);
 }
 
-static int before_each(void **state) {
-	logs_clear();
-	return 0;
-}
-
 static void cmd_init__empty(void **state) {
 	const char args[] = "";
 
@@ -88,9 +83,9 @@ static void cmd_init__invalid(void **state) {
 
 int main(void) {
 	const struct CMUnitTest tests[] = {
-		TEST_B(cmd_init__empty),
-		TEST_B(cmd_init__valid),
-		TEST_B(cmd_init__invalid),
+		TEST(cmd_init__empty),
+		TEST(cmd_init__valid),
+		TEST(cmd_init__invalid),
 	};
 
 	return RUN(tests);

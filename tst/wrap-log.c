@@ -19,12 +19,6 @@
 static char b[7][262144] = { 0 };
 static char *bp[7] = { 0 };
 
-void logs_clear(void) {
-	for (enum LogThreshold t = TRACE; t <= FATAL; t++) {
-		bp[t] = NULL;
-	}
-}
-
 void _assert_log(enum LogThreshold t, const char * s, const char * const file, const int line) {
 	if (bp[t]) {
 		bp[t] = NULL;

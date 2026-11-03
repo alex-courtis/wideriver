@@ -28,8 +28,6 @@ const struct Plist *__wrap_tag_all(const struct Plist *tags, const uint32_t mask
 }
 
 static int before_each(void **state) {
-	logs_clear();
-
 	tag = tag_init(0);
 
 	tag->layout_cur = LEFT;

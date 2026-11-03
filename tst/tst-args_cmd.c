@@ -13,11 +13,6 @@ void __wrap_usage(int status) {
 	check_expected_int(status);
 }
 
-static int before_each(void **state) {
-	logs_clear();
-	return 0;
-}
-
 static void args_parse_cmd__valid(void **state) {
 	int argc = 10;
 	char *argv[] = { "dummy",
@@ -153,14 +148,14 @@ static void args_parse_cmd__ratio_master_delta(void **state) {
 
 int main(void) {
 	const struct CMUnitTest tests[] = {
-		TEST_B(args_parse_cmd__valid),
-		TEST_B(args_parse_cmd__invalid),
-		TEST_B(args_parse_cmd__bad_layout),
-		TEST_B(args_parse_cmd__bad_count_master),
-		TEST_B(args_parse_cmd__bad_ratio_master),
-		TEST_B(args_parse_cmd__bad_stack),
-		TEST_B(args_parse_cmd__count_master_delta),
-		TEST_B(args_parse_cmd__ratio_master_delta),
+		TEST(args_parse_cmd__valid),
+		TEST(args_parse_cmd__invalid),
+		TEST(args_parse_cmd__bad_layout),
+		TEST(args_parse_cmd__bad_count_master),
+		TEST(args_parse_cmd__bad_ratio_master),
+		TEST(args_parse_cmd__bad_stack),
+		TEST(args_parse_cmd__count_master_delta),
+		TEST(args_parse_cmd__ratio_master_delta),
 	};
 
 	return RUN(tests);
