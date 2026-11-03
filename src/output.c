@@ -28,7 +28,7 @@ struct Output *output_init(struct wl_output *wl_output,
 		struct river_layout_manager_v3 *river_layout_manager,
 		struct zriver_status_manager_v1 *river_status_manager) {
 
-	log_d_c_s("output_init"); log_d_c("%d", name); log_d_c("wl_output"); log_d_c_e("%p", (void*)wl_output);
+	log_d("output_init %d wl_output=%p", name, (void*)wl_output);
 
 	if (!wl_output) {
 		log_w("Cannot create output %d, missing wayland output.", name);
@@ -48,14 +48,14 @@ struct Output *output_init(struct wl_output *wl_output,
 		log_w("Failed to create river layout, ignoring output %d", name);
 		return NULL;
 	}
-	log_d_c_s("output_init"); log_d_c("%d", name); log_d_c("river_layout"); log_d_c_e("%p", (void*)river_layout);
+	log_d("output_init %d river_layout=%p", name, (void*)river_layout);
 
 	struct zriver_output_status_v1 *river_output_status = zriver_status_manager_v1_get_river_output_status(river_status_manager, wl_output);
 	if (!river_output_status) {
 		log_w("Failed to create river status manager, ignoring output %d", name);
 		return NULL;
 	}
-	log_d_c_s("output_init"); log_d_c("%d", name); log_d_c("river_output_status"); log_d_c_e("%p", (void*)river_output_status);
+	log_d("output_init %d river_output_status=%p", name, (void*)river_output_status);
 
 	struct Output *output = calloc(1, sizeof(struct Output));
 	output->wl_output = wl_output;
@@ -99,18 +99,18 @@ void output_destroy(const struct Output* const output) {
 	if (!output)
 		return;
 
-	log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c_e("%s", output->wl_output_name ? output->wl_output_name : "no wl_output_name");
+	log_d("output_destroy %d %s", output->name, output->wl_output_name ? output->wl_output_name : "no wl_output_name");
 
 	if (output->river_layout) {
 		river_layout_v3_destroy(output->river_layout);
-		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("river_layout"); log_d_c_e("%p", (void*)output->river_layout);
+		log_d("output_destroy %d river_layout=%p", output->name, (void*)output->river_layout);
 	}
 	if (output->river_output_status) {
 		zriver_output_status_v1_destroy(output->river_output_status);
-		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("river_output_status"); log_d_c_e("%p", (void*)output->river_output_status);
+		log_d("output_destroy %d river_output_status=%p", output->name, (void*)output->river_output_status);
 	}
 	if (output->wl_output) {
-		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("wl_output"); log_d_c_e("%p", (void*)output->wl_output);
+		log_d("output_destroy %d wl_output=%p", output->name, (void*)output->wl_output);
 		wl_output_destroy(output->wl_output);
 	}
 

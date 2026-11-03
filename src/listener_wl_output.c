@@ -22,7 +22,7 @@ static void name(void *data,
 
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("wl_output_name"); log_d_c("%d", output->name); log_d_c_e("%s", _name);
+	log_d("wl_output_name %d wl_output_name=%s", output->name, _name);
 
 	free(output->wl_output_name);
 	output->wl_output_name = strdup(_name);
@@ -30,7 +30,7 @@ static void name(void *data,
 	// fetch and use detached state if present
 	struct OutputState *output_state = (struct OutputState*)spmap_remove(g_displ->detached_output_states, output->wl_output_name);
 	if (output_state) {
-		log_d_c_s("wl_output_name"); log_d_c("%d", output->name); log_d_c_e("using detached state for %s", output->wl_output_name);
+		log_d("wl_output_name %d using detached state for %s", output->name, output->wl_output_name);
 		output_state_destroy(output->state);
 		output->state = output_state;
 	}

@@ -22,7 +22,7 @@ void control_execute(const struct Slist *args, control_complete_fn complete) {
 		zriver_control_v1_add_argument(g_displ->river_control, it->val);
 	}
 
-	log_d_c_s("  control"); log_d_c_e("%s", cmd);
+	log_d("control '%s'", cmd);
 	free(cmd);
 
 	// execute

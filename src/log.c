@@ -82,6 +82,7 @@ static void log_(const enum LogThreshold threshold, const enum LogMode mode, con
 			fprintf(stream, "\n");
 			break;
 		case COL_START:
+			fprintf(stream, "COL ");
 			print_prefix(threshold, stream);
 			__attribute__((fallthrough));
 		case COL:
@@ -99,27 +100,6 @@ void log_d(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
 	log_(DEBUG, NORMAL, 0, __format, args);
-	va_end(args);
-}
-
-void log_d_c_s(const char *__restrict __format, ...) {
-	va_list args;
-	va_start(args, __format);
-	log_(DEBUG, COL_START, 0, __format, args);
-	va_end(args);
-}
-
-void log_d_c(const char *__restrict __format, ...) {
-	va_list args;
-	va_start(args, __format);
-	log_(DEBUG, COL, 0, __format, args);
-	va_end(args);
-}
-
-void log_d_c_e(const char *__restrict __format, ...) {
-	va_list args;
-	va_start(args, __format);
-	log_(DEBUG, COL_END, 0, __format, args);
 	va_end(args);
 }
 

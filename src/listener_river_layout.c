@@ -26,9 +26,7 @@ static void layout_handle_layout_demand(void *data,
 
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("view_count"); log_d_c_e("%02u", view_count);
-	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("usable");     log_d_c_e("%ux%u", usable_width, usable_height);
-	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("tags");       log_d_c_e("0x%u", tags);
+	log_d("layout_layout_demand %d view count=%02u usable=%ux%u tags=0x%u", output ? output->name : 0, view_count, usable_width, usable_height, tags);
 
 	const struct Demand demand = {
 		.view_count = view_count,
@@ -73,7 +71,7 @@ static void layout_handle_user_command_tags(void *data,
 		return;
 	}
 
-	log_d_c_s("layout_user_command_tags"); log_d_c("%d", output->name); log_d_c("tags"); log_d_c_e("0x%u", tags);
+	log_d("layout_user_command_tags %d tags=0x%u", output->name, tags);
 
 	output->state->command_tags_mask = tags;
 }
@@ -88,7 +86,7 @@ static void layout_handle_user_command(void *data,
 		return;
 	}
 
-	log_d_c_s("layout_user_command"); log_d_c("%d", output->name); log_d_c("command"); log_d_c_e("'%s'", command);
+	log_d("layout_user_command %d command='%s'", output->name, command);
 
 	// version 2 guarantees tags will always be sent before command
 	if (!output->state->command_tags_mask) {

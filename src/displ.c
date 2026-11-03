@@ -28,17 +28,17 @@ struct Displ d = { 0 };
 const struct Displ * const g_displ = &d;
 
 static void complete_border_width(void) {
-	log_d_c_s("  complete"); log_d_c("border_width"); log_d_c_e("%zu->%zu", d.style_current.border_width, d.style_desired.border_width);
+	log_d("complete_border_width %zu->%zu", d.style_current.border_width, d.style_desired.border_width);
 	d.style_current.border_width = d.style_desired.border_width;
 }
 
 static void complete_border_color_focused(void) {
-	log_d_c_s("  complete"); log_d_c("border_color_focused"); log_d_c_e("%s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
+	log_d("complete_border_color_focused %s->%s", d.style_current.border_color_focused, d.style_desired.border_color_focused);
 	d.style_current.border_color_focused = d.style_desired.border_color_focused;
 }
 
 static void complete_border_color_unfocused(void) {
-	log_d_c_s("  complete"); log_d_c("border_color_unfocused"); log_d_c_e("%s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
+	log_d("complete_border_color_unfocused %s->%s", d.style_current.border_color_unfocused, d.style_desired.border_color_unfocused);
 	d.style_current.border_color_unfocused = d.style_desired.border_color_unfocused;
 }
 
@@ -145,31 +145,31 @@ void displ_destroy(void) {
 	spmap_free_vals(d.detached_output_states);
 
 	if (d.river_layout_manager) {
-		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("river_layout_manager"); log_d_c_e("%p", (void*)d.river_layout_manager);
+		log_d("displ_destroy river_layout_manager %p", (void*)d.river_layout_manager);
 		river_layout_manager_v3_destroy(d.river_layout_manager);
 	}
 	if (d.river_status_manager) {
-		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("river_status_manager"); log_d_c_e("%p", (void*)d.river_status_manager);
+		log_d("displ_destroy river_status_manager %p", (void*)d.river_status_manager);
 		zriver_status_manager_v1_destroy(d.river_status_manager);
 	}
 	if (d.river_seat_status) {
-		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("river_seat_status"); log_d_c_e("%p", (void*)d.river_seat_status);
+		log_d("displ_destroy river_seat_status %p", (void*)d.river_seat_status);
 		zriver_seat_status_v1_destroy(d.river_seat_status);
 	}
 	if (d.river_control) {
-		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("river_control"); log_d_c_e("%p", (void*)d.river_control);
+		log_d("displ_destroy river_control %p", (void*)d.river_control);
 		zriver_control_v1_destroy(d.river_control);
 	}
 	if (d.wl_seat) {
-		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("wl_seat"); log_d_c_e("%p", (void*)d.wl_seat);
+		log_d("displ_destroy wl_seat %p", (void*)d.wl_seat);
 		wl_seat_destroy(d.wl_seat);
 	}
 	if (d.wl_registry) {
-		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("wl_registry"); log_d_c_e("%p", (void*)d.wl_registry);
+		log_d("displ_destroy wl_registry %p", (void*)d.wl_registry);
 		wl_registry_destroy(d.wl_registry);
 	}
 	if (d.wl_display) {
-		log_d_c_s("displ_destroy"); log_d_c(" "); log_d_c("wl_display"); log_d_c_e("%p", (void*)d.wl_display);
+		log_d("displ_destroy wl_display %p", (void*)d.wl_display);
 		wl_display_disconnect(d.wl_display);
 	}
 
@@ -182,12 +182,12 @@ void displ_request_style(const struct Output *output, const struct Tag *tag, con
 
 	const struct Output * const output_focused = (struct Output*)ppmap_get(g_displ->outputs, d.wl_output_focused);
 
-	log_d_c_s("  displ_request_style"); log_d_c("output");         log_d_c("%d", output->name); log_d_c_e("%p", (void*)output->wl_output);
-	log_d_c_s("  displ_request_style"); log_d_c("output_focused"); log_d_c("%d", output_focused ? output_focused->name : 0); log_d_c_e("%p", (void*)d.wl_output_focused);
+	log_d("displ_request_style output         %d %p", output->name,(void*)output->wl_output);
+	log_d("displ_request_style output_focused %d %p", output_focused ? output_focused->name : 0, (void*)d.wl_output_focused);
 
 	// output must be focused or no focus reported
 	if (d.wl_output_focused != output->wl_output && d.wl_output_focused) {
-		log_d_c_s("  displ_request_style"); log_d_c_e("not focused or no focus");
+		log_d("displ_request_style not focused or no focus");
 		return;
 	}
 
