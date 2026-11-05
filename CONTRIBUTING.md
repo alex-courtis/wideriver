@@ -129,36 +129,20 @@ See all violations:
 
 `Dockerfile` defines an image similar to that used by the docker container in `ci.yml`
 
-It is intended to run in detached mode, thus the `ENTRYPOINT [ "sleep", "infinity" ]`
-
 Build the image:
 ```sh
-make docker-build
-```
-
-Run a detached container:
-```sh
-make docker-run
-```
-
-Build and install the AUR include-what-you-use package:
-```sh
-make docker-packages
+bld/docker-build.sh
 ```
 
 Execute a command in the container e.g.:
 ```sh
-docker exec wide-river make clean test-vg
+bld/docker-run.sh make clean test-vg
 ```
 
 OR run a shell in the container:
-```sh
-docker exec -it wide-river /bin/bash
-```
 
-Stop and remove the container:
 ```sh
-make docker-stop
+bld/docker-run.sh
 ```
 
 ## Documentation

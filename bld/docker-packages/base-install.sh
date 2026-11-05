@@ -1,5 +1,11 @@
-#!/bin/sh
+#
+# Install packages within the docker container.
+# Not for running locally.
+#
 
+#
+# arch 64 and 32 bit packages
+#
 pacman --noconfirm -Syu \
 	clang \
 	cmake \
@@ -7,8 +13,6 @@ pacman --noconfirm -Syu \
 	cppcheck \
 	git \
 	llvm \
-	llvm-libs \
-	ninja \
 	valgrind \
 	wayland \
 	wayland-protocols
