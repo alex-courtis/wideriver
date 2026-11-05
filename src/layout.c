@@ -7,7 +7,7 @@
 #include "cfg.h"
 #include "enum.h"
 #include "log.h"
-#include "slist.h"
+#include "plist.h"
 #include "tag.h"
 
 #include "layout.h"
@@ -95,16 +95,14 @@ const char *layout_description(const struct Demand* const demand, const struct T
 		}
 	}
 
-	log_d_c_s("  layout_description"); log_d_c_e("'%s'", description);
-
 	return description;
 }
 
-struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
+const struct Plist *layout(const struct Demand *demand, const struct Tag *tag) {
 	if (!demand || !tag)
 		return NULL;
 
-	struct SList *views = NULL;
+	const struct Plist *views = plist_init();
 
 	struct Box box_before = { 0 };
 	struct Box box_master = { 0 };
@@ -130,72 +128,72 @@ struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
 			break;
 	}
 
-	log_d_c_s("  layout"); log_d_c_e("%s", layout_name(tag->layout_cur));
+	log_t("layout %s", layout_name(tag->layout_cur));
 
-	log_d_c_s("  layout"); log_d_c("before"); log_d_c("%u", num_before); log_d_c("%u,%u", box_before.x, box_before.y); log_d_c_e("%ux%u", box_before.width, box_before.height);
-	log_d_c_s("  layout"); log_d_c("master"); log_d_c("%u", num_master); log_d_c("%u,%u", box_master.x, box_master.y); log_d_c_e("%ux%u", box_master.width, box_master.height);
-	log_d_c_s("  layout"); log_d_c("after");  log_d_c("%u", num_after);  log_d_c("%u,%u", box_after.x, box_after.y);   log_d_c_e("%ux%u", box_after.width, box_after.height);
+	log_t("layout before %u %u,%u %ux%u", num_before, box_before.x, box_before.y, box_before.width, box_before.height);
+	log_t("layout master %u %u,%u %ux%u", num_master, box_master.x, box_master.y, box_master.width, box_master.height);
+	log_t("layout after  %u %u,%u %ux%u", num_after,  box_after.x,  box_after.y,  box_after.width, box_after.height);
 
 	// populate
 	switch(tag->layout_cur) {
 		case LEFT:
 			// top to bottom, dwindle right down
-			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
-			arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
+			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
+			arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 			break;
 		case RIGHT:
 			// top to bottom, dwindle left down
-			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
-			arrange_views(demand, tag->stack, S, W, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
+			arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
+			arrange_views(demand, tag->stack, S, W, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 			break;
 		case TOP:
 			// left to right, dwindle down right
-			arrange_views(demand, EVEN, E, E, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
-			arrange_views(demand, tag->stack, E, S, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
+			arrange_views(demand, EVEN, E, E, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
+			arrange_views(demand, tag->stack, E, S, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 			break;
 		case BOTTOM:
 			// left to right, dwindle up right
-			arrange_views(demand, EVEN, E, E, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
-			arrange_views(demand, tag->stack, E, N, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
+			arrange_views(demand, EVEN, E, E, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
+			arrange_views(demand, tag->stack, E, N, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 			break;
 		case MONOCLE:
-			arrange_monocle(demand, tag, &views);
+			arrange_monocle(demand, tag, views);
 			break;
 		case WIDE:
-			if (cfg->wide_first == WIDE_FIRST_LEFT) {
+			if (g_cfg->wide_first == WIDE_FIRST_LEFT) {
 				// left stack dwindle left up
-				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, &views);
+				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, views);
 
 				// reverse to push first view farthest away
-				struct SList *views_reversed = NULL;
-				for (int i = slist_length(views) - 1; i >= 0; i--)
-					slist_append(&views_reversed, slist_at(views, i));
-				slist_free(&views);
+				const struct Plist *views_reversed = plist_init();
+				for (const struct PlistIt *it = plist_it_end(views); it; it = plist_it_prev(it))
+					plist_append(views_reversed, it->val);
+				plist_free(views);
 				views = views_reversed;
 
 				// only one master
-				arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
+				arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
 
 				// right stack dwindle right down
-				arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
+				arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 			} else {
 				// only one master
-				arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, &views);
+				arrange_views(demand, EVEN, S, S, num_master, num_master, tag->inner_gaps, box_master, box_master, views);
 
 				// right stack dwindle right down
-				arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, &views);
+				arrange_views(demand, tag->stack, S, E, num_after, num_after, tag->inner_gaps, box_after, box_after, views);
 
 				// left stack dwindle left up
-				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, &views);
+				arrange_views(demand, tag->stack, N, W, num_before, num_before, tag->inner_gaps, box_before, box_before, views);
 
 				// reverse num_before elements at the end of the list to push first view of left stack farthest away
-				struct SList *views_reversed = NULL;
-				uint32_t views_length = slist_length(views);
+				const struct Plist *views_reversed = plist_init();
+				uint32_t views_length = plist_size(views);
 				for (uint32_t i = 0; i < views_length - num_before; i++)
-					slist_append(&views_reversed, slist_at(views, i));
+					plist_append(views_reversed, plist_at(views, i));
 				for (uint32_t i = views_length - 1; i >= views_length - num_before; i--)
-					slist_append(&views_reversed, slist_at(views, i));
-				slist_free(&views);
+					plist_append(views_reversed, plist_at(views, i));
+				plist_free(views);
 				views = views_reversed;
 			}
 
@@ -205,11 +203,11 @@ struct SList *layout(const struct Demand *demand, const struct Tag *tag) {
 	return views;
 }
 
-void push(const struct SList *views, struct river_layout_v3 *river_layout_v3, const uint32_t serial) {
+void push(const struct Plist *views, struct river_layout_v3 *river_layout_v3, const uint32_t serial) {
 	uint32_t n = 0;
-	for (const struct SList *i = views; i; i = i->nex) {
-		struct Box *box = i->val;
-		log_d_c_s("  push"); log_d_c("view"); log_d_c("%02u", n++); log_d_c("%u,%u", box->x, box->x); log_d_c_e("%ux%u", box->width, box->height);
+	for (const struct PlistIt *it = plist_it(views); it; it = plist_it_next(it)) {
+		const struct Box *box = it->val;
+		log_d("push view %02u %u,%u %ux%u", n++, box->x, box->x, box->width, box->height);
 		river_layout_v3_push_view_dimensions(river_layout_v3, box->x, box->y, box->width, box->height, serial);
 	}
 }

@@ -8,23 +8,7 @@
 
 #include "arrange.h"
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
-	return 0;
-}
-
-int after_each(void **state) {
-	return 0;
-}
-
-void arrange_count__monocle_bad(void **state) {
+static void arrange_count__monocle_bad(void **state) {
 	uint32_t master, before, after;
 
 	struct Tag tag = { .layout_cur = MONOCLE, .count_wide_left = 99, };
@@ -42,7 +26,7 @@ void arrange_count__monocle_bad(void **state) {
 	assert_int_equal(after, 0);
 }
 
-void arrange_count__monocle(void **state) {
+static void arrange_count__monocle(void **state) {
 	uint32_t master, before, after;
 
 	struct Tag tag = { .layout_cur = MONOCLE, .count_wide_left = 99, };
@@ -54,7 +38,7 @@ void arrange_count__monocle(void **state) {
 	assert_int_equal(after, 0);
 }
 
-void arrange_count__lrud_bad(void **state) {
+static void arrange_count__lrud_bad(void **state) {
 	uint32_t master, before, after;
 
 	struct Tag tag = { .layout_cur = LEFT, .count_wide_left = 99, };
@@ -72,7 +56,7 @@ void arrange_count__lrud_bad(void **state) {
 	assert_int_equal(after, 0);
 }
 
-void arrange_count__lrud(void **state) {
+static void arrange_count__lrud(void **state) {
 	uint32_t master, before, after;
 
 	struct Tag tag = { .layout_cur = LEFT, .count_wide_left = 99, };
@@ -102,7 +86,7 @@ void arrange_count__lrud(void **state) {
 	assert_int_equal(after, 5);
 }
 
-void arrange_count__wide_bad(void **state) {
+static void arrange_count__wide_bad(void **state) {
 	uint32_t master, before, after;
 
 	struct Tag tag = { .layout_cur = WIDE, .count_master = 99, };
@@ -136,7 +120,7 @@ void arrange_count__wide_bad(void **state) {
 	assert_int_equal(after, 2);
 }
 
-void arrange_count__wide(void **state) {
+static void arrange_count__wide(void **state) {
 	uint32_t master, before, after;
 
 	struct Tag tag = { .layout_cur = WIDE, .count_master = 99, };

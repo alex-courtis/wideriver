@@ -42,7 +42,7 @@
 #define BORDER_COLOR_UNFOCUSED_DEFAULT "0x586e75"
 
 // never null
-extern const struct Cfg * const cfg;
+extern const struct Cfg * const g_cfg;
 
 struct Cfg {
 	enum Layout layout;

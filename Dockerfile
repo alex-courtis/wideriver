@@ -2,13 +2,12 @@
 # Keep this in sync with ci.yml
 # GH CI doesn't allow use of a Dockerfile, hence we maintain this separately
 
-FROM archlinux:multilib-devel
+FROM archlinux:base-devel
 
-COPY .github/workflows/packages/base/install.sh /usr/local/bin/packages-base-install.sh
+COPY bld/docker-packages /packages
 
-RUN packages-base-install.sh
+RUN sh /packages/base-install.sh
+RUN sh /packages/iwyu-build-install.sh
 
 ENV DEBUGINFOD_URLS="https://debuginfod.archlinux.org"
 ENV DEBUGINFOD_CACHE_PATH="/tmp/debuginfod_client"
-
-ENTRYPOINT [ "sleep", "infinity" ]

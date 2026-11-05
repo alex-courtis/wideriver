@@ -1,6 +1,7 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <wayland-client-protocol.h>
 
@@ -23,7 +24,7 @@ struct Output {
 };
 
 struct OutputState {
-	struct SList *tags;
+	const struct Plist *tags;
 	uint32_t command_tags_mask;
 };
 
@@ -32,9 +33,15 @@ struct Output *output_init(struct wl_output *wl_output,
 		struct river_layout_manager_v3 *river_layout_manager,
 		struct zriver_status_manager_v1 *river_status_manager);
 
-void output_destroy(const void *output);
+const struct PPmap *output_ppmap_init(void);
 
-void output_state_destroy(const void *output_state);
+const struct SPmap *output_state_spmap_init(void);
+
+bool output_matches_name(const struct Output* const output, const uint32_t *name);
+
+void output_destroy(const struct Output* const output);
+
+void output_state_destroy(const struct OutputState* const output_state);
 
 // apply cmd to command_tags_mask
 void output_apply_cmd(const struct Output *output, const struct Cmd *cmd);

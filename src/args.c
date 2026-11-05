@@ -177,7 +177,7 @@ void args_cli(int argc, char **argv) {
 				}
 				break;
 			case 20:
-				fprintf(stdout, "wideriver version %s\n", VERSION);
+				fprintf(stdout, "wideriver version %s %s\n", VERSION, COMMIT);
 				exit(EXIT_SUCCESS);
 				return;
 			case 21:
@@ -194,24 +194,24 @@ void args_cli(int argc, char **argv) {
 		}
 	}
 
-	log_i("wideriver version %s", VERSION);
-	log_i("--layout                       %s",  layout_name(cfg->layout));
-	log_i("--layout-alt                   %s",  layout_name(cfg->layout_alt));
-	log_i("--stack                        %s",  stack_name(cfg->stack));
-	log_i("--count-master                 %u",  cfg->count_master);
-	log_i("--ratio-master                 %g",  cfg->ratio_master);
-	log_i("--count-wide-left              %u",  cfg->count_wide_left);
-	log_i("--ratio-wide                   %g",  cfg->ratio_wide);
-	log_i("--wide-first                   %s",  wide_first_name(cfg->wide_first));
-	log_i("--%ssmart-gaps",                     cfg->smart_gaps ? "" : "no-");
-	log_i("--inner-gaps                   %u",  cfg->inner_gaps);
-	log_i("--outer-gaps                   %u",  cfg->outer_gaps);
-	log_i("--border-width                 %zu", cfg->border_width);
-	log_i("--border-width-monocle         %zu", cfg->border_width_monocle);
-	log_i("--border-width-smart-gaps      %u",  cfg->border_width_smart_gaps);
-	log_i("--border-color-focused         %s",  cfg->border_color_focused);
-	log_i("--border-color-focused-monocle %s",  cfg->border_color_focused_monocle);
-	log_i("--border-color-unfocused       %s",  cfg->border_color_unfocused);
+	log_i("wideriver version %s %s", VERSION, COMMIT);
+	log_i("--layout                       %s",  layout_name(g_cfg->layout));
+	log_i("--layout-alt                   %s",  layout_name(g_cfg->layout_alt));
+	log_i("--stack                        %s",  stack_name(g_cfg->stack));
+	log_i("--count-master                 %u",  g_cfg->count_master);
+	log_i("--ratio-master                 %g",  g_cfg->ratio_master);
+	log_i("--count-wide-left              %u",  g_cfg->count_wide_left);
+	log_i("--ratio-wide                   %g",  g_cfg->ratio_wide);
+	log_i("--wide-first                   %s",  wide_first_name(g_cfg->wide_first));
+	log_i("--%ssmart-gaps",                     g_cfg->smart_gaps ? "" : "no-");
+	log_i("--inner-gaps                   %u",  g_cfg->inner_gaps);
+	log_i("--outer-gaps                   %u",  g_cfg->outer_gaps);
+	log_i("--border-width                 %zu", g_cfg->border_width);
+	log_i("--border-width-monocle         %zu", g_cfg->border_width_monocle);
+	log_i("--border-width-smart-gaps      %u",  g_cfg->border_width_smart_gaps);
+	log_i("--border-color-focused         %s",  g_cfg->border_color_focused);
+	log_i("--border-color-focused-monocle %s",  g_cfg->border_color_focused_monocle);
+	log_i("--border-color-unfocused       %s",  g_cfg->border_color_unfocused);
 	log_i("--log-threshold                %s",  log_threshold_name(log_get_threshold()));
 }
 

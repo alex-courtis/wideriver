@@ -26,6 +26,7 @@ static struct NameVal stacks[] = {
 };
 
 static struct NameVal log_thresholds[] = {
+	{ .val = TRACE,		.name = "trace",	},
 	{ .val = DEBUG,		.name = "debug",	},
 	{ .val = INFO,		.name = "info",		},
 	{ .val = WARNING,	.name = "warning",	},
@@ -40,7 +41,7 @@ static struct NameVal wide_firsts[] = {
 	{ .val = 0,					.name = NULL,	},
 };
 
-const char *name(const struct NameVal *name_vals, const unsigned int val) {
+static const char *_name(const struct NameVal *name_vals, const unsigned int val) {
 	if (!name_vals) {
 		return NULL;
 	}
@@ -52,7 +53,7 @@ const char *name(const struct NameVal *name_vals, const unsigned int val) {
 	return NULL;
 }
 
-static unsigned int val(const struct NameVal *name_vals, const char *name) {
+static unsigned int _val(const struct NameVal *name_vals, const char *name) {
 	if (!name_vals || !name) {
 		return 0;
 	}
@@ -65,33 +66,33 @@ static unsigned int val(const struct NameVal *name_vals, const char *name) {
 }
 
 const char *layout_name(const enum Layout layout) {
-	return name(layouts, layout);
+	return _name(layouts, layout);
 }
 
 enum Layout layout_val(const char *name) {
-	return val(layouts, name);
+	return _val(layouts, name);
 }
 
 const char *stack_name(const enum Stack stack) {
-	return name(stacks, stack);
+	return _name(stacks, stack);
 }
 
 enum Stack stack_val(const char *name) {
-	return val(stacks, name);
+	return _val(stacks, name);
 }
 
 const char *log_threshold_name(const enum LogThreshold log_threshold) {
-	return name(log_thresholds, log_threshold);
+	return _name(log_thresholds, log_threshold);
 }
 
 enum LogThreshold log_threshold_val(const char *name) {
-	return val(log_thresholds, name);
+	return _val(log_thresholds, name);
 }
 
 const char *wide_first_name(const enum WideFirst wide_first) {
-	return name(wide_firsts, wide_first);
+	return _name(wide_firsts, wide_first);
 }
 
 enum WideFirst wide_first_val(const char *name) {
-	return val(wide_firsts, name);
+	return _val(wide_firsts, name);
 }

@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 #include "enum.h"
-#include "slist.h"
+#include "plist.h"
 
 struct Tag {
 	uint32_t mask;
@@ -23,17 +23,15 @@ struct Tag {
 
 struct Tag *tag_init(const uint32_t mask);
 
-struct SList *tags_init(void);
+const struct Plist *tags_plist_init(void);
 
 void tag_destroy(const void *t);
 
-void tags_destroy(const struct SList *tags);
-
 // return the first tag that fits mask otherwise first
-struct Tag *tag_first(const struct SList *tags, const uint32_t mask);
+const struct Tag *tag_first(const struct Plist *tags, const uint32_t mask);
 
 // return all tags matching mask
-struct SList *tag_all(const struct SList *tags, const uint32_t mask);
+const struct Plist *tag_all(const struct Plist *tags, const uint32_t mask);
 
 #endif // TAG_H
 

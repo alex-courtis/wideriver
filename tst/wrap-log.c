@@ -1,36 +1,33 @@
-#include "tst.h"
+#include "assert-log.h"
 
 #include <cmocka.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "enum.h"
-#include "util.h"
+#include "fs.h"
+#include "str.h"
 
 // log space b is statically allocated and not cleared
 // bp is used to indicate presence of logs
 // logs are reset by clearing bp on assert_log and logs_clear
 
-// 0 unused, 1 DEBUG, 5 FATAL
-static char b[6][262144] = { 0 };
-static char *bp[6] = { 0 };
-
-void logs_clear(void) {
-	for (enum LogThreshold t = DEBUG; t <= FATAL; t++) {
-		bp[t] = NULL;
-	}
-}
+// 0 unused, 1 TRACE, 6 FATAL
+static char b[7][262144] = { 0 };
+static char *bp[7] = { 0 };
 
 void _assert_log(enum LogThreshold t, const char * s, const char * const file, const int line) {
 	if (bp[t]) {
 		bp[t] = NULL;
 		if (strcmp(b[t], s) != 0) {
-			cmocka_print_error("assert_log\nlog.actual:\n\"%s\"\nlog.expected:\n\"%s\"\n", b[t], s);
-			write_file("log.actual", b[t]);
-			write_file("log.expected", s);
-			_fail(file, line);
+			const char *err = sprintf_alloc("assert_log\nactual.log:\n\"%s\"\nexpected.log:\n\"%s\"\n", b[t], s);
+			fprintf(stderr, "%s:%d: %s", file, line, err);
+			fs_file_write("actual.log", b[t], "w");
+			fs_file_write("expected.log", s, "w");
+			exit(1);
 		}
 	} else {
 		_assert_string_equal("", s, file, line);
@@ -39,40 +36,40 @@ void _assert_log(enum LogThreshold t, const char * s, const char * const file, c
 
 void _assert_logs_empty(const char * const file, const int line) {
 	bool empty = true;
-	for (enum LogThreshold t = DEBUG; t <= FATAL; t++) {
+	for (enum LogThreshold t = TRACE; t <= FATAL; t++) {
 		if (bp[t]) {
 			bp[t] = NULL;
-			cmocka_print_error("\nunexpected log %s:\n\"%s\"\n", log_threshold_name(t), b[t]);
+			char *file_name = sprintf_alloc("unexpected.%s.log", log_threshold_name(t));
+			const char *err = sprintf_alloc("%s:\n\"%s\"\n", file_name, b[t]);
+			fprintf(stderr, "%s:%d: %s", file, line, err);
+			fs_file_write(file_name, b[t], "w");
+			free(file_name);
 			empty = false;
 		}
 	}
 	if (!empty) {
-		_fail(file, line);
+		exit(1);
 	}
 }
 
-void _log(enum LogThreshold t, const char *__restrict __format, va_list __args) {
-	static char *printed;
-
+static void _log(enum LogThreshold t, const char *__restrict __format, va_list __args) {
 	if (!bp[t]) {
 		bp[t] = b[t];
 	}
 
-	printed = bp[t];
-
-	bp[t] += vsnprintf(bp[t], sizeof(b[t]) - (bp[t] - b[t]), __format, __args);
-
-	if (LOG_PRINT) {
-		fprintf(stderr, "%s\n", printed);
+	if (__format) {
+		bp[t] += vsnprintf(bp[t], sizeof(b[t]) - (bp[t] - b[t]), __format, __args);
+	} else {
+		bp[t] += snprintf(bp[t], sizeof(b[t]) - (bp[t] - b[t]), "%s", "");
 	}
 
 	bp[t] += snprintf(bp[t], sizeof(b[t]) - (bp[t] - b[t]), "\n");
 }
 
-void __wrap_log_(enum LogThreshold t, const char *__restrict __format, ...) {
+void __wrap_log_t(const char *__restrict __format, ...) {
 	va_list args;
 	va_start(args, __format);
-	_log(t, __format, args);
+	_log(DEBUG, __format, args);
 	va_end(args);
 }
 

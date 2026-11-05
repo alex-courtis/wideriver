@@ -1,19 +1,29 @@
 VERSION ?= "1.4.1-SNAPSHOT"
+ifneq (,$(findstring -SNAPSHOT,$(VERSION)))
+	COMMIT := $(shell git rev-parse --short HEAD 2>/dev/null)
+endif
 
 RIVER_LAYOUT_V3_VERSION = 2
 
 PREFIX ?= /usr/local
 
-INCS = -Iinc -Ipro -Ilib/col/inc
+INCS = -Iinc -Ipro -Ilib/alex-c/inc
 
-CPPFLAGS += $(INCS) -D_GNU_SOURCE -DVERSION=\"$(VERSION)\" -DRIVER_LAYOUT_V3_VERSION=$(RIVER_LAYOUT_V3_VERSION)
+CPPFLAGS += $(INCS) -D_GNU_SOURCE -DVERSION=\"$(VERSION)\" -DCOMMIT=\"$(COMMIT)\" -DRIVER_LAYOUT_V3_VERSION=$(RIVER_LAYOUT_V3_VERSION)
 
 OFLAGS = -O3
-WFLAGS = -pedantic -Wall -Wextra -Werror -Wimplicit-fallthrough -Wno-unused-parameter -Wno-format-zero-length
+WFLAGS = -pedantic \
+		 -Wall \
+		 -Wextra \
+		 -Werror \
+		 -Wimplicit-fallthrough \
+		 -Wold-style-definition \
+		 -Wstrict-prototypes \
+		 -Wno-unused-parameter
 DFLAGS = -g
 COMPFLAGS = $(WFLAGS) $(OFLAGS) $(DFLAGS)
 
-CFLAGS += $(COMPFLAGS) -std=gnu17 -Wold-style-definition -Wstrict-prototypes
+CFLAGS += $(COMPFLAGS) -std=gnu17
 
 LDFLAGS +=
 

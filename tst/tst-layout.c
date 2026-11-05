@@ -1,33 +1,16 @@
 #include "tst.h"
 
 #include <cmocka.h>
-#include <stddef.h>
 
 #include "cfg.h"
 #include "enum.h"
 #include "layout.h"
-#include "slist.h"
+#include "plist.h"
 #include "tag.h"
 
 extern struct Cfg c;
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
-	return 0;
-}
-
-int after_each(void **state) {
-	return 0;
-}
-
-void layout_wide__first_view_in_master(void **state) {
+static void layout_wide__first_view_in_master(void **state) {
 	c.wide_first = WIDE_FIRST_MID;
 
 	struct Demand demand = { .view_count = 3, .usable_width = 13, .usable_height = 5 };
@@ -39,18 +22,18 @@ void layout_wide__first_view_in_master(void **state) {
 		.count_master = 1,
 	};
 
-	struct SList *views = layout(&demand, &tag);
+	const struct Plist *views = layout(&demand, &tag);
 
-	assert_int_equal(slist_length(views), 3);
+	assert_int_equal(plist_size(views), 3);
 
-	struct Box *first = slist_at(views, 0);
+	const struct Box *first = plist_at(views, 0);
 	assert_int_equal(first->width, 7);
 	assert_int_equal(first->height, 5);
 
-	slist_free_vals(&views, NULL);
+	plist_free_vals(views);
 }
 
-void layout_wide__first_view_in_left_stack(void **state) {
+static void layout_wide__first_view_in_left_stack(void **state) {
 	c.wide_first = WIDE_FIRST_LEFT;
 
 	struct Demand demand = { .view_count = 3, .usable_width = 13, .usable_height = 5 };
@@ -62,15 +45,15 @@ void layout_wide__first_view_in_left_stack(void **state) {
 		.count_master = 1,
 	};
 
-	struct SList *views = layout(&demand, &tag);
+	const struct Plist *views = layout(&demand, &tag);
 
-	assert_int_equal(slist_length(views), 3);
+	assert_int_equal(plist_size(views), 3);
 
-	struct Box *first = slist_at(views, 0);
+	const struct Box *first = plist_at(views, 0);
 	assert_int_equal(first->width, 3);
 	assert_int_equal(first->height, 5);
 
-	slist_free_vals(&views, NULL);
+	plist_free_vals(views);
 }
 
 int main(void) {

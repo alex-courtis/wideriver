@@ -1,5 +1,6 @@
 #include "tst.h"
 #include "asserts.h"
+#include "assert-log.h"
 #include "expects.h"
 
 #include <cmocka.h>
@@ -10,7 +11,7 @@
 #include "cmd.h"
 #include "enum.h"
 #include "mem.h"
-#include "slist.h"
+#include "plist.h"
 #include "tag.h"
 
 #include "output.h"
@@ -20,23 +21,13 @@ struct Output output = { .state = &output_state };
 struct Tag *tag = NULL;
 const struct Cmd *cmd = NULL;
 
-struct SList *__wrap_tag_all(const struct SList *tags, const uint32_t mask) {
+const struct Plist *__wrap_tag_all(const struct Plist *tags, const uint32_t mask) { // cppcheck-suppress staticFunction
 	check_expected_ptr(tags);
 	check_expected_uint(mask);
-	return mock_ptr_type_checked(struct SList*);
+	return mock_ptr_type_checked(const struct Plist*);
 }
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
-	logs_clear();
-
+static int before_each(void **state) {
 	tag = tag_init(0);
 
 	tag->layout_cur = LEFT;
@@ -50,7 +41,7 @@ int before_each(void **state) {
 	return 0;
 }
 
-int after_each(void **state) {
+static int after_each(void **state) {
 	tag_destroy(tag);
 	tag = NULL;
 
@@ -60,19 +51,20 @@ int after_each(void **state) {
 	return 0;
 }
 
-struct SList *slist_of_tag(void) {
-	struct SList *tags = NULL;
-	slist_append(&tags, tag);
+static const struct Plist *plist_of_tag(void) {
+	const struct Plist *tags = plist_init();
+	plist_append(tags, tag);
 	return tags;
 }
 
-void output_apply_cmd__vals_top(void **state) {
+
+static void output_apply_cmd__vals_top(void **state) {
 	cmd = cmd_init("--layout TOP --layout-toggle --stack EVEN --count 9 --ratio 0.9");
 	assert_non_nul(cmd);
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, plist_of_tag(), const struct Plist*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -87,13 +79,13 @@ void output_apply_cmd__vals_top(void **state) {
 	assert_logs_empty();
 }
 
-void output_apply_cmd__vals_wide(void **state) {
+static void output_apply_cmd__vals_wide(void **state) {
 	cmd = cmd_init("--layout WIDE --layout-toggle --stack EVEN --count 9 --ratio 0.9");
 	assert_non_nul(cmd);
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, plist_of_tag(), const struct Plist*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -108,13 +100,13 @@ void output_apply_cmd__vals_wide(void **state) {
 	assert_logs_empty();
 }
 
-void output_apply_cmd__vals_monocle(void **state) {
+static void output_apply_cmd__vals_monocle(void **state) {
 	cmd = cmd_init("--layout MONOCLE --layout-toggle --stack EVEN --count 9 --ratio 0.9");
 	assert_non_nul(cmd);
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, plist_of_tag(), const struct Plist*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -129,13 +121,13 @@ void output_apply_cmd__vals_monocle(void **state) {
 	assert_logs_empty();
 }
 
-void output_apply_cmd__toggle_delta(void **state) {
+static void output_apply_cmd__toggle_delta(void **state) {
 	cmd = cmd_init("--layout-toggle --count +10 --ratio +0.1");
 	assert_non_nul(cmd);
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, plist_of_tag(), const struct Plist*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -150,13 +142,13 @@ void output_apply_cmd__toggle_delta(void **state) {
 	assert_logs_empty();
 }
 
-void output_apply_cmd__layout_nop(void **state) {
+static void output_apply_cmd__layout_nop(void **state) {
 	cmd = cmd_init("--layout LEFT --layout-toggle");
 	assert_non_nul(cmd);
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, plist_of_tag(), const struct Plist*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -171,13 +163,13 @@ void output_apply_cmd__layout_nop(void **state) {
 	assert_logs_empty();
 }
 
-void output_apply_cmd__count_master_delta_min(void **state) {
+static void output_apply_cmd__count_master_delta_min(void **state) {
 	cmd = cmd_init("--count -10");
 	assert_non_nul(cmd);
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, plist_of_tag(), const struct Plist*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -192,7 +184,7 @@ void output_apply_cmd__count_master_delta_min(void **state) {
 	assert_logs_empty();
 }
 
-void output_apply_cmd__ratio_master_min(void **state) {
+static void output_apply_cmd__ratio_master_min(void **state) {
 	cmd = cmd_init("--ratio 0.5");
 	assert_non_nul(cmd);
 
@@ -201,7 +193,7 @@ void output_apply_cmd__ratio_master_min(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, plist_of_tag(), const struct Plist*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -216,7 +208,7 @@ void output_apply_cmd__ratio_master_min(void **state) {
 	assert_logs_empty();
 }
 
-void output_apply_cmd__ratio_master_max(void **state) {
+static void output_apply_cmd__ratio_master_max(void **state) {
 	cmd = cmd_init("--ratio 0.5");
 	assert_non_nul(cmd);
 
@@ -225,7 +217,7 @@ void output_apply_cmd__ratio_master_max(void **state) {
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, plist_of_tag(), const struct Plist*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -240,13 +232,13 @@ void output_apply_cmd__ratio_master_max(void **state) {
 	assert_logs_empty();
 }
 
-void output_apply_cmd__ratio_master_delta_min(void **state) {
+static void output_apply_cmd__ratio_master_delta_min(void **state) {
 	cmd = cmd_init("--ratio -10.0");
 	assert_non_nul(cmd);
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, plist_of_tag(), const struct Plist*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -261,13 +253,13 @@ void output_apply_cmd__ratio_master_delta_min(void **state) {
 	assert_logs_empty();
 }
 
-void output_apply_cmd__ratio_master_delta_max(void **state) {
+static void output_apply_cmd__ratio_master_delta_max(void **state) {
 	cmd = cmd_init("--ratio +10.0");
 	assert_non_nul(cmd);
 
 	expect_ptr(__wrap_tag_all, tags, output.state->tags);
 	expect_uint_value(__wrap_tag_all, mask, output.state->command_tags_mask);
-	will_return_ptr_type(__wrap_tag_all, slist_of_tag(), struct SList*);
+	will_return_ptr_type(__wrap_tag_all, plist_of_tag(), const struct Plist*);
 
 	output_apply_cmd(&output, cmd);
 
@@ -284,21 +276,21 @@ void output_apply_cmd__ratio_master_delta_max(void **state) {
 
 int main(void) {
 	const struct CMUnitTest tests[] = {
-		TEST(output_apply_cmd__vals_top),
-		TEST(output_apply_cmd__vals_wide),
-		TEST(output_apply_cmd__vals_monocle),
+		TEST_BA(output_apply_cmd__vals_top),
+		TEST_BA(output_apply_cmd__vals_wide),
+		TEST_BA(output_apply_cmd__vals_monocle),
 
-		TEST(output_apply_cmd__toggle_delta),
+		TEST_BA(output_apply_cmd__toggle_delta),
 
-		TEST(output_apply_cmd__layout_nop),
+		TEST_BA(output_apply_cmd__layout_nop),
 
-		TEST(output_apply_cmd__count_master_delta_min),
+		TEST_BA(output_apply_cmd__count_master_delta_min),
 
-		TEST(output_apply_cmd__ratio_master_min),
-		TEST(output_apply_cmd__ratio_master_max),
+		TEST_BA(output_apply_cmd__ratio_master_min),
+		TEST_BA(output_apply_cmd__ratio_master_max),
 
-		TEST(output_apply_cmd__ratio_master_delta_min),
-		TEST(output_apply_cmd__ratio_master_delta_max),
+		TEST_BA(output_apply_cmd__ratio_master_delta_min),
+		TEST_BA(output_apply_cmd__ratio_master_delta_max),
 	};
 
 	return RUN(tests);

@@ -9,7 +9,7 @@
 #include "tag.h"
 
 // never null
-extern const struct Displ * const displ;
+extern const struct Displ * const g_displ;
 
 struct Style {
 	size_t border_width;
@@ -28,10 +28,10 @@ struct Displ {
 	struct zriver_control_v1 *river_control;
 
 	// Outputs by wl_output
-	const struct PTable *outputs;
+	const struct PPmap *outputs;
 
 	// detached OutputState by output name
-	const struct STable *detached_output_states;
+	const struct SPmap *detached_output_states;
 
 	// state
 	const struct wl_output *wl_output_focused;

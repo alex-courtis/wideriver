@@ -5,13 +5,9 @@
 
 #include "enum.h"
 
+void log_t(const char *__restrict __format, ...)       __attribute__ ((__format__ (__printf__, 1, 2)));
+
 void log_d(const char *__restrict __format, ...)       __attribute__ ((__format__ (__printf__, 1, 2)));
-
-void log_d_c_s(const char *__restrict __format, ...)   __attribute__ ((__format__ (__printf__, 1, 2)));
-
-void log_d_c(const char *__restrict __format, ...)     __attribute__ ((__format__ (__printf__, 1, 2)));
-
-void log_d_c_e(const char *__restrict __format, ...)   __attribute__ ((__format__ (__printf__, 1, 2)));
 
 void log_i(const char *__restrict __format, ...)       __attribute__ ((__format__ (__printf__, 1, 2)));
 

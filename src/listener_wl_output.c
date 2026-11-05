@@ -6,7 +6,7 @@
 #include "displ.h"
 #include "log.h"
 #include "output.h"
-#include "stable.h"
+#include "spmap.h"
 
 #include "listener_wl_output.h"
 
@@ -16,21 +16,21 @@
 
 static void name(void *data,
 		struct wl_output *wl_output,
-		const char *name) {
-	if (!data || !name)
+		const char *_name) {
+	if (!data || !_name)
 		return;
 
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("wl_output_name"); log_d_c("%d", output ? output->name : 0); log_d_c_e("%s", name);
+	log_d("wl_output_name %d %s", output->name, _name);
 
 	free(output->wl_output_name);
-	output->wl_output_name = strdup(name);
+	output->wl_output_name = strdup(_name);
 
 	// fetch and use detached state if present
-	struct OutputState *output_state = (struct OutputState*)stable_remove(displ->detached_output_states, output->wl_output_name);
+	struct OutputState *output_state = (struct OutputState*)spmap_remove(g_displ->detached_output_states, output->wl_output_name);
 	if (output_state) {
-		log_d_c_s("wl_output_name"); log_d_c("%d", output ? output->name : 0); log_d_c_e("using detached state for %s", output->wl_output_name);
+		log_d("wl_output_name %d using detached state for %s", output->name, output->wl_output_name);
 		output_state_destroy(output->state);
 		output->state = output_state;
 	}

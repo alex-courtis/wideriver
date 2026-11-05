@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/param.h>
@@ -10,12 +11,14 @@
 #include "cmd.h"
 #include "displ.h"
 #include "enum.h"
+#include "fn.h"
 #include "listener_river_layout.h"
 #include "listener_river_output_status.h"
 #include "listener_wl_output.h"
 #include "log.h"
-#include "slist.h"
-#include "stable.h"
+#include "plist.h"
+#include "ppmap.h"
+#include "spmap.h"
 #include "tag.h"
 
 #include "output.h"
@@ -25,7 +28,7 @@ struct Output *output_init(struct wl_output *wl_output,
 		struct river_layout_manager_v3 *river_layout_manager,
 		struct zriver_status_manager_v1 *river_status_manager) {
 
-	log_d_c_s("output_init"); log_d_c("%d", name); log_d_c("wl_output"); log_d_c_e("%p", (void*)wl_output);
+	log_d("output_init %d wl_output=%p", name, (void*)wl_output);
 
 	if (!wl_output) {
 		log_w("Cannot create output %d, missing wayland output.", name);
@@ -45,14 +48,14 @@ struct Output *output_init(struct wl_output *wl_output,
 		log_w("Failed to create river layout, ignoring output %d", name);
 		return NULL;
 	}
-	log_d_c_s("output_init"); log_d_c("%d", name); log_d_c("river_layout"); log_d_c_e("%p", (void*)river_layout);
+	log_d("output_init %d river_layout=%p", name, (void*)river_layout);
 
 	struct zriver_output_status_v1 *river_output_status = zriver_status_manager_v1_get_river_output_status(river_status_manager, wl_output);
 	if (!river_output_status) {
 		log_w("Failed to create river status manager, ignoring output %d", name);
 		return NULL;
 	}
-	log_d_c_s("output_init"); log_d_c("%d", name); log_d_c("river_output_status"); log_d_c_e("%p", (void*)river_output_status);
+	log_d("output_init %d river_output_status=%p", name, (void*)river_output_status);
 
 	struct Output *output = calloc(1, sizeof(struct Output));
 	output->wl_output = wl_output;
@@ -61,7 +64,7 @@ struct Output *output_init(struct wl_output *wl_output,
 	output->river_output_status = river_output_status;
 
 	output->state = calloc(1, sizeof(struct OutputState));
-	output->state->tags = tags_init();
+	output->state->tags = tags_plist_init();
 
 	river_layout_v3_add_listener(output->river_layout, river_layout_listener(), output);
 
@@ -72,29 +75,48 @@ struct Output *output_init(struct wl_output *wl_output,
 	return output;
 }
 
-void output_destroy(const void *o) {
-	if (!o)
+const struct PPmap *output_ppmap_init(void) {
+	const struct PPmapParams params = {
+		.free_val = (fn_free)output_destroy,
+		.allow_null_val = false,
+	};
+	return ppmap_init_with(params);
+}
+
+const struct SPmap *output_state_spmap_init(void) {
+	const struct SPmapParams params = {
+		.free_val = (fn_free)output_state_destroy,
+		.allow_null_val = false,
+	};
+	return spmap_init_with(params);
+}
+
+bool output_matches_name(const struct Output* const output, const uint32_t *name) {
+	return output && name && output->name == *name;
+}
+
+void output_destroy(const struct Output* const output) {
+	if (!output)
 		return;
 
-	const struct Output* const output = o;
-	log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c_e("%s", output->wl_output_name ? output->wl_output_name : "no wl_output_name");
+	log_d("output_destroy %d %s", output->name, output->wl_output_name ? output->wl_output_name : "no wl_output_name");
 
 	if (output->river_layout) {
 		river_layout_v3_destroy(output->river_layout);
-		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("river_layout"); log_d_c_e("%p", (void*)output->river_layout);
+		log_d("output_destroy %d river_layout=%p", output->name, (void*)output->river_layout);
 	}
 	if (output->river_output_status) {
 		zriver_output_status_v1_destroy(output->river_output_status);
-		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("river_output_status"); log_d_c_e("%p", (void*)output->river_output_status);
+		log_d("output_destroy %d river_output_status=%p", output->name, (void*)output->river_output_status);
 	}
 	if (output->wl_output) {
-		log_d_c_s("output_destroy"); log_d_c("%d", output->name); log_d_c("wl_output"); log_d_c_e("%p", (void*)output->wl_output);
+		log_d("output_destroy %d wl_output=%p", output->name, (void*)output->wl_output);
 		wl_output_destroy(output->wl_output);
 	}
 
 	// retain the state if output is named, overwriting any existing
 	if (output->wl_output_name) {
-		output_state_destroy(stable_put(displ->detached_output_states, output->wl_output_name, output->state));
+		spmap_put_free(g_displ->detached_output_states, output->wl_output_name, output->state);
 	} else {
 		output_state_destroy(output->state);
 	}
@@ -104,13 +126,11 @@ void output_destroy(const void *o) {
 	free((void*)output);
 }
 
-void output_state_destroy(const void *os) {
-	if (!os)
+void output_state_destroy(const struct OutputState* const output_state) {
+	if (!output_state)
 		return;
 
-	const struct OutputState* const output_state = os;
-
-	tags_destroy(output_state->tags);
+	plist_free_vals(output_state->tags);
 
 	free((void*)output_state);
 }
@@ -177,14 +197,15 @@ static void apply_count_ratio(const struct Cmd *cmd, struct Tag *tag) {
 }
 
 void output_apply_cmd(const struct Output *output, const struct Cmd *cmd) {
-	struct SList *all = tag_all(output->state->tags, output->state->command_tags_mask);
-	for (struct SList *i = all; i; i = i->nex) {
-		struct Tag *tag = i->val;
+	const struct Plist *all = tag_all(output->state->tags, output->state->command_tags_mask);
 
+	for (const struct PlistIt *it = plist_it(all); it; it = plist_it_next(it)) {
+		struct Tag *tag = (struct Tag*)it->val;
 		apply_layout(cmd, tag);
 		apply_stack(cmd, tag);
 		apply_count_ratio(cmd, tag);
 	}
-	slist_free(&all);
+
+	plist_free(all);
 }
 

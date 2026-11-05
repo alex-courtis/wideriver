@@ -5,7 +5,7 @@
 
 #include "enum.h"
 #include "layout.h"
-#include "slist.h"
+#include "plist.h"
 #include "tag.h"
 
 enum Cardinal {
@@ -50,7 +50,7 @@ void arrange_wide(const struct Demand *demand,
 // append many new Box to views with full usable area
 void arrange_monocle(const struct Demand *demand,
 		const struct Tag* const tag,
-		struct SList **views);
+		const struct Plist *views);
 
 // recursively append new Box to views as per stack
 void arrange_views(const struct Demand *demand,
@@ -62,7 +62,7 @@ void arrange_views(const struct Demand *demand,
 		const uint32_t inner_gap,
 		const struct Box box_total,
 		const struct Box box_remaining,
-		struct SList **views);
+		const struct Plist *views);
 
 #endif // ARRANGE_H
 

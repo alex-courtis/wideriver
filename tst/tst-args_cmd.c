@@ -1,5 +1,6 @@
 #include "tst.h"
 #include "asserts.h"
+#include "assert-log.h"
 
 #include <cmocka.h>
 
@@ -12,24 +13,7 @@ void __wrap_usage(int status) {
 	check_expected_int(status);
 }
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
-	logs_clear();
-	return 0;
-}
-
-int after_each(void **state) {
-	return 0;
-}
-
-void args_parse_cmd__valid(void **state) {
+static void args_parse_cmd__valid(void **state) {
 	int argc = 10;
 	char *argv[] = { "dummy",
 		"--layout", "monocle",
@@ -59,7 +43,7 @@ void args_parse_cmd__valid(void **state) {
 	assert_logs_empty();
 }
 
-void args_parse_cmd__invalid(void **state) {
+static void args_parse_cmd__invalid(void **state) {
 	int argc = 3;
 	char *argv[] = { "dummy",
 		"--foo", "bar",
@@ -72,7 +56,7 @@ void args_parse_cmd__invalid(void **state) {
 	assert_logs_empty();
 }
 
-void args_parse_cmd__bad_layout(void **state) {
+static void args_parse_cmd__bad_layout(void **state) {
 	int argc = 3;
 	char *argv[] = { "dummy",
 		"--layout", "bleh",
@@ -85,7 +69,7 @@ void args_parse_cmd__bad_layout(void **state) {
 	assert_log(ERROR, "invalid --layout 'bleh'\n");
 }
 
-void args_parse_cmd__bad_count_master(void **state) {
+static void args_parse_cmd__bad_count_master(void **state) {
 	int argc = 3;
 	char *argv[] = { "dummy",
 		"--count", "A",
@@ -100,7 +84,7 @@ void args_parse_cmd__bad_count_master(void **state) {
 	cmd_destroy(cmd);
 }
 
-void args_parse_cmd__bad_ratio_master(void **state) {
+static void args_parse_cmd__bad_ratio_master(void **state) {
 	int argc = 3;
 	char *argv[] = { "dummy",
 		"--ratio", "123",
@@ -113,7 +97,7 @@ void args_parse_cmd__bad_ratio_master(void **state) {
 	assert_log(ERROR, "invalid --ratio '123'\n");
 }
 
-void args_parse_cmd__bad_stack(void **state) {
+static void args_parse_cmd__bad_stack(void **state) {
 	int argc = 3;
 	char *argv[] = { "dummy",
 		"--stack", "bleh",
@@ -126,7 +110,7 @@ void args_parse_cmd__bad_stack(void **state) {
 	assert_log(ERROR, "invalid --stack 'bleh'\n");
 }
 
-void args_parse_cmd__count_master_delta(void **state) {
+static void args_parse_cmd__count_master_delta(void **state) {
 	int argc = 3;
 	char *argv[] = { "dummy",
 		"--count", "-2",
@@ -144,7 +128,7 @@ void args_parse_cmd__count_master_delta(void **state) {
 	assert_logs_empty();
 }
 
-void args_parse_cmd__ratio_master_delta(void **state) {
+static void args_parse_cmd__ratio_master_delta(void **state) {
 	int argc = 3;
 	char *argv[] = { "dummy",
 		"--ratio", "+0.05",

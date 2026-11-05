@@ -17,7 +17,7 @@ static void output_status_handle_focused_tags(void *data,
 		uint32_t tags) {
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("output_focused_tags"); log_d_c("%d", output ? output->name : 0); log_d_c("tags"); log_d_c_e("0x%u", tags);
+	log_d("focused_tags %d tags=0x%u", output ? output->name : 0, tags);
 }
 
 static void output_status_handle_view_tags(void *data,
@@ -25,7 +25,7 @@ static void output_status_handle_view_tags(void *data,
 		struct wl_array *tags) {
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("output_view_tags"); log_d_c_e("%d", output ? output->name : 0);
+	log_d("view_tags %d", output ? output->name : 0);
 }
 
 static void output_status_handle_urgent_tags(void *data,
@@ -33,7 +33,7 @@ static void output_status_handle_urgent_tags(void *data,
 		uint32_t tags) {
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("output_urgent_tags"); log_d_c("%d", output ? output->name : 0); log_d_c("tags"); log_d_c_e("0x%u", tags);
+	log_d("urgent_tags %d tags=0x%u", output ? output->name : 0, tags);
 }
 
 static void output_status_handle_layout_name(void *data,
@@ -41,14 +41,14 @@ static void output_status_handle_layout_name(void *data,
 		const char *name) {
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("output_layout_name"); log_d_c("%d", output ? output->name : 0); log_d_c("name"); log_d_c_e("'%s'", name);
+	log_d("layout_name %d name='%s'", output ? output->name : 0, name);
 }
 
 static void output_status_handle_layout_name_clear(void *data,
 		struct zriver_output_status_v1 *zriver_output_status_v1) {
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("output_layout_name_clear"); log_d_c_e("%d", output ? output->name : 0);
+	log_d("layout_name_clear %d", output ? output->name : 0);
 }
 
 static const struct zriver_output_status_v1_listener listener = {

@@ -13,7 +13,7 @@ static void river_command_handle_success(void *data,
 		struct zriver_command_callback_v1 *zriver_command_callback_v1,
 		const char *output) {
 
-	log_d_c_s("command_success"); log_d_c_e("'%s'", output);
+	log_t("command_success '%s'", output);
 
 	zriver_command_callback_v1_destroy(zriver_command_callback_v1);
 

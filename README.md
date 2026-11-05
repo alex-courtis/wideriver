@@ -113,7 +113,7 @@ wideriver \
     --border-color-focused-monocle "0x586e75"  \
     --border-color-unfocused       "0x586e75"  \
     --log-threshold                info        \
-    --wide-first                  left           \
+    --wide-first                   left        \
    > "/tmp/wideriver.${XDG_VTNR}.${USER}.log" 2>&1 &
 ```
 
@@ -419,7 +419,7 @@ Should install under `/usr/local`
       --border-color-unfocused        0xRRGGBB[AA]                          0x586e75
 
       --help
-      --log-threshold                 debug|info|warning|error|fatal        info
+      --log-threshold                 trace|debug|info|warning|error|fatal  info
       --version
 
     COMMANDS, sent via riverctl(1):
@@ -485,7 +485,7 @@ Border color for focused view in monocle layout, default `0x586e75`. It is recom
 `--border-color-unfocused` `0x`*RRGGBB*\[*AA*\]  
 Border color for unfocused views in all layouts, default `0x586e75`. Does not apply for monocle layout. Set to an empty string leave border colors unchanged: `--border-color-unfocused ""`
 
-`--log-threshold` `debug`\|`info`\|`warning`\|`error`\|`fatal`  
+`--log-threshold` `trace`\|`debug`\|`info`\|`warning`\|`error`\|`fatal`  
 Minimum log level, default `info`.
 
 ## COMMANDS

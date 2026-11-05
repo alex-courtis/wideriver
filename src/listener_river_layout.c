@@ -7,7 +7,7 @@
 #include "layout.h"
 #include "log.h"
 #include "output.h"
-#include "slist.h"
+#include "plist.h"
 #include "tag.h"
 
 #include "listener_river_layout.h"
@@ -26,9 +26,7 @@ static void layout_handle_layout_demand(void *data,
 
 	struct Output *output = (struct Output*)data;
 
-	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("view_count"); log_d_c_e("%02u", view_count);
-	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("usable");     log_d_c_e("%ux%u", usable_width, usable_height);
-	log_d_c_s("layout_layout_demand"); log_d_c("%d", output ? output->name : 0); log_d_c("tags");       log_d_c_e("0x%u", tags);
+	log_d("layout_demand %d tags=0x%u view count=%02u usable=%ux%u", output ? output->name : 0, tags, view_count, usable_width, usable_height);
 
 	const struct Demand demand = {
 		.view_count = view_count,
@@ -40,17 +38,18 @@ static void layout_handle_layout_demand(void *data,
 	const struct Tag *tag = tag_first(output->state->tags, tags);
 
 	// position all views
-	struct SList *boxes = layout(&demand, tag);
+	const struct Plist *boxes = layout(&demand, tag);
 
 	// push all views
 	push(boxes, river_layout_v3, serial);
-	slist_free_vals(&boxes, NULL);
+	plist_free_vals(boxes);
 
 	// river layout name
-	const char *layout_name = layout_description(&demand, tag);
+	const char *name = layout_description(&demand, tag);
+	log_d("set name='%s'", name);
 
 	// commit
-	river_layout_v3_commit(output->river_layout, layout_name, serial);
+	river_layout_v3_commit(output->river_layout, name, serial);
 
 	// maybe style
 	displ_request_style(output, tag, view_count);
@@ -73,7 +72,7 @@ static void layout_handle_user_command_tags(void *data,
 		return;
 	}
 
-	log_d_c_s("layout_user_command_tags"); log_d_c("%d", output->name); log_d_c("tags"); log_d_c_e("0x%u", tags);
+	log_d("user_command_tags %d tags=0x%u", output->name, tags);
 
 	output->state->command_tags_mask = tags;
 }
@@ -84,15 +83,15 @@ static void layout_handle_user_command(void *data,
 
 	struct Output *output = (struct Output*)data;
 	if (!output) {
-		log_e("layout_user_command '%s' missing output", command);
+		log_e("user_command '%s' missing output", command);
 		return;
 	}
 
-	log_d_c_s("layout_user_command"); log_d_c("%d", output->name); log_d_c("command"); log_d_c_e("'%s'", command);
+	log_d("user_command %d command='%s'", output->name, command);
 
 	// version 2 guarantees tags will always be sent before command
 	if (!output->state->command_tags_mask) {
-		log_e("layout_user_command '%s' not sent command tags", command);
+		log_e("user_command '%s' not sent command tags", command);
 		return;
 	}
 

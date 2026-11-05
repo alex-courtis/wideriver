@@ -1,5 +1,6 @@
 #include "tst.h"
 #include "asserts.h"
+#include "assert-log.h"
 
 #include <cmocka.h>
 #include <string.h>
@@ -14,7 +15,7 @@ struct argcv {
 	char **argv;
 };
 
-int check_argv(CMockaValueData value, CMockaValueData check_data) {
+static int check_argv(CMockaValueData value, CMockaValueData check_data) {
 	char **actual = value.ptr;
 
 	struct argcv *cv = check_data.ptr;
@@ -30,40 +31,23 @@ int check_argv(CMockaValueData value, CMockaValueData check_data) {
 	return success;
 }
 
-struct Cmd *__wrap_args_cmd(int argc, char **argv) {
+struct Cmd *__wrap_args_cmd(int argc, char **argv) { // cppcheck-suppress staticFunction
 	check_expected_int(argc);
 	check_expected_ptr(argv);
 
 	return mock_ptr_type_checked(struct Cmd*);
 }
 
-int before_all(void **state) {
-	return 0;
-}
-
-int after_all(void **state) {
-	return 0;
-}
-
-int before_each(void **state) {
-	logs_clear();
-	return 0;
-}
-
-int after_each(void **state) {
-	return 0;
-}
-
-void cmd_init__empty(void **state) {
-	char args[] = "";
+static void cmd_init__empty(void **state) {
+	const char args[] = "";
 
 	assert_nul(cmd_init(args));
 
 	assert_log(ERROR, "command empty ''\n");
 }
 
-void cmd_init__valid(void **state) {
-	char args[] = "    --foo    bar   baz   ";
+static void cmd_init__valid(void **state) {
+	const char args[] = "    --foo    bar   baz   ";
 
 	char *argv[] = { "dummy", "--foo", "bar", "baz"};
 	struct argcv cv = { .argc = 4, .argv = argv, };
@@ -81,8 +65,8 @@ void cmd_init__valid(void **state) {
 	assert_logs_empty();
 }
 
-void cmd_init__invalid(void **state) {
-	char args[] = "foo";
+static void cmd_init__invalid(void **state) {
+	const char args[] = "foo";
 
 	char *argv[] = { "dummy", "foo", };
 	struct argcv cv = { .argc = 2, .argv = argv, };

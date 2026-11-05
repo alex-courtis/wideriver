@@ -20,7 +20,8 @@ enum Stack {
 };
 
 enum LogThreshold {
-	DEBUG = 1,
+	TRACE = 1,
+	DEBUG,
 	INFO,
 	WARNING,
 	ERROR,

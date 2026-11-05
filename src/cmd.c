@@ -17,10 +17,10 @@ const struct Cmd *cmd_init(const char *args) {
 	int argc = 0;
 
 	// tokenise
-	struct SList *tokens = NULL;
+	const struct Slist *tokens = slist_init();
 	char *str = strdup(args);
-	for (char *t = strtok(str, " "); t; t = strtok(NULL, " ")) {
-		slist_append(&tokens, strdup(t));
+	for (const char *t = strtok(str, " "); t; t = strtok(NULL, " ")) {
+		slist_append(tokens, t);
 		argc++;
 	}
 	free(str);
@@ -34,8 +34,8 @@ const struct Cmd *cmd_init(const char *args) {
 	char *argv[++argc];
 	argv[0] = dummy;
 	int i = 1;
-	for (struct SList *token = tokens; token; token = token->nex) {
-		argv[i++] = token->val;
+	for (const struct SlistIt *it = slist_it(tokens); it; it = slist_it_next(it)) {
+		argv[i++] = (char*)it->val;
 	}
 
 	// retain tokens whilst parsing
@@ -44,7 +44,7 @@ const struct Cmd *cmd_init(const char *args) {
 		log_e("command invalid '%s'", args);
 	}
 
-	slist_free_vals(&tokens, NULL);
+	slist_free(tokens);
 
 	return cmd;
 }
