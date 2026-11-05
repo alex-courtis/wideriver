@@ -9,6 +9,7 @@ clang
 -D_GNU_SOURCE
 -DVERSION="0.0.1-SNAPSHOT"
 -DRIVER_LAYOUT_V3_VERSION=2
+-DCOMMIT="deadbeef"
 
 # TODO reinstate in config.mk and remove -Wno-format-zero-length
 -pedantic

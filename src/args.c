@@ -177,7 +177,7 @@ void args_cli(int argc, char **argv) {
 				}
 				break;
 			case 20:
-				fprintf(stdout, "wideriver version %s\n", VERSION);
+				fprintf(stdout, "wideriver version %s %s\n", VERSION, COMMIT);
 				exit(EXIT_SUCCESS);
 				return;
 			case 21:
@@ -194,7 +194,7 @@ void args_cli(int argc, char **argv) {
 		}
 	}
 
-	log_i("wideriver version %s", VERSION);
+	log_i("wideriver version %s %s", VERSION, COMMIT);
 	log_i("--layout                       %s",  layout_name(g_cfg->layout));
 	log_i("--layout-alt                   %s",  layout_name(g_cfg->layout_alt));
 	log_i("--stack                        %s",  stack_name(g_cfg->stack));
